@@ -41,4 +41,4 @@ for i in arange(300):
 	N = 512
 
 	image = yt.off_axis_projection(ds, c, L, W, N, "density", north_vector =  north_vector)
-	yt.write_image(np.log10(image), "./movie_1/%i_offaxis_projection.png" % i)	
+	yt.write_image(np.log10(image), "../figures/foggie/movie_1/%i_offaxis_projection.png" % i)	
