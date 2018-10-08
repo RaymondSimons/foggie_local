@@ -203,7 +203,7 @@ class momentum_obj():
         self.spl = UnivariateSpline(self.mass_profile[0,:], self.mass_profile[1,:])
 
 
-    def measure_circularity(self):
+    def measure_circularity(self, use_self = False):
         print 'Calculating circularity...'
 
         G = yt.units.G.to('kpc**3*Msun**-1*s**-2')
@@ -216,16 +216,21 @@ class momentum_obj():
         internal_mass_stars = self.ds.arr(self.spl(self.stars_pos_mag),'g').in_units('Msun')
         self.vcirc_stars    = self.ds.arr(sqrt(G*internal_mass_stars/(self.stars_pos_mag)),'kpc/s').in_units('km/s')
         self.jcirc_stars    = self.vcirc_stars * self.stars_pos_mag
+
         self.L_mag          = sqrt(self.L_disk[0]**2.+self.L_disk[1]**2.+self.L_disk[2]**2.)
+        self.L_mag_fixed    = sqrt(self.L_disk_fixed[0]**2.+self.L_disk_fixed[1]**2.+self.L_disk_fixed[2]**2.)
+        costheta_stars      = np.dot(self.L_disk, self.stars_j)/(self.stars_j_mag*self.L_mag)
+        costheta_stars_fixed      = np.dot(self.L_disk_fixed, self.stars_j)/(self.stars_j_mag*self.L_mag_fixed)
  
         #costheta_gas        = np.dot(self.L_disk, self.gas_j)/(self.gas_j_mag*self.L_mag)
         #self.jz_gas         = costheta_gas*self.gas_j_mag
  
-        costheta_stars      = np.dot(self.L_disk, self.stars_j)/(self.stars_j_mag*self.L_mag)
         self.jz_stars       = costheta_stars*self.stars_j_mag
+        self.jz_stars_fixed       = costheta_stars_fixed*self.stars_j_mag
  
         #self.epsilon_gas    = self.jz_gas/self.jcirc_gas
         self.epsilon_stars  = self.jz_stars/self.jcirc_stars
+        self.epsilon_stars_fixed  = self.jz_stars_fixed/self.jcirc_stars
 
 
 
@@ -292,7 +297,8 @@ class momentum_obj():
         colhdr = fits.Header()
 
         #master_hdulist.append(fits.ImageHDU(data = nir_mstar_cat                                                            , header = colhdr, name = 'nir_mstar_cat'))
-        master_hdulist.append(fits.ImageHDU(data = self.L_disk                                                              , header = colhdr, name = 'nir_net_momentum'))
+        master_hdulist.append(fits.ImageHDU(data = self.L_disk                                                              , header = colhdr, name = 'net_momentum'))  
+        master_hdulist.append(fits.ImageHDU(data = self.L_disk_fixed                                                              , header = colhdr, name = 'net_momentum_fixed'))  
         #master_hdulist.append(fits.ImageHDU(data = self.L_disk_s                                                            , header = colhdr, name = 'nir_net_momentum_s'))
         master_hdulist.append(fits.ImageHDU(data = self.stars_id                                                            , header = colhdr, name = 'stars_id'))
         #master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_metallicity1 , self.stars_metallicity2))            , header = colhdr, name = 'stars_metallicity'))
@@ -301,6 +307,8 @@ class momentum_obj():
         master_hdulist.append(fits.ImageHDU(data = np.stack((self.rr_stars, self.zz_stars))                                 , header = colhdr, name = 'stars_cylindrical_position'))
         master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_jx, self.stars_jy, self.stars_jz))      , header = colhdr, name = 'stars_xyz_momentum'))
         master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars                                                       , header = colhdr, name = 'stars_epsilon'))
+        master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars_fixed                                                       , header = colhdr, name = 'stars_epsilon_fixed'))
+
         master_hdulist.append(fits.ImageHDU(data = self.mass_profile                                                        , header = colhdr, name = 'mass_profile'))
         master_hdulist.append(fits.ImageHDU(data = self.star_mass                                                           , header = colhdr, name = 'star_mass'))
         #master_hdulist.append(fits.ImageHDU(data = self.star_creation_time                                                  , header = colhdr, name = 'star_creation_time'))
@@ -474,8 +482,8 @@ if __name__ == "__main__":
 
 
 
-        #amom.L_disk = galprops['gas_L'][0]
-        amom.L_disk = [-0.37085436,  0.14802026,  0.91681898]
+        amom.L_disk = galprops['gas_L'][0]
+        amom.L_disk_fixed = [-0.37085436,  0.14802026,  0.91681898]
 
 
         amom.calc_momentum()
