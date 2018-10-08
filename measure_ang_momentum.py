@@ -206,7 +206,7 @@ class momentum_obj():
     def measure_circularity(self):
         print 'Calculating circularity...'
 
-        G = astropy.constants.G.to('kpc^3/Msun*s^2') # in kpc^3/Msun*s^2
+        G = yt.units.G.to('kpc**3*Msun**-1*s**-2')
         #internal_mass_gas   = self.ds.arr(self.spl(self.gas_pos_mag),'g').in_units('Msun')
 
 
