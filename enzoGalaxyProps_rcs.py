@@ -21,6 +21,8 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
 
+    parser.add_argument('sim_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+
     parser.add_argument('snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
 
 
@@ -36,7 +38,10 @@ if __name__=="__main__":
     form='ENZO'
 
     args = parse()
-    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/nref11n_selfshield_z15/%s/%s"%(args['snap_name'], args['snap_name']))))
+    simname = args['sim_name']
+
+    #snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/nref11n_selfshield_z15/%s/%s"%(args['snap_name'], args['snap_name']))))
+    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(args['sim_name'], args['snap_name'], args['snap_name']))))
 
 
 
@@ -46,7 +51,7 @@ if __name__=="__main__":
 
     abssnap = os.path.abspath(snaps[0])
     dirname = os.path.dirname(os.path.dirname(abssnap))
-    simname = os.path.basename(dirname) #assumes directory name for simulation name
+    #simname = os.path.basename(dirname) #assumes directory name for simulation name
 
     print( "Simulation name:  ", simname)
     '''
@@ -157,7 +162,7 @@ if __name__=="__main__":
 
     # Save galaxy props file
     galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
-    galaxy_props_file = galprops_outdir + '/' + args['snap_name'] + '_galprops.npy'
+    galaxy_props_file = galprops_outdir + '/' + simname + '_' + args['snap_name'] + '_galprops.npy'
 
 
     print( '\nSuccessfully computed galaxy properties')

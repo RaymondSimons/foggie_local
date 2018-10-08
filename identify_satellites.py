@@ -23,6 +23,7 @@ import os, sys, argparse
 
 plt.ioff()
 #This file will be used to store the profile of the momentum
+
 def parse():
     '''
     Parse command line arguments
@@ -34,16 +35,10 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
 
+    parser.add_argument('sim_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+
     parser.add_argument('snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
 
-    #parser.add_argument('-s', '--snap_base', default='10MpcBox_csf512_',
-    #                    help='Base of the snapshots file names.') 
-
-    #parser.add_argument('-d', '--distance', default=100000, type=float,
-    #                    help='Distance between cameras and the center of the galaxy (in [kpc]).')
-
-    #parser.add_argument('--no_export',action='store_true',
-    #                    help='Do not export data to fits for Sunrise.') 
 
     args = vars(parser.parse_args())
     return args

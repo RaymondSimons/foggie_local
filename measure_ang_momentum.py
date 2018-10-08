@@ -13,6 +13,7 @@ from scipy.interpolate import UnivariateSpline
 
 
 #This file will be used to store the profile of the momentum
+
 def parse():
     '''
     Parse command line arguments
@@ -24,20 +25,13 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
 
+    parser.add_argument('sim_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+
     parser.add_argument('snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
 
-    #parser.add_argument('-s', '--snap_base', default='10MpcBox_csf512_',
-    #                    help='Base of the snapshots file names.') 
-
-    #parser.add_argument('-d', '--distance', default=100000, type=float,
-    #                    help='Distance between cameras and the center of the galaxy (in [kpc]).')
-
-    #parser.add_argument('--no_export',action='store_true',
-    #                    help='Do not export data to fits for Sunrise.') 
 
     args = vars(parser.parse_args())
     return args
-
 
 
 
@@ -382,6 +376,7 @@ if __name__ == "__main__":
     import yt
     #if args['snap_files'] is not None: snaps = [args['snap_files']]
 
+    simname =  args['sim_name']
     snap_name =  args['snap_name']
 
     '''
@@ -397,7 +392,7 @@ if __name__ == "__main__":
     '''
 
 
-    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/nref11n_selfshield_z15/%s/%s"%(args['snap_name'], args['snap_name']))))
+    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(args['sim_name'], args['snap_name'], args['snap_name']))))
 
 
 
@@ -428,7 +423,7 @@ if __name__ == "__main__":
 
         print 'Measuring momentum for '+ snapfile
         aname = snapfile.split('/')[-1]
-        simname = snapfile.split('/')[-3]
+        #simname = snapfile.split('/')[-3]
         fits_name = out_dir+'/'+simname+'_'+aname+'_momentum.fits'
 
         print 'fits name : ', fits_name
