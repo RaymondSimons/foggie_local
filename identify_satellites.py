@@ -17,6 +17,7 @@ from mpl_toolkits.axes_grid.anchored_artists import AnchoredText
 from joblib import Parallel, delayed
 from astropy.io import fits
 from numpy import *
+import matplotlib as mpl
 
 plt.ioff()
 
