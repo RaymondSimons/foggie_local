@@ -18,6 +18,8 @@ from joblib import Parallel, delayed
 from astropy.io import fits
 from numpy import *
 import matplotlib as mpl
+import os, sys, argparse
+
 
 plt.ioff()
 #This file will be used to store the profile of the momentum
