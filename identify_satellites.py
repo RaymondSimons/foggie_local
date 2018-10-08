@@ -1,3 +1,7 @@
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib.pyplot import *
+import matplotlib.pyplot as plt
 import astropy
 from astropy.io import fits
 import astropy
@@ -13,9 +17,6 @@ from mpl_toolkits.axes_grid.anchored_artists import AnchoredText
 from joblib import Parallel, delayed
 from astropy.io import fits
 from numpy import *
-from matplotlib.pyplot import *
-import matplotlib.pyplot as plt
-matplotlib.use('Agg')
 
 plt.ioff()
 
