@@ -188,7 +188,7 @@ def parse():
     args = vars(parser.parse_args())
     return args
 
-def make_figure(snap_name, sim_name):
+def make_figure(snap_name, simname):
     if True:
         mom_outdir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
         mom_fl = '%s/%s_%s_momentum.fits'%(mom_outdir, simname, snap_name)
