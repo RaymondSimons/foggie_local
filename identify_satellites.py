@@ -229,7 +229,6 @@ def make_figure(snap_name, simname):
 
 
     if True:
-        plt.close('all')
         fig, axes  = plt.subplots(1,2, figsize = (10, 5))
 
 
