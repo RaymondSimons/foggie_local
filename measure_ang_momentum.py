@@ -195,6 +195,7 @@ class momentum_obj():
                 self.mass_profile[0,i] = rad_steps[i]
                 self.mass_profile[1,i] = baryon_mass + particle_mass
             except:
+                print '\tsomething broken in measure_potential..'
                 self.mass_profile[0,i] = 0.
                 self.mass_profile[1,i] = 0.
 
