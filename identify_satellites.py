@@ -203,22 +203,6 @@ def find_thresh(mn, mx, npix, heatmap):
     return thresh, temp_heatmap
 
 
-#This file will be used to store the profile of the momentum
-def parse():
-    '''
-    Parse command line arguments
-    ''' 
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-                                     description='''\
-                                Generate the cameras to use in Sunrise and make projection plots
-                                of the data for some of these cameras. Then export the data within
-                                the fov to a FITS file in a format that Sunrise understands.
-                                ''')
-
-    parser.add_argument('gal', nargs='?', default=None, help='Galaxy to be analyzed')
-    args = vars(parser.parse_args())
-    return args
-
 def make_figure(snap_name, simname):
     if True:
         mom_outdir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
