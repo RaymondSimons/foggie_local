@@ -255,6 +255,10 @@ def make_figure(snap_name, simname):
 
 
 
+
+    axes[0].set_xlabel('radial_distance', fontsize = 20)
+    axes[0].set_ylabel(r'$j_z/j_{circ}$', fontsize = 20)
+
     fig.tight_layout()
     plt.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/%s_%s_satellites.png'%(simname, snap_name), dpi = 300)
     #plt.close(fig)
