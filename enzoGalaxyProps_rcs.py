@@ -156,7 +156,10 @@ if __name__=="__main__":
 
 
     # Save galaxy props file
-    galaxy_props_file = args['snap_name'] + '_galprops.npy'
+    galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
+    galaxy_props_file = galprops_outdir + '/' + args['snap_name'] + '_galprops.npy'
+
+
     print( '\nSuccessfully computed galaxy properties')
     print( 'Saving galaxy properties to ', galaxy_props_file)
 

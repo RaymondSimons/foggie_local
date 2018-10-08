@@ -24,7 +24,7 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
 
-    parser.add_argument('snap_files', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
 
     #parser.add_argument('-s', '--snap_base', default='10MpcBox_csf512_',
     #                    help='Base of the snapshots file names.') 
@@ -325,14 +325,19 @@ class momentum_obj():
         return master_hdulist
 
 
-def measure_momentum(snapfile, ds, out_dir):
+def measure_momentum(snapfile, ds, out_dir, snap_name):
     mom = None
     print 'Measuring momentum for '+ snapfile
     aname = snapfile.split('/')[-1]
     simname = snapfile.split('/')[-3]
-    fits_name = out_dir+'/'+simname+'_'+aname+'_momentum.fits'
+    fits_name = out_dir+'/'+snap_name+'_'+aname+'_momentum.fits'
 
+
+
+    galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
+    galaxy_props_file = galprops_outdir + '/' + args['snap_name'] + '_galprops.npy'
     galprops = np.load(simname+'_galprops.npy')
+
     print 'fits name : ', fits_name
 
     amom = momentum_obj(simname, aname, snapfile, fits_name)
@@ -361,13 +366,9 @@ if __name__ == "__main__":
     import yt
     #if args['snap_files'] is not None: snaps = [args['snap_files']]
 
-    print args['snap_files']
+    snap_name =  args['snap_name']
+
     '''
-
-    #else: 
-    #snaps = np.asarray(glob.glob("*.d"))
-    
-
     path_to_snaps = '~/Dropbox/rcs_foggie/data/halo_008508/nref11n_selfshield_z15/RD0018/RD0018'
 
     #snaps = np.asarray(glob.glob(path_to_snaps))
@@ -377,6 +378,10 @@ if __name__ == "__main__":
 
 
     snaps = np.asarray([args['snap_files']])
+    '''
+
+
+    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/nref11n_selfshield_z15/%s/%s"%(args['snap_name'], args['snap_name']))))
 
 
 
@@ -388,19 +393,21 @@ if __name__ == "__main__":
 
 
 
-    out_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
+    out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
 
     assert os.path.lexists(out_dir)
 
+    new_snapfiles = np.asarray(snaps)
 
 
-    for i in arange(2):
+    ts = yt.DatasetSeries(new_snapfiles)
+    for ds,snapfile in zip(reversed(ts),np.flipud(new_snapfiles)):
     
-        ds = yt.load(snaps[i])
+        #ds = yt.load(snaps[i])
         ad = ds.all_data()
         #gas_vx = ad['gas', 'velocity_x']
         #amom = measure_momentum(snaps[i], ds, out_dir)
-        snapfile = snaps[i]
+        #snapfile = snaps[i]
 
 
         print 'Measuring momentum for '+ snapfile
@@ -413,7 +420,10 @@ if __name__ == "__main__":
 
         check = amom.load()
         #if check == 0: return
-        galprops = np.load(simname+'_galprops.npy')[()]
+        galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
+        galaxy_props_file = galprops_outdir + '/' + args['snap_name'] + '_galprops.npy'
+        galprops = np.load(galaxy_props_file)[()]
+        
         #amom.recenter(galprops)
         cen_x, cen_y, cen_z = galprops['stars_com'][0]        
 
