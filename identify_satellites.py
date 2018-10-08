@@ -15,6 +15,7 @@ from astropy.io import fits
 from numpy import *
 from matplotlib.pyplot import *
 import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 
 plt.ioff()
 
