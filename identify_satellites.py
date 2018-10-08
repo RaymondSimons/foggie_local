@@ -194,6 +194,13 @@ def make_figure(snap_name, simname):
         mom_fl = '%s/%s_%s_momentum.fits'%(mom_outdir, simname, snap_name)
         mom_data = fits.open(mom_fl)
 
+        eps_min = -3.
+        eps_max = 3.
+        r_min = 0.
+        r_max = 30
+        bins_n = 1000
+        max_nmergers = 20
+
 
         x_pos, y_pos, z_pos = mom_data['STARS_XYZ_POSITION'].data
         x_vel, y_vel, z_vel = mom_data['STARS_XYZ_VELOCITY'].data
@@ -216,13 +223,6 @@ def make_figure(snap_name, simname):
 
 
 
-    if True:
-        eps_min = -3.
-        eps_max = 3.
-        r_min = 0.
-        r_max = 30
-        bins_n = 1000
-        max_nmergers = 20
 
 
     if True:
