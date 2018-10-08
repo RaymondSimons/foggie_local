@@ -357,10 +357,13 @@ def measure_momentum(snapfile, ds, out_dir):
 
 if __name__ == "__main__":
 
-    #sargs = parse()
+    args = parse()
     import yt
-
     #if args['snap_files'] is not None: snaps = [args['snap_files']]
+
+    print args['snap_files']
+    '''
+
     #else: 
     #snaps = np.asarray(glob.glob("*.d"))
     
@@ -371,6 +374,11 @@ if __name__ == "__main__":
 
     snaps = np.asarray(['/Users/rsimons/Dropbox/rcs_foggie/data/halo_008508/nref11n_selfshield_z15/RD0018/RD0018', 
                         '/Users/rsimons/Dropbox/rcs_foggie/data/halo_008508/nref11n_nref10f_selfshield_z6/RD0018/RD0018'])
+
+
+    snaps = np.asarray([args['snap_files']])
+
+
 
     print "Generating Sunrise Input for: ", snaps
 
@@ -464,46 +472,28 @@ if __name__ == "__main__":
 
 
         amom.write_fits()
-        '''
 
 
-        #dirname = os.path.dirname(abssnap)
-        #simname = os.path.basename(dirname) #assumes directory name for simulation name
+    '''
 
 
 
-        '''
-
-        '''
-        nir_cat_name = simname[0:-2]+'_v2_'+simname[-2:]
-        nir_cat = np.loadtxt('/nobackupp2/rcsimons/catalogs/nir_catalogs/GEN3/'+nir_cat_name+'/galaxy_catalogue/Nir_simplified_disc_cat.txt', skiprows = 1, dtype='str')
-        nir_disc_cat = np.loadtxt('/nobackupp2/rcsimons/catalogs/nir_catalogs/GEN3/'+nir_cat_name+'/galaxy_catalogue/Nir_disc_cat.txt', skiprows = 1, dtype='str')
-        nir_mstar_cat = np.loadtxt('/nobackupp2/rcsimons/catalogs/nir_catalogs/GEN3/'+nir_cat_name+'/galaxy_catalogue/Mstar.txt')
 
 
-        print "Simulation name:  ", simname
 
-        out_sim_dir = os.path.join('/nobackupp2/rcsimons/momentum_measurements/', simname)
-        print os.path.lexists(out_sim_dir)
-        if not os.path.lexists(out_sim_dir):
-            print 'Creating momentum directory for %s'%out_sim_dir
-            os.mkdir(out_sim_dir)                
 
-        new_snapfiles = []
-        for sn in snaps:
-            aname = sn.split('_')[-1].rstrip('.d')
-            snap_dir = os.path.join(simname+'_'+aname+'_sunrise')
-            newf = os.path.join(snap_dir,sn)
-            new_snapfiles.append(newf)
 
-        new_snapfiles = np.asarray(new_snapfiles)
 
-        #Make Parallel, send 3 at a time to the node (reduce memory overhead)
-        Parallel(n_jobs = 2, backend = 'threading')(delayed(measure_momentum)(new_snapfiles[i], out_sim_dir, nir_cat, nir_disc_cat, nir_mstar_cat) for i in arange(len(new_snapfiles)))
 
-        #for i in arange(len(new_snapfiles)):
-        #    mom = measure_momentum(new_snapfiles[i], out_sim_dir, nir_cat, nir_disc_cat, nir_mstar_cat)
-        '''
+
+
+
+
+
+
+
+
+
 
 
 
