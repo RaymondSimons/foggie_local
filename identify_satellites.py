@@ -261,9 +261,10 @@ def make_figure(snap_name, simname):
 
 
 if __name__ == '__main__':    
-        simname = 'nref11n_selfshield_z15'
-        args = parse()
+        #simname = 'nref11n_selfshield_z15'
 
+        args = parse()
+        simname =  args['sim_name']
         snap_name =  args['snap_name']
         #Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(snap_name = 'DD%.4i'%i, simname = simname) for i in np.arange(500, 505))
         i = 501
