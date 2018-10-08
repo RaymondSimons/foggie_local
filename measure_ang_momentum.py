@@ -432,7 +432,7 @@ if __name__ == "__main__":
         check = amom.load()
         #if check == 0: return
         galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
-        galaxy_props_file = galprops_outdir + '/' + args['snap_name'] + '_galprops.npy'
+        galaxy_props_file = galprops_outdir + '/'  + simname + '_' + args['snap_name'] + '_galprops.npy'
         galprops = np.load(galaxy_props_file)[()]
         
         #amom.recenter(galprops)
