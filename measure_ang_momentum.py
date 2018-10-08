@@ -189,11 +189,18 @@ class momentum_obj():
 
         for i in arange(0,len(rad_steps)):
             print i, rad_steps[i], len(rad_steps)
-            gc_sphere =  self.ds.sphere(center, self.ds.arr(rad_steps[i],'kpc'))
-            baryon_mass, particle_mass = gc_sphere.quantities.total_quantity(["cell_mass", "particle_mass"])
-            self.mass_profile[0,i] = rad_steps[i]
-            self.mass_profile[1,i] = baryon_mass + particle_mass
+            try:
+                gc_sphere =  self.ds.sphere(center, self.ds.arr(rad_steps[i],'kpc'))
+                baryon_mass, particle_mass = gc_sphere.quantities.total_quantity(["cell_mass", "particle_mass"])
+                self.mass_profile[0,i] = rad_steps[i]
+                self.mass_profile[1,i] = baryon_mass + particle_mass
+            except:
+                self.mass_profile[0,i] = 0.
+                self.mass_profile[1,i] = 0.
+
+
         self.spl = UnivariateSpline(self.mass_profile[0,:], self.mass_profile[1,:])
+
 
     def measure_circularity(self):
         print 'Calculating circularity...'
