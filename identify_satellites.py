@@ -12,6 +12,9 @@ from photutils import *
 from mpl_toolkits.axes_grid.anchored_artists import AnchoredText
 from joblib import Parallel, delayed
 from astropy.io import fits
+from numpy import *
+from matplotlib.pyplot import *
+import matplotlib.pyplot as plt
 
 plt.ioff()
 
@@ -185,79 +188,67 @@ def parse():
     args = vars(parser.parse_args())
     return args
 
+def make_figure(snap_name, sim_name):
+    if True:
+        mom_outdir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
+        mom_fl = '%s/%s_%s_momentum.fits'%(mom_outdir, simname, snap_name)
+        mom_data = fits.open(mom_fl)
 
 
-if __name__ == '__main__':
+        x_pos, y_pos, z_pos = mom_data['STARS_XYZ_POSITION'].data
+        x_vel, y_vel, z_vel = mom_data['STARS_XYZ_VELOCITY'].data
+        r_pos = sqrt(x_pos**2. + y_pos**2. + z_pos**2.)
+        epsilon_stars = mom_data['STARS_EPSILON'].data
+        epsilon_stars_digitized = np.digitize(epsilon_stars, bins = linspace(eps_min, eps_max, bins_n))
+        r_stars_digitized = np.digitize(r_pos, bins = linspace(r_min, r_max, bins_n))
+        empt_arr = np.empty((bins_n-1,bins_n-1), dtype = object)
 
 
-    for i in arange(18,19):
-
-        if True:
-            simname = 'nref11n_selfshield_z15'
-            mom_fl = '../outputs/%s_RD0018_momentum.fits'%simname
-            mom_data = fits.open(mom_fl)
-
-
-            x_pos, y_pos, z_pos = mom_data['STARS_XYZ_POSITION'].data
-            x_vel, y_vel, z_vel = mom_data['STARS_XYZ_VELOCITY'].data
-            r_pos = sqrt(x_pos**2. + y_pos**2. + z_pos**2.)
-            epsilon_stars = mom_data['STARS_EPSILON'].data
-            epsilon_stars_digitized = np.digitize(epsilon_stars, bins = linspace(eps_min, eps_max, bins_n))
-            r_stars_digitized = np.digitize(r_pos, bins = linspace(r_min, r_max, bins_n))
-            empt_arr = np.empty((bins_n-1,bins_n-1), dtype = object)
-
-
-            for i in arange(bins_n-1):
-                good_r_stars = where(r_stars_digitized == i)[0]
-                r_stars_digitized_new = r_stars_digitized[good_r_stars]
-                epsilon_stars_digitized_new = epsilon_stars_digitized[good_r_stars]                
-                for j in arange(bins_n-1):
-                    good_eps_stars = good_r_stars[where(epsilon_stars_digitized_new == j)[0]]
-                    empt_arr[i,j] = good_eps_stars
-            star_age = mom_data['STAR_AGE'].data
-            star_mass= mom_data['STAR_MASS'].data
+        for i in arange(bins_n-1):
+            good_r_stars = where(r_stars_digitized == i)[0]
+            r_stars_digitized_new = r_stars_digitized[good_r_stars]
+            epsilon_stars_digitized_new = epsilon_stars_digitized[good_r_stars]                
+            for j in arange(bins_n-1):
+                good_eps_stars = good_r_stars[where(epsilon_stars_digitized_new == j)[0]]
+                empt_arr[i,j] = good_eps_stars
+        star_age = mom_data['STAR_AGE'].data
+        star_mass= mom_data['STAR_MASS'].data
 
 
 
-        if True:
-            eps_min = -3.
-            eps_max = 3.
-            r_min = 0.
-            r_max = 30
-            bins_n = 1000
-            max_nmergers = 20
+    if True:
+        eps_min = -3.
+        eps_max = 3.
+        r_min = 0.
+        r_max = 30
+        bins_n = 1000
+        max_nmergers = 20
 
 
-        if True:
-            plt.close('all')
-            fig, axes  = subplots(1,2, figsize = (10, 5))
+    if True:
+        plt.close('all')
+        fig, axes  = plt.subplots(1,2, figsize = (10, 5))
 
 
-            good = where(mom_data['STAR_AGE'].data < 2.e40)
+        good = where(mom_data['STAR_AGE'].data < 2.e40)
 
-            axes[0], heatmap   = make_heatmap(axes[0], epsilon_stars, r_pos, min_z = r_min, max_z = r_max, weights = star_mass, 
-                                good = good, xlabel = '', ylabel = '', bins_n = bins_n, eps_min = eps_min, eps_max = eps_max)
-
-
-            axes[1], heatmap   = make_heatmap(axes[1], epsilon_stars, r_pos, min_z = r_min, max_z = 100., weights = star_mass, 
-                                good = good, xlabel = '', ylabel = '', bins_n = bins_n, eps_min = eps_min, eps_max = eps_max)
+        axes[0], heatmap   = make_heatmap(axes[0], epsilon_stars, r_pos, min_z = r_min, max_z = r_max, weights = star_mass, 
+                            good = good, xlabel = '', ylabel = '', bins_n = bins_n, eps_min = eps_min, eps_max = eps_max)
 
 
-        if False:
-            npix = 20
-            #find_thresh
-            mn = 4
-            mx = 8
-            thresh, temp_heatmap = find_thresh(mn, mx, npix, heatmap)
+        axes[1], heatmap   = make_heatmap(axes[1], epsilon_stars, r_pos, min_z = r_min, max_z = 100., weights = star_mass, 
+                            good = good, xlabel = '', ylabel = '', bins_n = bins_n, eps_min = eps_min, eps_max = eps_max)
 
 
 
+    fig.tight_layout()
+    plt.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/%s_%s_satellites.png'%(simname, snap_name), dpi = 300)
+    plt.close(fig)
 
 
-
-        fig.tight_layout()
-        savefig('../figures/%s_satellites.png'%(simname), dpi = 300)
-        
+if __name__ == '__main__':    
+        simname = 'nref11n_selfshield_z15'
+        Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(snap_name = 'DD%.4i'%i, simname = simname) for i in np.arange(500, 505))
 
 
 
