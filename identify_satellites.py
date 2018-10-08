@@ -208,7 +208,7 @@ def make_figure(snap_name, simname):
         x_pos, y_pos, z_pos = mom_data['STARS_XYZ_POSITION'].data
         x_vel, y_vel, z_vel = mom_data['STARS_XYZ_VELOCITY'].data
         r_pos = sqrt(x_pos**2. + y_pos**2. + z_pos**2.)
-        epsilon_stars = mom_data['STARS_EPSILON'].data
+        epsilon_stars = mom_data['STARS_EPSILON_FIXED'].data
         epsilon_stars_digitized = np.digitize(epsilon_stars, bins = linspace(eps_min, eps_max, bins_n))
         r_stars_digitized = np.digitize(r_pos, bins = linspace(r_min, r_max, bins_n))
         empt_arr = np.empty((bins_n-1,bins_n-1), dtype = object)
@@ -251,7 +251,7 @@ def make_figure(snap_name, simname):
 
 if __name__ == '__main__':    
         simname = 'nref11n_selfshield_z15'
-        Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(snap_name = 'DD%.4i'%i, simname = simname) for i in np.arange(500, 505))
+        Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(snap_name = 'DD%.4i'%i, simname = simname) for i in np.arange(500, 600))
 
 
 
