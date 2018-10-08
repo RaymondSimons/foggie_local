@@ -20,6 +20,32 @@ from numpy import *
 import matplotlib as mpl
 
 plt.ioff()
+#This file will be used to store the profile of the momentum
+def parse():
+    '''
+    Parse command line arguments
+    ''' 
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                     description='''\
+                                Generate the cameras to use in Sunrise and make projection plots
+                                of the data for some of these cameras. Then export the data within
+                                the fov to a FITS file in a format that Sunrise understands.
+                                ''')
+
+    parser.add_argument('snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+
+    #parser.add_argument('-s', '--snap_base', default='10MpcBox_csf512_',
+    #                    help='Base of the snapshots file names.') 
+
+    #parser.add_argument('-d', '--distance', default=100000, type=float,
+    #                    help='Distance between cameras and the center of the galaxy (in [kpc]).')
+
+    #parser.add_argument('--no_export',action='store_true',
+    #                    help='Do not export data to fits for Sunrise.') 
+
+    args = vars(parser.parse_args())
+    return args
+
 
 
 def write_fits(fits_name, mom_data, merger_tag, x_stars_box , y_stars_box , z_stars_box, vx_stars_box , vy_stars_box , vz_stars_box):
@@ -201,7 +227,7 @@ def make_figure(snap_name, simname):
         eps_max = 3.
         r_min = 0.
         r_max = 30
-        bins_n = 1000
+        bins_n = 2000
         max_nmergers = 20
 
 
@@ -250,9 +276,12 @@ def make_figure(snap_name, simname):
 
 if __name__ == '__main__':    
         simname = 'nref11n_selfshield_z15'
+        args = parse()
+
+        snap_name =  args['snap_name']
         #Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(snap_name = 'DD%.4i'%i, simname = simname) for i in np.arange(500, 505))
         i = 501
-        make_figure(snap_name = 'DD%.4i'%i, simname = simname)
+        make_figure(snap_name = snap_name, simname = simname)
 
 
 
