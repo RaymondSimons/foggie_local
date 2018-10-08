@@ -245,12 +245,12 @@ def make_figure(snap_name, simname):
 
     fig.tight_layout()
     plt.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/%s_%s_satellites.png'%(simname, snap_name), dpi = 300)
-    plt.close(fig)
+    #plt.close(fig)
 
 
 if __name__ == '__main__':    
         simname = 'nref11n_selfshield_z15'
-        Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(snap_name = 'DD%.4i'%i, simname = simname) for i in np.arange(500, 600))
+        Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(snap_name = 'DD%.4i'%i, simname = simname) for i in np.arange(500, 505))
 
 
 
