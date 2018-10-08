@@ -7,17 +7,38 @@ from numpy import *
 import astropy
 from astropy.cosmology import Planck13 as cosmo
 import findGalaxyProps as fGP
+import os, sys, argparse
 
 
+def parse():
+    '''
+    Parse command line arguments
+    ''' 
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                     description='''\
+                                Generate the cameras to use in Sunrise and make projection plots
+                                of the data for some of these cameras. Then export the data within
+                                the fov to a FITS file in a format that Sunrise understands.
+                                ''')
 
+    parser.add_argument('snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+
+
+    args = vars(parser.parse_args())
+    return args
 
 
 if __name__=="__main__":
     #snaps = np.sort(np.asarray(glob.glob("RD????/RD????")))  #ENZO format a list of snapshots in separate directories
     #snaps = np.sort(np.asarray(glob.glob("~/Dropbox/rcs_foggie/data/halo_008508/nref11n_nref10f_selfshield_z6/RD????/RD????")))
 
-    snaps = np.asarray(['/Users/rsimons/Dropbox/rcs_foggie/data/halo_008508/nref11n_nref10f_selfshield_z6/RD0018/RD0018'])
+    #snaps = np.asarray(['/Users/rsimons/Dropbox/rcs_foggie/data/halo_008508/nref11n_nref10f_selfshield_z6/RD0018/RD0018'])
     form='ENZO'
+
+    args = parse()
+    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/nref11n_selfshield_z15/%s/%s"%(args['snap_name'], args['snap_name']))))
+
+
 
     assert snaps.shape[0] > 0
 
@@ -28,7 +49,7 @@ if __name__=="__main__":
     simname = os.path.basename(dirname) #assumes directory name for simulation name
 
     print( "Simulation name:  ", simname)
-
+    '''
     particle_headers = []
     particle_data = []
     stars_data = []
@@ -48,9 +69,12 @@ if __name__=="__main__":
 
 
         new_snapfiles.append(os.path.abspath(sn))
-
-
     new_snapfiles = np.asarray(new_snapfiles)
+    '''
+
+    new_snapfiles = np.asarray(snaps)
+
+
     galaxy_props = {}
     fields = ['scale', 'stars_total_mass', 'stars_com', 'stars_maxdens', 'stars_maxndens', 'stars_hist_center',
               'stars_rhalf', 'stars_mass_profile', 'stars_L','gas_total_mass', 'gas_maxdens', 'gas_L', 'rvir', 
@@ -132,7 +156,7 @@ if __name__=="__main__":
 
 
     # Save galaxy props file
-    galaxy_props_file = simname+'_galprops.npy'
+    galaxy_props_file = args['snap_name'] + '_galprops.npy'
     print( '\nSuccessfully computed galaxy properties')
     print( 'Saving galaxy properties to ', galaxy_props_file)
 
