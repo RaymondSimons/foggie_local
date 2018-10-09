@@ -512,9 +512,10 @@ if __name__ == "__main__":
 
     print haloname, simname, snapname, run_parallel
 
-    if run_parallel == True:
+    if run_parallel:
         n_jobs = args['n_jobs']
         ddmin, ddmax = args['ddmin'], args['ddmax']
+        print 'good1'
         if (simname is not None) & (haloname is not None):
             print 'good'
 
