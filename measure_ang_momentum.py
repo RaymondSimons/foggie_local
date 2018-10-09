@@ -517,8 +517,7 @@ if __name__ == "__main__":
         ddmin, ddmax = args['ddmin'], args['ddmax']
         if (simname is not None) & (haloname is not None):
             snapnames = ['DD%.4i'%i for i in arange(ddmin, ddmax)]
-            Parallel(n_jobs = n_jobs, backend = 'threading')
-                    (delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname) for snapname in snapnames)
+            Parallel(n_jobs = n_jobs, backend = 'threading')(delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname) for snapname in snapnames)
 
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
