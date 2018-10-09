@@ -25,9 +25,17 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
 
-    parser.add_argument('sim_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-run_parallel', '--run_parallel', default=False, help='Run parallel')
 
-    parser.add_argument('snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
+
+    parser.add_argument('-snapname', '--snapname', default=None, help='Snapshot files to be analyzed.')
+
+    parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
+    parser.add_argument('-ddmin', '--ddmin', default=500, help='halo_name')
+    parser.add_argument('-ddmax', '--ddmax', default=600, help='halo_name')
+    parser.add_argument('-n_jobs', '--n_jobs', default=3, help='number of jobs')
+
 
 
     args = vars(parser.parse_args())
@@ -335,17 +343,17 @@ class momentum_obj():
         return master_hdulist
 
 
-def measure_momentum(snapfile, ds, out_dir, snap_name):
+def measure_momentum(snapfile, ds, out_dir, snapname):
     mom = None
     print 'Measuring momentum for '+ snapfile
     aname = snapfile.split('/')[-1]
     simname = snapfile.split('/')[-3]
-    fits_name = out_dir+'/'+snap_name+'_'+aname+'_momentum.fits'
+    fits_name = out_dir+'/'+snapname+'_'+aname+'_momentum.fits'
 
 
 
     galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
-    galaxy_props_file = galprops_outdir + '/' + args['snap_name'] + '_galprops.npy'
+    galaxy_props_file = galprops_outdir + '/' + snapname + '_galprops.npy'
     galprops = np.load(simname+'_galprops.npy')
 
     print 'fits name : ', fits_name
@@ -370,29 +378,9 @@ def measure_momentum(snapfile, ds, out_dir, snap_name):
 
 
 
-if __name__ == "__main__":
 
-    args = parse()
-    import yt
-    #if args['snap_files'] is not None: snaps = [args['snap_files']]
-
-    simname =  args['sim_name']
-    snap_name =  args['snap_name']
-
-    '''
-    path_to_snaps = '~/Dropbox/rcs_foggie/data/halo_008508/nref11n_selfshield_z15/RD0018/RD0018'
-
-    #snaps = np.asarray(glob.glob(path_to_snaps))
-
-    snaps = np.asarray(['/Users/rsimons/Dropbox/rcs_foggie/data/halo_008508/nref11n_selfshield_z15/RD0018/RD0018', 
-                        '/Users/rsimons/Dropbox/rcs_foggie/data/halo_008508/nref11n_nref10f_selfshield_z6/RD0018/RD0018'])
-
-
-    snaps = np.asarray([args['snap_files']])
-    '''
-
-
-    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(args['sim_name'], args['snap_name'], args['snap_name']))))
+def run_measure_momentum(haloname, simname, snapname):
+    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
 
 
 
@@ -432,7 +420,7 @@ if __name__ == "__main__":
         check = amom.load()
         #if check == 0: return
         galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
-        galaxy_props_file = galprops_outdir + '/'  + simname + '_' + args['snap_name'] + '_galprops.npy'
+        galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
         galprops = np.load(galaxy_props_file)[()]
         
         #amom.recenter(galprops)
@@ -512,6 +500,33 @@ if __name__ == "__main__":
 
 
 
+if __name__ == "__main__":
+
+    args = parse()
+
+    simname = args['simname']
+    snapname = args['snapname']
+    haloname = args['haloname']
+    run_parallel = args['run_parallel']
+
+
+    print simname, snapname, run_parallel
+
+    if run_parallel == True:
+        n_jobs = args['n_jobs']
+        ddmin, ddmax = args['ddmin'], args['ddmax']
+        if (simname is not None) & (haloname is not None):
+            snapnames = ['DD%.4i'%i for i in arange(ddmin, ddmax)]
+            Parallel(n_jobs = n_jobs, backend = 'threading')
+                    (delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname) for snapname in snapnames)
+
+        else:
+            print 'run_all_parallel set to True, but no simname or haloname provided.'
+
+
+
+    else:
+        run_measure_momentum(simname, snapname)
 
 
 
