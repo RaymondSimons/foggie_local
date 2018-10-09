@@ -510,12 +510,14 @@ if __name__ == "__main__":
     run_parallel = args['run_parallel']
 
 
-    print simname, snapname, run_parallel
+    print haloname, simname, snapname, run_parallel
 
     if run_parallel == True:
         n_jobs = args['n_jobs']
         ddmin, ddmax = args['ddmin'], args['ddmax']
         if (simname is not None) & (haloname is not None):
+            print 'good'
+
             snapnames = ['DD%.4i'%i for i in arange(ddmin, ddmax)]
             Parallel(n_jobs = n_jobs, backend = 'threading')(delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname) for snapname in snapnames)
         else:
