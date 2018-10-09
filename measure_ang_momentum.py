@@ -171,7 +171,7 @@ class momentum_obj():
         #self.gas_j  = array([self.gas_jx, self.gas_jy, self.gas_jz])
         #self.gas_j_mag  = sqrt(self.gas_jx**2. + self.gas_jy**2. + self.gas_jz**2.)
 
-    def measure_potential(self, r_min = 0.1,  r_step1 = 0.3, r_cen1 = 3, r_step2 = 2,  r_cen2 = 15, r_step3 = 5, r_max = 45.):
+    def measure_potential(self, r_min = 0.1,  r_step1 = 0.2, r_cen1 = 5, r_step2 = 1,  r_cen2 = 15, r_step3 = 5, r_max = 200.):
 
         print 'Measuring the potential...'
         center = self.ds.arr([self.cen_x, self.cen_y, self.cen_z], 'kpc')
