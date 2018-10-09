@@ -304,16 +304,14 @@ class momentum_obj():
         #master_hdulist.append(fits.ImageHDU(data = self.L_disk_s                                                            , header = colhdr, name = 'nir_net_momentum_s'))
         master_hdulist.append(fits.ImageHDU(data = self.stars_id                                                            , header = colhdr, name = 'stars_id'))
         #master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_metallicity1 , self.stars_metallicity2))            , header = colhdr, name = 'stars_metallicity'))
-        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_x , self.stars_y , self.stars_z))       , header = colhdr, name = 'stars_xyz_position'))
-        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_vx , self.stars_vy , self.stars_vz))    , header = colhdr, name = 'stars_xyz_velocity'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_x , self.stars_y , self.stars_z))                   , header = colhdr, name = 'stars_xyz_position'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_vx , self.stars_vy , self.stars_vz))                , header = colhdr, name = 'stars_xyz_velocity'))
         master_hdulist.append(fits.ImageHDU(data = np.stack((self.rr_stars, self.zz_stars))                                 , header = colhdr, name = 'stars_cylindrical_position'))
-        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_jx, self.stars_jy, self.stars_jz))      , header = colhdr, name = 'stars_xyz_momentum'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_jx, self.stars_jy, self.stars_jz))                  , header = colhdr, name = 'stars_xyz_momentum'))
         master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars                                                       , header = colhdr, name = 'stars_epsilon'))
-        master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars_fixed                                                       , header = colhdr, name = 'stars_epsilon_fixed'))
-
+        master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars_fixed                                                 , header = colhdr, name = 'stars_epsilon_fixed'))
         master_hdulist.append(fits.ImageHDU(data = self.mass_profile                                                        , header = colhdr, name = 'mass_profile'))
         master_hdulist.append(fits.ImageHDU(data = self.star_mass                                                           , header = colhdr, name = 'star_mass'))
-        #master_hdulist.append(fits.ImageHDU(data = self.star_creation_time                                                  , header = colhdr, name = 'star_creation_time'))
         master_hdulist.append(fits.ImageHDU(data = self.star_age                                                            , header = colhdr, name = 'star_age'))
 
         if False:
@@ -383,9 +381,6 @@ def run_measure_momentum(haloname, simname, snapname):
     snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
 
 
-
-    print "Generating Sunrise Input for: ", snaps
-
     #abssnap = os.path.abspath(snaps[0])
     assert os.path.lexists(snaps[0])
 
@@ -435,15 +430,21 @@ def run_measure_momentum(haloname, simname, snapname):
         amom.cen_x  = amom.stars_x[argmin(diff)]
         amom.cen_y  = amom.stars_y[argmin(diff)] 
         amom.cen_z  = amom.stars_z[argmin(diff)] 
-        amom.cen_vx = amom.stars_vx[argmin(diff)]
-        amom.cen_vy = amom.stars_vy[argmin(diff)]
-        amom.cen_vz = amom.stars_vz[argmin(diff)]
 
         amom.stars_x   = amom.stars_x  - amom.cen_x
         amom.stars_y   = amom.stars_y  - amom.cen_y
         amom.stars_z   = amom.stars_z  - amom.cen_z
         amom.stars_pos = array([amom.stars_x, amom.stars_y, amom.stars_z])
         amom.stars_pos_mag = sqrt(amom.stars_x**2.  + amom.stars_y**2.  + amom.stars_z**2.)
+
+
+
+        #Determine the mass-weighted velocity of the stars in the inner 1 kpc
+
+        stars_inner_1kpc = where(amom.stars_pos_mag < 1)
+        amom.cen_vx = np.average(amom.stars_vx[stars_inner_1kpc], weights = amom.star_mass[stars_inner_1kpc])
+        amom.cen_vy = np.average(amom.stars_vy[stars_inner_1kpc], weights = amom.star_mass[stars_inner_1kpc])
+        amom.cen_vz = np.average(amom.stars_vz[stars_inner_1kpc], weights = amom.star_mass[stars_inner_1kpc])
 
         amom.stars_vx  = amom.stars_vx - amom.cen_vx
         amom.stars_vy  = amom.stars_vy - amom.cen_vy
@@ -515,20 +516,13 @@ if __name__ == "__main__":
     if run_parallel:
         n_jobs = int(args['n_jobs'])
         ddmin, ddmax = int(args['ddmin']), int(args['ddmax'])
-        print 'good1'
         if (simname is not None) & (haloname is not None):
-            print 'good'
-
             snapnames = ['DD%.4i'%i for i in arange(ddmin, ddmax)]
             Parallel(n_jobs = n_jobs, backend = 'threading')(delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname) for snapname in snapnames)
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
-
-
-
     else:
-        pass
-        #run_measure_momentum(haloname, simname, snapname)
+        run_measure_momentum(haloname, simname, snapname)
 
 
 
