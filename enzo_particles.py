@@ -94,3 +94,21 @@ if __name__ == "__main__":
     run_parallel = args['run_parallel']
 
     print haloname, simname, snapname, run_parallel
+    get_particles(haloname, simname, snapname)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
