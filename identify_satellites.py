@@ -72,7 +72,7 @@ def write_fits(fits_name, mom_data, merger_tag, x_stars_box , y_stars_box , z_st
 
     print '\tSaving to ' + fits_name
     thdulist = fits.HDUList(master_hdulist)
-    thdulist.writeto(fits_name, clobber = True)
+    thdulist.writeto(fits_name, overwrite = True)
 
     return master_hdulist
 
@@ -87,14 +87,20 @@ def make_heatmap(ax, epsilon, zz_gas, min_z, max_z, weights = None, good = None,
         weights = weights[good]
     heatmap, xedges, yedges = np.histogram2d(epsilon, zz_gas, bins=[linspace(eps_min,eps_max,bins_n), linspace(min_z,max_z,bins_n)], weights = weights)
 
+
+
+
     srt_labels = array(srt_labels)
 
-    sorted_heatmap = argsort(heatmap.ravel())
-    vmn = 10.
+    heatmap_sorted = sort(heatmap.ravel())
+    heatmap_sorted = heatmap_sorted[heatmap_sorted > 0.]
+
+    vmn_scale = 0.1
     vmx_scale = 0.998
-    vmx = heatmap.ravel()[sorted_heatmap[int(vmx_scale*len(sorted_heatmap))]]
-    heatmap = np.ma.masked_where((heatmap < 10), heatmap)
-    heatmap.data[heatmap.data < 10.] = nan
+    vmn = heatmap_sorted[int(vmn_scale*len(heatmap_sorted))]
+    vmx = heatmap_sorted[int(vmx_scale*len(heatmap_sorted))]
+    #heatmap = np.ma.masked_where((heatmap < 1), heatmap)
+    #heatmap.data[heatmap.data < 1.] = nan
 
     #heatmap.data[segm > 1] = 0
     if len(srt_labels)>0:
@@ -118,11 +124,29 @@ def make_heatmap(ax, epsilon, zz_gas, min_z, max_z, weights = None, good = None,
 
 
 
-        ax.set_yticks([0,bins_n/4,bins_n/2,3*bins_n/4,bins_n-1])
-        ax.set_xticks([0,bins_n/2,bins_n-1])
-        ax.set_xticklabels([format(yedges[0],'.0f'),format(yedges[bins_n/2],'.0f'),format(yedges[bins_n-1],'.0f')])
-        ax.set_yticklabels([''])
-        ax.set_yticklabels([format(xedges[0],'.0f'),format(xedges[int(bins_n/4)],'.0f'), format(xedges[int(bins_n/2.)],'.0f'),format(xedges[int(3*bins_n/4.)],'.0f'),format(xedges[bins_n-1],'.0f')])
+        ax.set_yticks([0,(bins_n-1)/4,(bins_n-1)/2,3*(bins_n-1)/4,bins_n-1])
+        #ax.set_xticks([0,(bins_n-1)/2,bins_n-1])
+        #ax.set_xticklabels([format(yedges[0],'.0f'),format(yedges[(bins_n-1)/2],'.0f'),format(yedges[bins_n-1],'.0f')])
+
+        xtcks = [min_z, max_z/2., max_z]
+        xtcks_c = [xt * bins_n/(1.*max_z - min_z) for xt in xtcks]
+        xtcks_l = [format(xt, '.0f') for xt in xtcks]
+
+
+        ytcks = np.arange(eps_min, eps_max + 1, 1)
+        ytcks_c = [(yt - eps_min) * bins_n/(1.*eps_max - eps_min) for yt in ytcks]
+        ytcks_l = [format(yt, '.0f') for yt in ytcks]
+
+        ax.set_xticks(xtcks_c)
+        ax.set_xticklabels(xtcks_l)
+
+        print ytcks, ytcks_c, ytcks_l
+        ax.set_yticks(ytcks_c)
+        ax.set_yticklabels(ytcks_l)
+
+
+        #ax.set_yticklabels([''])
+        #ax.set_yticklabels([format(xedges[0],'.0f'),format(xedges[int((bins_n-1)/4)],'.0f'), format(xedges[int((bins_n-1)/2.)],'.0f'),format(xedges[int(3*(bins_n-1)/4.)],'.0f'),format(xedges[bins_n-1],'.0f')])
         #ax.set_xticklabels([''])
         ax.set_xlabel(xlabel, fontsize = 15)
 
@@ -224,7 +248,7 @@ def make_figure(snap_name, simname, on_system = 'pfe'):
         r_min = 0.
         r_max = 30
         bins_n_stars = 2000
-        bins_n_dark = 100
+        bins_n_dark = 30
 
         max_nmergers = 20
 
