@@ -200,7 +200,7 @@ class momentum_obj():
 
 
 
-    def calc_angular_momentum(self, pytpe = 'stars'):
+    def calc_angular_momentum(self, ptype = 'stars'):
         print 'Calculating angular momentum for type: %s...'%ptype
 
         #Calculate momentum for stars
@@ -211,7 +211,7 @@ class momentum_obj():
             self.stars_j  = array([self.stars_jx, self.stars_jy, self.stars_jz])
             self.stars_j_mag  = sqrt(self.stars_jx**2. + self.stars_jy**2. + self.stars_jz**2.)
 
-        if pytpe  =='darkmatter':
+        if ptype  =='darkmatter':
             self.dark_jx = self.dark_vz * self.dark_y - self.dark_z * self.dark_vy
             self.dark_jy = self.dark_vx * self.dark_z - self.dark_x * self.dark_vz
             self.dark_jz = self.dark_vy * self.dark_x - self.dark_y * self.dark_vx
@@ -226,6 +226,8 @@ class momentum_obj():
             self.gas_jz = self.gas_vy * self.gas_x - self.gas_y * self.gas_vx
             self.gas_j  = array([self.gas_jx, self.gas_jy, self.gas_jz])
             self.gas_j_mag  = sqrt(self.gas_jx**2. + self.gas_jy**2. + self.gas_jz**2.)
+
+        return self
 
     def measure_potential(self, r_min = 0.1,  r_step1 = 0.2, r_cen1 = 5, r_step2 = 1,  r_cen2 = 15, r_step3 = 5, r_max = 200.):
 
