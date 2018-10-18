@@ -437,7 +437,7 @@ class momentum_obj():
 
         print '\tSaving to ' + self.fits_name
         thdulist = fits.HDUList(master_hdulist)
-        thdulist.writeto(self.fits_name, overwrite = True)
+        thdulist.writeto(self.fits_name, clobber = True)
 
         return master_hdulist
 

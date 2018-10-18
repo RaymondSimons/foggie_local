@@ -72,7 +72,7 @@ def write_fits(fits_name, mom_data, merger_tag, x_stars_box , y_stars_box , z_st
 
     print '\tSaving to ' + fits_name
     thdulist = fits.HDUList(master_hdulist)
-    thdulist.writeto(fits_name, overwrite = True)
+    thdulist.writeto(fits_name, clobber = True)
 
     return master_hdulist
 
