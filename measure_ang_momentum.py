@@ -460,10 +460,10 @@ def run_measure_momentum(haloname, simname, snapname):
         amom = momentum_obj(simname, aname, snapfile, fits_name)
 
         check = amom.load()
-        return
+        return amom
 
 
-        
+
         #if check == 0: return
         galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
         galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
@@ -573,7 +573,7 @@ if __name__ == "__main__":
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
     else:
-        run_measure_momentum(haloname, simname, snapname)
+        amom = run_measure_momentum(haloname, simname, snapname)
 
 
 
