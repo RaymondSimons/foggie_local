@@ -56,13 +56,6 @@ class momentum_obj():
         dd = self.ds.all_data()
         print 'Loading star velocities...'
 
-        try:
-            self.stars_vx = dd['stars', 'particle_velocity_x'].in_units('km/s')
-            assert self.stars_vx.shape > 5
-        except AttributeError,AssertionError:
-            print "No star particles found, skipping: ", self.ds._file_amr
-            return 0
-
         def _stars(pfilter, data):
             return data[(pfilter.filtered_type, "particle_type")] == 2
 
@@ -75,6 +68,14 @@ class momentum_obj():
         ds.add_particle_filter('stars')
         ds.add_particle_filter('darkmatter')
 
+
+
+        try:
+            self.stars_vx = dd['stars', 'particle_velocity_x'].in_units('km/s')
+            assert self.stars_vx.shape > 5
+        except AttributeError,AssertionError:
+            print "No star particles found, skipping: ", self.ds._file_amr
+            return 0
 
 
         print 'Loading stars particle indices...'
