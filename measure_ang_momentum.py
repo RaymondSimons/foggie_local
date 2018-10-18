@@ -57,32 +57,74 @@ class momentum_obj():
         print 'Loading star velocities...'
 
         try:
-            self.stars_vx = dd['io', 'particle_velocity_x'].in_units('km/s')
+            self.stars_vx = dd['stars', 'particle_velocity_x'].in_units('km/s')
             assert self.stars_vx.shape > 5
         except AttributeError,AssertionError:
             print "No star particles found, skipping: ", self.ds._file_amr
             return 0
 
+        def _stars(pfilter, data):
+            return data[(pfilter.filtered_type, "particle_type")] == 2
 
-        self.stars_id = dd['io', 'particle_index']
-        #self.stars_metallicity1 = dd['io', 'particle_metallicity1']
-        #self.stars_metallicity2 = dd['io', 'particle_metallicity2']
+        # these are only the must refine dark matter particles
+        def _darkmatter(pfilter, data):
+            return data[(pfilter.filtered_type, "particle_type")] == 4
+
+        yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+        yt.add_particle_filter("darkmatter",function=_darkmatter, filtered_type='all',requires=["particle_type"])
 
 
-        self.stars_vy = dd['io', 'particle_velocity_y'].in_units('km/s')
-        self.stars_vz = dd['io', 'particle_velocity_z'].in_units('km/s')
+
+        print 'Loading stars particle indices...'
+        self.stars_id = dd['stars', 'particle_index']
+        #self.stars_metallicity1 = dd['stars', 'particle_metallicity1']
+        #self.stars_metallicity2 = dd['stars', 'particle_metallicity2']
+        
+        print 'Loading star velocities...'
+        self.stars_vx = dd['stars', 'particle_velocity_x'].in_units('km/s')
+        self.stars_vy = dd['stars', 'particle_velocity_y'].in_units('km/s')
+        self.stars_vz = dd['stars', 'particle_velocity_z'].in_units('km/s')
 
         print 'Loading star positions...'
-        self.stars_x = dd['io', 'particle_position_x'].in_units('kpc')
-        self.stars_y = dd['io', 'particle_position_y'].in_units('kpc')
-        self.stars_z = dd['io', 'particle_position_z'].in_units('kpc')
+        self.stars_x = dd['stars', 'particle_position_x'].in_units('kpc')
+        self.stars_y = dd['stars', 'particle_position_y'].in_units('kpc')
+        self.stars_z = dd['stars', 'particle_position_z'].in_units('kpc')
 
         print 'Loading star mass...'
-        self.star_mass = dd['io', 'particle_mass'].in_units('Msun')
+        self.star_mass = dd['stars', 'particle_mass'].in_units('Msun')
 
         print 'Loading star age...'
-        self.star_creation_time = dd['io', 'creation_time'].in_units('yr')
+        self.star_creation_time = dd['stars', 'creation_time'].in_units('yr')
         self.star_age = self.ds.arr(cosmo.age(self.ds.current_redshift).value, 'Gyr').in_units('yr') - self.star_creation_time
+
+
+
+
+        print 'Loading dark matter particle indices...'
+        self.dark_id = dd['darkmatter', 'particle_index']
+        
+        print 'Loading dark matter velocities...'
+        self.dark_vx = dd['darkmatter', 'particle_velocity_x'].in_units('km/s')
+        self.dark_vy = dd['darkmatter', 'particle_velocity_y'].in_units('km/s')
+        self.dark_vz = dd['darkmatter', 'particle_velocity_z'].in_units('km/s')
+
+        print 'Loading dark matter positions...'
+        self.dark_x = dd['darkmatter', 'particle_position_x'].in_units('kpc')
+        self.dark_y = dd['darkmatter', 'particle_position_y'].in_units('kpc')
+        self.dark_z = dd['darkmatter', 'particle_position_z'].in_units('kpc')
+
+        print 'Loading dark matter mass...'
+        self.dark_mass = dd['darkmatter', 'particle_mass'].in_units('Msun')
+
+        print 'Loading dark matter age...'
+        self.dark_creation_time = dd['darkmatter', 'creation_time'].in_units('yr')
+        self.dark_age = self.ds.arr(cosmo.age(self.ds.current_redshift).value, 'Gyr').in_units('yr') - self.dark_creation_time
+
+
+
+
+
+
         if False:
             print 'Loading gas velocity...'
             self.gas_vx = dd['gas', 'velocity_x'].in_units('km/s')
@@ -99,6 +141,11 @@ class momentum_obj():
 
             print 'Loading gas cell mass...'
             self.gas_mass = dd['gas', 'cell_mass']
+
+
+
+
+
 
 
         print 'Finished loading...'
@@ -413,6 +460,10 @@ def run_measure_momentum(haloname, simname, snapname):
         amom = momentum_obj(simname, aname, snapfile, fits_name)
 
         check = amom.load()
+        return
+
+
+        
         #if check == 0: return
         galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
         galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'

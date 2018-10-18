@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
         dark_pos_x  = ad['darkmatter', 'particle_position_x'].in_units('kpc')
         stars_pos_x = ad['stars', 'particle_position_x'].in_units('kpc')
-
+        all_particles= dd['io', 'particle_position_x'].in_units('kpc')
         print shape(dark_pos_x), shape(stars_pos_x)
 
 
