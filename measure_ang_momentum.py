@@ -269,6 +269,10 @@ class momentum_obj():
         self.vcirc_stars    = self.ds.arr(sqrt(G*internal_mass_stars/(self.stars_pos_mag)),'kpc/s').in_units('km/s')
         self.jcirc_stars    = self.vcirc_stars * self.stars_pos_mag
 
+        self.vcirc_dark    = self.ds.arr(sqrt(G*internal_mass_stars/(self.dark_pos_mag)),'kpc/s').in_units('km/s')
+        self.jcirc_dark    = self.vcirc_stars * self.dark_pos_mag
+
+
         self.L_mag          = sqrt(self.L_disk[0]**2.+self.L_disk[1]**2.+self.L_disk[2]**2.)
         self.L_mag_fixed    = sqrt(self.L_disk_fixed[0]**2.+self.L_disk_fixed[1]**2.+self.L_disk_fixed[2]**2.)
  
