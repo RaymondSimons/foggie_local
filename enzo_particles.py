@@ -77,8 +77,8 @@ def get_particles(haloname, simname, snapname):
         ds.add_particle_filter('stars')
         ds.add_particle_filter('darkmatter')
 
-        dark_pos_x  = dd['darkmatter', 'particle_position_x'].in_units('kpc')
-        stars_pos_x = dd['stars', 'particle_position_x'].in_units('kpc')
+        dark_pos_x  = ad['darkmatter', 'particle_position_x'].in_units('kpc')
+        stars_pos_x = ad['stars', 'particle_position_x'].in_units('kpc')
 
         print shape(dark_pos_x), shape(stars_pos_x)
 
@@ -94,7 +94,42 @@ if __name__ == "__main__":
     run_parallel = args['run_parallel']
 
     print haloname, simname, snapname, run_parallel
-    get_particles(haloname, simname, snapname)
+    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+
+
+    #abssnap = os.path.abspath(snaps[0])
+    assert os.path.lexists(snaps[0])
+
+    out_dir = '/u/rcsimons/'
+
+    assert os.path.lexists(out_dir)
+
+    new_snapfiles = np.asarray(snaps)
+
+    ts = yt.DatasetSeries(new_snapfiles)
+
+
+
+
+    def _stars(pfilter, data):
+        return data[(pfilter.filtered_type, "particle_type")] == 2
+
+    #this gets dark matter particles in zoom region only
+    def _darkmatter(pfilter, data):
+        return data[(pfilter.filtered_type, "particle_type")] == 4
+
+    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+    yt.add_particle_filter("darkmatter",function=_darkmatter, filtered_type='all',requires=["particle_type"])
+
+    for ds,snapfile in zip(reversed(ts),np.flipud(new_snapfiles)):
+        ad = ds.all_data()
+        ds.add_particle_filter('stars')
+        ds.add_particle_filter('darkmatter')
+
+        dark_pos_x  = ad['darkmatter', 'particle_position_x'].in_units('kpc')
+        stars_pos_x = ad['stars', 'particle_position_x'].in_units('kpc')
+
+        print shape(dark_pos_x), shape(stars_pos_x)
 
 
 
@@ -108,7 +143,3 @@ if __name__ == "__main__":
 
 
 
-
-
-
-    
