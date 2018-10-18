@@ -336,7 +336,6 @@ if __name__ == '__main__':
         snap_name =  args['snapname']
         on_system = args['on_system']
         #Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(snap_name = 'DD%.4i'%i, simname = simname) for i in np.arange(500, 505))
-        i = 501
         make_figure(snap_name = snap_name, simname = simname, on_system = on_system)
 
 
