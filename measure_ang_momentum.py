@@ -32,6 +32,7 @@ def parse():
     parser.add_argument('-snapname', '--snapname', default=None, help='Snapshot files to be analyzed.')
 
     parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
+    parser.add_argument('-on_system', '--on_system', default='pfe', help='System being used (pfe or local)')
     parser.add_argument('-ddmin', '--ddmin', default=500, help='halo_name')
     parser.add_argument('-ddmax', '--ddmax', default=600, help='halo_name')
     parser.add_argument('-n_jobs', '--n_jobs', default=3, help='number of jobs')
@@ -158,6 +159,9 @@ class momentum_obj():
     def recenter(self, galprops):
         print 'Recentering...'
         self.cen_x, self.cen_y, self.cen_z = yt.YTArray(galprops['stars_com'][0], 'kpc')
+        
+        
+
 
         self.stars_x   = self.stars_x_box  - self.cen_x
         self.stars_y   = self.stars_y_box  - self.cen_y
@@ -271,7 +275,7 @@ class momentum_obj():
 
         internal_mass_dark = self.ds.arr(self.spl(self.dark_pos_mag),'g').in_units('Msun')
         self.vcirc_dark    = self.ds.arr(sqrt(G*internal_mass_dark/(self.dark_pos_mag)),'kpc/s').in_units('km/s')
-        self.jcirc_dark    = self.vcirc_stars * self.dark_pos_mag
+        self.jcirc_dark    = self.vcirc_dark * self.dark_pos_mag
 
 
         self.L_mag          = sqrt(self.L_disk[0]**2.+self.L_disk[1]**2.+self.L_disk[2]**2.)
@@ -439,13 +443,17 @@ class momentum_obj():
 
 
 
-def run_measure_momentum(haloname, simname, snapname, galprops):
-    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+def run_measure_momentum(haloname, simname, snapname, galprops, on_system = 'pfe'):
+    if on_system == 'pfe':
+        snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+        out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
+    else:
+        snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+        out_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
+
+
 
     assert os.path.lexists(snaps[0])
-
-
-    out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
 
     assert os.path.lexists(out_dir)
 
@@ -476,6 +484,8 @@ def run_measure_momentum(haloname, simname, snapname, galprops):
 
         amom.L_disk = galprops['gas_L'][0]
         amom.L_disk_fixed = [-0.37085436,  0.14802026,  0.91681898]
+
+
 
         amom.calc_angular_momentum(ptype = 'stars')
         amom.calc_angular_momentum(ptype = 'darkmatter')
@@ -513,12 +523,17 @@ if __name__ == "__main__":
     snapname = args['snapname']
     haloname = args['haloname']
     run_parallel = args['run_parallel']
+    on_system = args['on_system']
 
-    galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
-    galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
+    
+    if on_system == 'pfe':
+        galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
+        galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
+    else:
+        galaxy_props_file = '/Users/rsimons/Dropbox/rcs_foggie/outputs/nref11n_selfshield_z15_galprops.npy'
+
     galprops = np.load(galaxy_props_file)[()]
     
-
     print haloname, simname, snapname, run_parallel
 
     if run_parallel:
@@ -526,21 +541,27 @@ if __name__ == "__main__":
         ddmin, ddmax = int(args['ddmin']), int(args['ddmax'])
         if (simname is not None) & (haloname is not None):
             snapnames = ['DD%.4i'%i for i in arange(ddmin, ddmax)]
-            Parallel(n_jobs = n_jobs, backend = 'threading')(delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops) for snapname in snapnames)
+            Parallel(n_jobs = n_jobs, backend = 'threading')(delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system) for snapname in snapnames)
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
     else:
-        #amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops)
+        amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
 
 
-        if True:
-            # testing run_measure_momentum
-            snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+        if False:
+            # Test run_measure_momentum in ipython
+            
+            if on_system == 'pfe':
+                snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+                out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
+            else:
+                snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+                out_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
+
 
             assert os.path.lexists(snaps[0])
 
 
-            out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
 
             assert os.path.lexists(out_dir)
 

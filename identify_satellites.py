@@ -35,9 +35,18 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
 
-    parser.add_argument('sim_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-run_parallel', '--run_parallel', default=False, help='Run parallel')
 
-    parser.add_argument('snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
+
+    parser.add_argument('-snapname', '--snapname', default=None, help='Snapshot files to be analyzed.')
+
+    parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
+    parser.add_argument('-on_system', '--on_system', default='pfe', help='System being used (pfe or local)')
+    parser.add_argument('-ddmin', '--ddmin', default=500, help='halo_name')
+    parser.add_argument('-ddmax', '--ddmax', default=600, help='halo_name')
+    parser.add_argument('-n_jobs', '--n_jobs', default=3, help='number of jobs')
+
 
 
     args = vars(parser.parse_args())
@@ -198,28 +207,45 @@ def find_thresh(mn, mx, npix, heatmap):
     return thresh, temp_heatmap
 
 
-def make_figure(snap_name, simname):
+def make_figure(snap_name, simname, on_system = 'pfe'):
     if True:
-        mom_outdir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
+        if on_system == 'pfe':
+            mom_outdir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
+            fig_file = '/nobackupp2/rcsimons/foggie_momentum/figures/%s_%s_satellites.png'%(simname, snap_name)
+        else:
+            mom_outdir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
+            fig_file = '/Users/rsimons/Dropbox/rcs_foggie/outputs/%s_%s_satellites.png'%(simname, snap_name)
+
         mom_fl = '%s/%s_%s_momentum.fits'%(mom_outdir, simname, snap_name)
         mom_data = fits.open(mom_fl)
 
-        eps_min = -3.
-        eps_max = 3.
+        eps_min = -2.
+        eps_max = 2.
         r_min = 0.
         r_max = 30
-        bins_n = 2000
+        bins_n_stars = 2000
+        bins_n_dark = 100
+
         max_nmergers = 20
 
 
-        x_pos, y_pos, z_pos = mom_data['STARS_XYZ_POSITION'].data
-        x_vel, y_vel, z_vel = mom_data['STARS_XYZ_VELOCITY'].data
-        r_pos = sqrt(x_pos**2. + y_pos**2. + z_pos**2.)
+        x_pos_stars, y_pos_stars, z_pos_stars = mom_data['STARS_GAL_POSITION'].data
+        x_vel_stars, y_vel_stars, z_vel_stars = mom_data['STARS_GAL_VELOCITY'].data
+        r_pos_stars = sqrt(x_pos_stars**2. + y_pos_stars**2. + z_pos_stars**2.)
         epsilon_stars = mom_data['STARS_EPSILON_FIXED'].data
-        epsilon_stars_digitized = np.digitize(epsilon_stars, bins = linspace(eps_min, eps_max, bins_n))
-        r_stars_digitized = np.digitize(r_pos, bins = linspace(r_min, r_max, bins_n))
-        empt_arr = np.empty((bins_n-1,bins_n-1), dtype = object)
 
+
+        x_pos_dark, y_pos_dark, z_pos_dark = mom_data['DARK_GAL_POSITION'].data
+        x_vel_dark, y_vel_dark, z_vel_dark = mom_data['DARK_GAL_VELOCITY'].data
+        r_pos_dark = sqrt(x_pos_dark**2. + y_pos_dark**2. + z_pos_dark**2.)
+        epsilon_dark = mom_data['DARK_EPSILON_FIXED'].data
+
+
+
+        '''
+        epsilon_stars_digitized = np.digitize(epsilon_stars, bins = linspace(eps_min, eps_max, bins_n))
+        r_stars_digitized = np.digitize(r_pos_stars, bins = linspace(r_min, r_max, bins_n))
+        empt_arr = np.empty((bins_n-1,bins_n-1), dtype = object)
 
         for i in arange(bins_n-1):
             good_r_stars = where(r_stars_digitized == i)[0]
@@ -228,47 +254,66 @@ def make_figure(snap_name, simname):
             for j in arange(bins_n-1):
                 good_eps_stars = good_r_stars[where(epsilon_stars_digitized_new == j)[0]]
                 empt_arr[i,j] = good_eps_stars
+        '''
+
         star_age = mom_data['STAR_AGE'].data
         star_mass= mom_data['STAR_MASS'].data
 
+        dark_age = mom_data['DARK_AGE'].data
+        dark_mass= mom_data['DARK_MASS'].data
 
 
 
 
     if True:
-        fig, axes  = plt.subplots(1,2, figsize = (10, 5))
+        fig, axes  = plt.subplots(2,2, figsize = (10, 10))
 
 
-        good = where(mom_data['STAR_AGE'].data < 2.e40)
-
-        axes[0], heatmap   = make_heatmap(axes[0], epsilon_stars, r_pos, min_z = r_min, max_z = r_max, weights = star_mass, 
-                            good = good, xlabel = '', ylabel = '', bins_n = bins_n, eps_min = eps_min, eps_max = eps_max)
-
-
-        axes[1], heatmap   = make_heatmap(axes[1], epsilon_stars, r_pos, min_z = r_min, max_z = 100., weights = star_mass, 
-                            good = good, xlabel = '', ylabel = '', bins_n = bins_n, eps_min = eps_min, eps_max = eps_max)
+        good = where(star_age < 2.e40)
 
 
 
 
-    axes[0].set_xlabel('radial distance (kpc)', fontsize = 18)
-    axes[0].set_ylabel(r'$j_z/j_{circ}$', fontsize = 18)
-    axes[1].set_xlabel('radial distance (kpc)', fontsize = 18)
+
+        axes[0,0], heatmap   = make_heatmap(axes[0,0], epsilon_stars, r_pos_stars, min_z = r_min, max_z = r_max, weights = star_mass, 
+                            good = good, xlabel = '', ylabel = '', bins_n = bins_n_stars, eps_min = eps_min, eps_max = eps_max)
+
+
+        axes[0,1], heatmap   = make_heatmap(axes[0,1], epsilon_stars, r_pos_stars, min_z = r_min, max_z = 100., weights = star_mass, 
+                            good = good, xlabel = '', ylabel = '', bins_n = bins_n_stars, eps_min = eps_min, eps_max = eps_max)
+
+        good = where(dark_age < 2.e40)
+
+        axes[1,0], heatmap   = make_heatmap(axes[1,0], epsilon_dark, r_pos_dark, min_z = r_min, max_z = r_max, weights = dark_mass, 
+                            good = good, xlabel = '', ylabel = '', bins_n = bins_n_dark, eps_min = eps_min, eps_max = eps_max)
+
+
+        axes[1,1], heatmap   = make_heatmap(axes[1,1], epsilon_dark, r_pos_dark, min_z = r_min, max_z = 100., weights = dark_mass, 
+                            good = good, xlabel = '', ylabel = '', bins_n = bins_n_dark, eps_min = eps_min, eps_max = eps_max)
+
+    for ax in axes.ravel():
+        ax.set_xlabel('radial distance (kpc)', fontsize = 18)
+        ax.set_ylabel(r'$j_z/j_{circ}$', fontsize = 18)
+
+
+
 
     fig.tight_layout() 
-    plt.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/%s_%s_satellites.png'%(simname, snap_name), dpi = 300)
-    #plt.close(fig)
+
+    plt.savefig(fig_file, dpi = 300)
+
 
 
 if __name__ == '__main__':    
         #simname = 'nref11n_selfshield_z15'
 
         args = parse()
-        simname =  args['sim_name']
-        snap_name =  args['snap_name']
+        simname =  args['simname']
+        snap_name =  args['snapname']
+        on_system = args['on_system']
         #Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(snap_name = 'DD%.4i'%i, simname = simname) for i in np.arange(500, 505))
         i = 501
-        make_figure(snap_name = snap_name, simname = simname)
+        make_figure(snap_name = snap_name, simname = simname, on_system = on_system)
 
 
 
