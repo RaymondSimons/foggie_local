@@ -75,7 +75,7 @@ class momentum_obj():
             assert self.stars_vx.shape > 5
         except AttributeError,AssertionError:
             print "No star particles found, skipping: ", self.ds._file_amr
-            return 0
+            return
 
 
         print 'Loading stars particle indices...'
@@ -84,14 +84,14 @@ class momentum_obj():
         #self.stars_metallicity2 = dd['stars', 'particle_metallicity2']
         
         print 'Loading star velocities...'
-        self.stars_vx = dd['stars', 'particle_velocity_x'].in_units('km/s')
-        self.stars_vy = dd['stars', 'particle_velocity_y'].in_units('km/s')
-        self.stars_vz = dd['stars', 'particle_velocity_z'].in_units('km/s')
+        self.stars_vx_box = dd['stars', 'particle_velocity_x'].in_units('km/s')
+        self.stars_vy_box = dd['stars', 'particle_velocity_y'].in_units('km/s')
+        self.stars_vz_box = dd['stars', 'particle_velocity_z'].in_units('km/s')
 
         print 'Loading star positions...'
-        self.stars_x = dd['stars', 'particle_position_x'].in_units('kpc')
-        self.stars_y = dd['stars', 'particle_position_y'].in_units('kpc')
-        self.stars_z = dd['stars', 'particle_position_z'].in_units('kpc')
+        self.stars_x_box = dd['stars', 'particle_position_x'].in_units('kpc')
+        self.stars_y_box = dd['stars', 'particle_position_y'].in_units('kpc')
+        self.stars_z_box = dd['stars', 'particle_position_z'].in_units('kpc')
 
         print 'Loading star mass...'
         self.star_mass = dd['stars', 'particle_mass'].in_units('Msun')
@@ -107,14 +107,14 @@ class momentum_obj():
         self.dark_id = dd['darkmatter', 'particle_index']
         
         print 'Loading dark matter velocities...'
-        self.dark_vx = dd['darkmatter', 'particle_velocity_x'].in_units('km/s')
-        self.dark_vy = dd['darkmatter', 'particle_velocity_y'].in_units('km/s')
-        self.dark_vz = dd['darkmatter', 'particle_velocity_z'].in_units('km/s')
+        self.dark_vx_box = dd['darkmatter', 'particle_velocity_x'].in_units('km/s')
+        self.dark_vy_box = dd['darkmatter', 'particle_velocity_y'].in_units('km/s')
+        self.dark_vz_box = dd['darkmatter', 'particle_velocity_z'].in_units('km/s')
 
         print 'Loading dark matter positions...'
-        self.dark_x = dd['darkmatter', 'particle_position_x'].in_units('kpc')
-        self.dark_y = dd['darkmatter', 'particle_position_y'].in_units('kpc')
-        self.dark_z = dd['darkmatter', 'particle_position_z'].in_units('kpc')
+        self.dark_x_box = dd['darkmatter', 'particle_position_x'].in_units('kpc')
+        self.dark_y_box = dd['darkmatter', 'particle_position_y'].in_units('kpc')
+        self.dark_z_box = dd['darkmatter', 'particle_position_z'].in_units('kpc')
 
         print 'Loading dark matter mass...'
         self.dark_mass = dd['darkmatter', 'particle_mass'].in_units('Msun')
@@ -157,77 +157,76 @@ class momentum_obj():
 
     def recenter(self, galprops):
         print 'Recentering...'
-        cen_x, cen_y, cen_z = galprops['stars_com'][0]        
 
-        diff = sqrt((amom.stars_x.value - cen_x)**2. + (amom.stars_y.value - cen_y)**2. + (amom.stars_z.value - cen_z)**2.)
+        self.cen_x, self.cen_y, self.cen_z = galprops['stars_com'][0]        
 
-        self.id_cen_star      = self.stars_id[argmin(diff)]
-
-        print self.id_cen_star
-
-
-
-        '''
-        self.cold_cen         = nir_disc_cat[1:4].astype('float')
-        self.cen_star_offset  = nir_cat[2:5].astype('float')
-        self.cen_star_voffset = nir_cat[5:8].astype('float')
-        self.L_disk_s = nir_cat[8:11].astype('float')
-        self.L_disk   = nir_disc_cat[7:10].astype('float')
-        '''
-        '''
-        #Determine offset
-        self.cen_x  = self.stars_x[self.id_cen_star-1]  - self.ds.arr(self.cen_star_offset[0], 'kpc')
-        self.cen_y  = self.stars_y[self.id_cen_star-1]  - self.ds.arr(self.cen_star_offset[1], 'kpc')
-        self.cen_z  = self.stars_z[self.id_cen_star-1]  - self.ds.arr(self.cen_star_offset[2], 'kpc')
-        self.cen_vx = self.stars_vx[self.id_cen_star-1] - self.ds.arr(self.cen_star_voffset[0], 'km/s')
-        self.cen_vy = self.stars_vy[self.id_cen_star-1] - self.ds.arr(self.cen_star_voffset[1], 'km/s')
-        self.cen_vz = self.stars_vz[self.id_cen_star-1] - self.ds.arr(self.cen_star_voffset[2], 'km/s')
-
-        #Recenter positions and velocities for stars
-        self.stars_x_cen   = self.stars_x  - self.cen_x
-        self.stars_y_cen   = self.stars_y  - self.cen_y
-        self.stars_z_cen   = self.stars_z  - self.cen_z
-        self.stars_pos_cen = array([self.stars_x_cen, self.stars_y_cen, self.stars_z_cen])
-        self.stars_pos_mag = sqrt(self.stars_x_cen**2.  + self.stars_y_cen**2.  + self.stars_z_cen**2.)
-
-        self.stars_vx_cen  = self.stars_vx - self.cen_vx
-        self.stars_vy_cen  = self.stars_vy - self.cen_vy
-        self.stars_vz_cen  = self.stars_vz - self.cen_vz
-        self.stars_vel_cen = array([self.stars_vx_cen, self.stars_vy_cen, self.stars_vz_cen])
-        self.stars_vel_mag = sqrt(self.stars_vx_cen**2. + self.stars_vy_cen**2. + self.stars_vz_cen**2.)
-
-        #Recenter positions and velocities for gas
-        self.gas_x_cen   = self.gas_x  - self.cen_x
-        self.gas_y_cen   = self.gas_y  - self.cen_y
-        self.gas_z_cen   = self.gas_z  - self.cen_z
-        self.gas_pos_cen = array([self.gas_x_cen, self.gas_y_cen, self.gas_z_cen])
-        self.gas_pos_mag = sqrt(self.gas_x_cen**2.  + self.gas_y_cen**2.  + self.gas_z_cen**2.)
-
-        self.gas_vx_cen  = self.gas_vx - self.cen_vx
-        self.gas_vy_cen  = self.gas_vy - self.cen_vy
-        self.gas_vz_cen  = self.gas_vz - self.cen_vz
-        self.gas_vel_cen = array([self.gas_vx_cen, self.gas_vy_cen, self.gas_vz_cen])
-        self.gas_vel_mag = sqrt(self.gas_vx_cen**2. + self.gas_vy_cen**2. + self.gas_vz_cen**2.)
-        '''
+        self.stars_x   = self.stars_x_box  - self.cen_x
+        self.stars_y   = self.stars_y_box  - self.cen_y
+        self.stars_z   = self.stars_z_box  - self.cen_z
+        self.stars_pos = array([self.stars_x, self.stars_y, self.stars_z])
+        self.stars_pos_mag = sqrt(self.stars_x**2.  + self.stars_y**2.  + self.stars_z**2.)
 
 
-    def calc_momentum(self):
-        print 'Calculating momentum...'
+        self.dark_x   = self.dark_x_box  - self.cen_x
+        self.dark_y   = self.dark_y_box  - self.cen_y
+        self.dark_z   = self.dark_z_box  - self.cen_z
+        self.dark_pos = array([self.dark_x, self.dark_y, self.dark_z])
+        self.dark_pos_mag = sqrt(self.dark_x**2.  + self.dark_y**2.  + self.dark_z**2.)
+
+
+        #Determine the mass-weighted velocity of the stars in the inner 1 kpc
+
+        stars_inner_1kpc = where(self.stars_pos_mag < 1)
+        self.cen_vx = np.average(self.stars_vx_box[stars_inner_1kpc], weights = self.star_mass[stars_inner_1kpc])
+        self.cen_vy = np.average(self.stars_vy_box[stars_inner_1kpc], weights = self.star_mass[stars_inner_1kpc])
+        self.cen_vz = np.average(self.stars_vz_box[stars_inner_1kpc], weights = self.star_mass[stars_inner_1kpc])
+
+
+        self.stars_vx  = self.stars_vx_box - self.cen_vx
+        self.stars_vy  = self.stars_vy_box - self.cen_vy
+        self.stars_vz  = self.stars_vz_box - self.cen_vz
+        self.stars_vel = array([self.stars_vx, self.stars_vy, self.stars_vz])
+        self.stars_vel_mag = sqrt(self.stars_vx**2. + self.stars_vy**2. + self.stars_vz**2.)
+
+
+
+        self.dark_vx  = self.dark_vx_box - self.cen_vx
+        self.dark_vy  = self.dark_vy_box - self.cen_vy
+        self.dark_vz  = self.dark_vz_box - self.cen_vz
+        self.dark_vel = array([self.dark_vx, self.dark_vy, self.dark_vz])
+        self.dark_vel_mag = sqrt(self.dark_vx**2. + self.dark_vy**2. + self.dark_vz**2.)
+
+
+
+
+
+
+    def calc_angular_momentum(self, pytpe = 'stars'):
+        print 'Calculating angular momentum for type: %s...'%ptype
 
         #Calculate momentum for stars
-        self.stars_jx = self.stars_vz * self.stars_y - self.stars_z * self.stars_vy
-        self.stars_jy = self.stars_vx * self.stars_z - self.stars_x * self.stars_vz
-        self.stars_jz = self.stars_vy * self.stars_x - self.stars_y * self.stars_vx
-        self.stars_j  = array([self.stars_jx, self.stars_jy, self.stars_jz])
-        self.stars_j_mag  = sqrt(self.stars_jx**2. + self.stars_jy**2. + self.stars_jz**2.)
+        if ptype == 'stars':
+            self.stars_jx = self.stars_vz * self.stars_y - self.stars_z * self.stars_vy
+            self.stars_jy = self.stars_vx * self.stars_z - self.stars_x * self.stars_vz
+            self.stars_jz = self.stars_vy * self.stars_x - self.stars_y * self.stars_vx
+            self.stars_j  = array([self.stars_jx, self.stars_jy, self.stars_jz])
+            self.stars_j_mag  = sqrt(self.stars_jx**2. + self.stars_jy**2. + self.stars_jz**2.)
+
+        if pytpe  =='darkmatter':
+            self.dark_jx = self.dark_vz * self.dark_y - self.dark_z * self.dark_vy
+            self.dark_jy = self.dark_vx * self.dark_z - self.dark_x * self.dark_vz
+            self.dark_jz = self.dark_vy * self.dark_x - self.dark_y * self.dark_vx
+            self.dark_j  = array([self.dark_jx, self.dark_jy, self.dark_jz])
+            self.dark_j_mag  = sqrt(self.dark_jx**2. + self.dark_jy**2. + self.dark_jz**2.)
 
 
-        #Calculate momentum for gas
-        #self.gas_jx = self.gas_vz * self.gas_y - self.gas_z * self.gas_vy
-        #self.gas_jy = self.gas_vx * self.gas_z - self.gas_x * self.gas_vz
-        #self.gas_jz = self.gas_vy * self.gas_x - self.gas_y * self.gas_vx
-        #self.gas_j  = array([self.gas_jx, self.gas_jy, self.gas_jz])
-        #self.gas_j_mag  = sqrt(self.gas_jx**2. + self.gas_jy**2. + self.gas_jz**2.)
+        if ptype == 'gas':
+            #Calculate angular momentum for gas
+            self.gas_jx = self.gas_vz * self.gas_y - self.gas_z * self.gas_vy
+            self.gas_jy = self.gas_vx * self.gas_z - self.gas_x * self.gas_vz
+            self.gas_jz = self.gas_vy * self.gas_x - self.gas_y * self.gas_vx
+            self.gas_j  = array([self.gas_jx, self.gas_jy, self.gas_jz])
+            self.gas_j_mag  = sqrt(self.gas_jx**2. + self.gas_jy**2. + self.gas_jz**2.)
 
     def measure_potential(self, r_min = 0.1,  r_step1 = 0.2, r_cen1 = 5, r_step2 = 1,  r_cen2 = 15, r_step3 = 5, r_max = 200.):
 
@@ -293,6 +292,8 @@ class momentum_obj():
         costheta_stars = np.dot(self.L_disk, self.stars_pos)/(self.stars_pos_mag*self.L_mag)
         self.zz_stars  = self.ds.arr(costheta_stars * self.stars_pos_mag, 'kpc')
         self.rr_stars  = sqrt(self.stars_pos_mag**2. - self.zz_stars**2.)
+
+
 
     def gas_momentum_heatmap(self):
         print 'Measuring gas momentum profiles...'
@@ -391,50 +392,11 @@ class momentum_obj():
         return master_hdulist
 
 
-def measure_momentum(snapfile, ds, out_dir, snapname):
-    mom = None
-    print 'Measuring momentum for '+ snapfile
-    aname = snapfile.split('/')[-1]
-    simname = snapfile.split('/')[-3]
-    fits_name = out_dir+'/'+snapname+'_'+aname+'_momentum.fits'
 
-
-
-    galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
-    galaxy_props_file = galprops_outdir + '/' + snapname + '_galprops.npy'
-    galprops = np.load(simname+'_galprops.npy')
-
-    print 'fits name : ', fits_name
-
-    amom = momentum_obj(simname, aname, snapfile, fits_name)
-
-    check = amom.load()
-    if check == 0: return
-
-    '''
-    amom.recenter(nir_cat, nir_disc_cat)
-    amom.calc_momentum()
-    amom.measure_potential()
-    amom.measure_circularity()
-    amom.gas_momentum_heatmap()
-    amom.write_fits(nir_mstar_cat)
-    '''
-    return amom
-
-
-
-
-
-
-
-def run_measure_momentum(haloname, simname, snapname):
+def run_measure_momentum(haloname, simname, snapname, galprops):
     snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
 
-
-    #abssnap = os.path.abspath(snaps[0])
     assert os.path.lexists(snaps[0])
-
-
 
 
     out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
@@ -447,94 +409,35 @@ def run_measure_momentum(haloname, simname, snapname):
     ts = yt.DatasetSeries(new_snapfiles)
     for ds,snapfile in zip(reversed(ts),np.flipud(new_snapfiles)):
     
-        #ds = yt.load(snaps[i])
         ad = ds.all_data()
-        #gas_vx = ad['gas', 'velocity_x']
-        #amom = measure_momentum(snaps[i], ds, out_dir)
-        #snapfile = snaps[i]
 
 
-        print 'Measuring momentum for '+ snapfile
+        print 'Creating momentum fits file for '+ snapfile
         aname = snapfile.split('/')[-1]
-        #simname = snapfile.split('/')[-3]
         fits_name = out_dir+'/'+simname+'_'+aname+'_momentum.fits'
 
         print 'fits name : ', fits_name
+
+
+        print 'Generating angular momentum object...'
         amom = momentum_obj(simname, aname, snapfile, fits_name)
 
-        check = amom.load()
-        return amom
+        amom.load()
 
-
-
-        #if check == 0: return
-        galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
-        galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
-        galprops = np.load(galaxy_props_file)[()]
-        
-        #amom.recenter(galprops)
-        cen_x, cen_y, cen_z = galprops['stars_com'][0]        
-
-        diff = sqrt((amom.stars_x.value - cen_x)**2. + (amom.stars_y.value - cen_y)**2. + (amom.stars_z.value - cen_z)**2.)
-
-        amom.id_cen_star      = int(amom.stars_id[argmin(diff)])
-
-        print amom.id_cen_star
-
-        amom.cen_x  = amom.stars_x[argmin(diff)]
-        amom.cen_y  = amom.stars_y[argmin(diff)] 
-        amom.cen_z  = amom.stars_z[argmin(diff)] 
-
-        amom.stars_x   = amom.stars_x  - amom.cen_x
-        amom.stars_y   = amom.stars_y  - amom.cen_y
-        amom.stars_z   = amom.stars_z  - amom.cen_z
-        amom.stars_pos = array([amom.stars_x, amom.stars_y, amom.stars_z])
-        amom.stars_pos_mag = sqrt(amom.stars_x**2.  + amom.stars_y**2.  + amom.stars_z**2.)
-
-
-
-        #Determine the mass-weighted velocity of the stars in the inner 1 kpc
-
-        stars_inner_1kpc = where(amom.stars_pos_mag < 1)
-        amom.cen_vx = np.average(amom.stars_vx[stars_inner_1kpc], weights = amom.star_mass[stars_inner_1kpc])
-        amom.cen_vy = np.average(amom.stars_vy[stars_inner_1kpc], weights = amom.star_mass[stars_inner_1kpc])
-        amom.cen_vz = np.average(amom.stars_vz[stars_inner_1kpc], weights = amom.star_mass[stars_inner_1kpc])
-
-        amom.stars_vx  = amom.stars_vx - amom.cen_vx
-        amom.stars_vy  = amom.stars_vy - amom.cen_vy
-        amom.stars_vz  = amom.stars_vz - amom.cen_vz
-        amom.stars_vel = array([amom.stars_vx, amom.stars_vy, amom.stars_vz])
-        amom.stars_vel_mag = sqrt(amom.stars_vx**2. + amom.stars_vy**2. + amom.stars_vz**2.)
-        if False:
-            amom.gas_x   = amom.gas_x  - amom.cen_x
-            amom.gas_y   = amom.gas_y  - amom.cen_y
-            amom.gas_z   = amom.gas_z  - amom.cen_z
-            amom.gas_pos = array([amom.gas_x, amom.gas_y, amom.gas_z])
-            amom.gas_pos_mag = sqrt(amom.gas_x**2.  + amom.gas_y**2.  + amom.gas_z**2.)
-
-            amom.gas_vx  = amom.gas_vx - amom.cen_vx
-            amom.gas_vy  = amom.gas_vy - amom.cen_vy
-            amom.gas_vz  = amom.gas_vz - amom.cen_vz
-            amom.gas_vel = array([amom.gas_vx, amom.gas_vy, amom.gas_vz])
-            amom.gas_vel_mag = sqrt(amom.gas_vx**2. + amom.gas_vy**2. + amom.gas_vz**2.)
-
+        amom.recenter(galprops)
 
 
         amom.L_disk = galprops['gas_L'][0]
         amom.L_disk_fixed = [-0.37085436,  0.14802026,  0.91681898]
 
+        return amom
 
-        amom.calc_momentum()
-
-
+        amom.calc_angular_momentum(ptype = 'stars')
+        amom.calc_angular_momentum(ptype = 'darkmatter')
 
         amom.measure_potential()
-
-
         amom.measure_circularity()
         #amom.gas_momentum_heatmap()
-
-
         amom.write_fits()
 
 
@@ -564,6 +467,10 @@ if __name__ == "__main__":
     haloname = args['haloname']
     run_parallel = args['run_parallel']
 
+    galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
+    galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
+    galprops = np.load(galaxy_props_file)[()]
+    
 
     print haloname, simname, snapname, run_parallel
 
@@ -572,11 +479,11 @@ if __name__ == "__main__":
         ddmin, ddmax = int(args['ddmin']), int(args['ddmax'])
         if (simname is not None) & (haloname is not None):
             snapnames = ['DD%.4i'%i for i in arange(ddmin, ddmax)]
-            Parallel(n_jobs = n_jobs, backend = 'threading')(delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname) for snapname in snapnames)
+            Parallel(n_jobs = n_jobs, backend = 'threading')(delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops) for snapname in snapnames)
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
     else:
-        amom = run_measure_momentum(haloname, simname, snapname)
+        amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops)
 
 
 
