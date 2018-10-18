@@ -72,6 +72,8 @@ class momentum_obj():
 
         yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
         yt.add_particle_filter("darkmatter",function=_darkmatter, filtered_type='all',requires=["particle_type"])
+        ds.add_particle_filter('stars')
+        ds.add_particle_filter('darkmatter')
 
 
 
