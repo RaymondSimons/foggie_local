@@ -157,8 +157,7 @@ class momentum_obj():
 
     def recenter(self, galprops):
         print 'Recentering...'
-
-        self.cen_x, self.cen_y, self.cen_z = galprops['stars_com'][0]        
+        self.cen_x, self.cen_y, self.cen_z = yt.YTArray(galprops['stars_com'][0], 'kpc')
 
         self.stars_x   = self.stars_x_box  - self.cen_x
         self.stars_y   = self.stars_y_box  - self.cen_y
@@ -270,28 +269,43 @@ class momentum_obj():
 
         self.L_mag          = sqrt(self.L_disk[0]**2.+self.L_disk[1]**2.+self.L_disk[2]**2.)
         self.L_mag_fixed    = sqrt(self.L_disk_fixed[0]**2.+self.L_disk_fixed[1]**2.+self.L_disk_fixed[2]**2.)
-        costheta_stars      = np.dot(self.L_disk, self.stars_j)/(self.stars_j_mag*self.L_mag)
-        costheta_stars_fixed      = np.dot(self.L_disk_fixed, self.stars_j)/(self.stars_j_mag*self.L_mag_fixed)
  
-        #costheta_gas        = np.dot(self.L_disk, self.gas_j)/(self.gas_j_mag*self.L_mag)
-        #self.jz_gas         = costheta_gas*self.gas_j_mag
+
+        costheta_stars            = np.dot(self.L_disk, self.stars_j)/(self.stars_j_mag*self.L_mag)
+        costheta_stars_fixed      = np.dot(self.L_disk_fixed, self.stars_j)/(self.stars_j_mag*self.L_mag_fixed)
  
         self.jz_stars       = costheta_stars*self.stars_j_mag
         self.jz_stars_fixed       = costheta_stars_fixed*self.stars_j_mag
  
-        #self.epsilon_gas    = self.jz_gas/self.jcirc_gas
         self.epsilon_stars  = self.jz_stars/self.jcirc_stars
         self.epsilon_stars_fixed  = self.jz_stars_fixed/self.jcirc_stars
 
 
 
+
+
+        costheta_dark            = np.dot(self.L_disk, self.dark_j)/(self.dark_j_mag*self.L_mag)
+        costheta_dark_fixed      = np.dot(self.L_disk_fixed, self.dark_j)/(self.dark_j_mag*self.L_mag_fixed)
+ 
+        self.jz_dark       = costheta_dark*self.dark_j_mag
+        self.jz_dark_fixed       = costheta_dark_fixed*self.dark_j_mag
+ 
+        self.epsilon_dark  = self.jz_dark/self.jcirc_dark
+        self.epsilon_dark_fixed  = self.jz_dark_fixed/self.jcirc_dark
+
+
+
+
+        #costheta_gas        = np.dot(self.L_disk, self.gas_j)/(self.gas_j_mag*self.L_mag)
+        #self.jz_gas         = costheta_gas*self.gas_j_mag
+        #self.epsilon_gas    = self.jz_gas/self.jcirc_gas
         #costheta_gas   = np.dot(self.L_disk, self.gas_pos)/(self.gas_pos_mag*self.L_mag)
         #self.zz_gas    = self.ds.arr(costheta_gas * self.gas_pos_mag, 'kpc')
         #self.rr_gas    = sqrt(self.gas_pos_mag**2. - self.zz_gas**2.)
 
-        costheta_stars = np.dot(self.L_disk, self.stars_pos)/(self.stars_pos_mag*self.L_mag)
-        self.zz_stars  = self.ds.arr(costheta_stars * self.stars_pos_mag, 'kpc')
-        self.rr_stars  = sqrt(self.stars_pos_mag**2. - self.zz_stars**2.)
+        #costheta_stars = np.dot(self.L_disk, self.stars_pos)/(self.stars_pos_mag*self.L_mag)
+        #self.zz_stars  = self.ds.arr(costheta_stars * self.stars_pos_mag, 'kpc')
+        #self.rr_stars  = sqrt(self.stars_pos_mag**2. - self.zz_stars**2.)
 
 
 
@@ -349,23 +363,48 @@ class momentum_obj():
 
         colhdr = fits.Header()
 
-        #master_hdulist.append(fits.ImageHDU(data = nir_mstar_cat                                                            , header = colhdr, name = 'nir_mstar_cat'))
-        master_hdulist.append(fits.ImageHDU(data = self.L_disk                                                              , header = colhdr, name = 'net_momentum'))  
-        master_hdulist.append(fits.ImageHDU(data = self.L_disk_fixed                                                              , header = colhdr, name = 'net_momentum_fixed'))  
-        #master_hdulist.append(fits.ImageHDU(data = self.L_disk_s                                                            , header = colhdr, name = 'nir_net_momentum_s'))
-        master_hdulist.append(fits.ImageHDU(data = self.stars_id                                                            , header = colhdr, name = 'stars_id'))
-        #master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_metallicity1 , self.stars_metallicity2))            , header = colhdr, name = 'stars_metallicity'))
-        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_x , self.stars_y , self.stars_z))                   , header = colhdr, name = 'stars_xyz_position'))
-        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_vx , self.stars_vy , self.stars_vz))                , header = colhdr, name = 'stars_xyz_velocity'))
-        master_hdulist.append(fits.ImageHDU(data = np.stack((self.rr_stars, self.zz_stars))                                 , header = colhdr, name = 'stars_cylindrical_position'))
-        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_jx, self.stars_jy, self.stars_jz))                  , header = colhdr, name = 'stars_xyz_momentum'))
-        master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars                                                       , header = colhdr, name = 'stars_epsilon'))
-        master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars_fixed                                                 , header = colhdr, name = 'stars_epsilon_fixed'))
-        master_hdulist.append(fits.ImageHDU(data = self.mass_profile                                                        , header = colhdr, name = 'mass_profile'))
+        master_hdulist.append(fits.ImageHDU(data = self.L_disk                                                             , header = colhdr, name = 'net_angmomentum'))  
+        master_hdulist.append(fits.ImageHDU(data = self.L_disk_fixed                                                       , header = colhdr, name = 'net_angmomentum_fixed'))  
+        master_hdulist.append(fits.ImageHDU(data = self.stars_id                                                           , header = colhdr, name = 'stars_id'))
+        master_hdulist.append(fits.ImageHDU(data = self.dark_id                                                            , header = colhdr, name = 'dark_id'))
+
+
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_x_box , self.stars_y_box , self.stars_z_box))           , header = colhdr, name = 'stars_box_position'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_vx_box , self.stars_vy_box , self.stars_vz_box))        , header = colhdr, name = 'stars_box_velocity'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_x , self.stars_y , self.stars_z))                       , header = colhdr, name = 'stars_gal_position'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_vx , self.stars_vy , self.stars_vz))                    , header = colhdr, name = 'stars_gal_velocity'))
+
+
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.dark_x_box ,  self.dark_y_box ,  self.dark_z_box))             , header = colhdr, name = 'dark_box_position'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.dark_vx_box , self.dark_vy_box , self.dark_vz_box))            , header = colhdr, name = 'dark_box_velocity'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.dark_x ,      self.dark_y ,      self.dark_z))                 , header = colhdr, name = 'dark_gal_position'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.dark_vx ,     self.dark_vy ,     self.dark_vz))                , header = colhdr, name = 'dark_gal_velocity'))
+
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_jx, self.stars_jy, self.stars_jz))                 , header = colhdr, name = 'stars_gal_angmomentum'))
+        master_hdulist.append(fits.ImageHDU(data = np.stack((self.dark_jx,  self.dark_jy,  self.dark_jz))                  , header = colhdr, name = 'dark_gal_angmomentum'))
+
+
+
+        master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars                                                      , header = colhdr, name = 'stars_epsilon'))
+        master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars_fixed                                                , header = colhdr, name = 'stars_epsilon_fixed'))
+
+        master_hdulist.append(fits.ImageHDU(data = self.epsilon_dark                                                       , header = colhdr, name = 'dark_epsilon'))
+        master_hdulist.append(fits.ImageHDU(data = self.epsilon_dark_fixed                                                 , header = colhdr, name = 'dark_epsilon_fixed'))
+
+
         master_hdulist.append(fits.ImageHDU(data = self.star_mass                                                           , header = colhdr, name = 'star_mass'))
         master_hdulist.append(fits.ImageHDU(data = self.star_age                                                            , header = colhdr, name = 'star_age'))
 
+        master_hdulist.append(fits.ImageHDU(data = self.dark_mass                                                           , header = colhdr, name = 'dark_mass'))
+        master_hdulist.append(fits.ImageHDU(data = self.dark_age                                                            , header = colhdr, name = 'dark_age'))
+
+
+        master_hdulist.append(fits.ImageHDU(data = self.mass_profile                                                        , header = colhdr, name = 'mass_profile'))
+
+
+
         if False:
+            # save gas info
             master_hdulist.append(fits.ImageHDU(data = np.stack((self.cg_zz_xedges , self.cg_zz_yedges))        , header = colhdr, name = 'gas_zz_epsilon_edges'))
             master_hdulist.append(fits.ImageHDU(data = self.cg_zz_heatmap                                       , header = colhdr, name = 'gas_zz_epsilon'))
 
@@ -424,13 +463,12 @@ def run_measure_momentum(haloname, simname, snapname, galprops):
 
         amom.load()
 
+
         amom.recenter(galprops)
 
 
         amom.L_disk = galprops['gas_L'][0]
         amom.L_disk_fixed = [-0.37085436,  0.14802026,  0.91681898]
-
-        return amom
 
         amom.calc_angular_momentum(ptype = 'stars')
         amom.calc_angular_momentum(ptype = 'darkmatter')
@@ -442,6 +480,8 @@ def run_measure_momentum(haloname, simname, snapname, galprops):
 
 
 
+
+        return amom
 
 
 
@@ -483,7 +523,56 @@ if __name__ == "__main__":
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
     else:
-        amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops)
+        #amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops)
+
+
+        if True:
+            # testing run_measure_momentum
+            snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+
+            assert os.path.lexists(snaps[0])
+
+
+            out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
+
+            assert os.path.lexists(out_dir)
+
+            new_snapfiles = np.asarray(snaps)
+
+
+            ts = yt.DatasetSeries(new_snapfiles)
+            for ds,snapfile in zip(reversed(ts),np.flipud(new_snapfiles)):
+            
+                ad = ds.all_data()
+
+
+                print 'Creating momentum fits file for '+ snapfile
+                aname = snapfile.split('/')[-1]
+                fits_name = out_dir+'/'+simname+'_'+aname+'_momentum.fits'
+
+                print 'fits name : ', fits_name
+
+
+                print 'Generating angular momentum object...'
+                amom = momentum_obj(simname, aname, snapfile, fits_name)
+
+                amom.load()
+
+                
+                amom.recenter(galprops)
+
+
+                amom.L_disk = galprops['gas_L'][0]
+                amom.L_disk_fixed = [-0.37085436,  0.14802026,  0.91681898]
+
+                amom.calc_angular_momentum(ptype = 'stars')
+                amom.calc_angular_momentum(ptype = 'darkmatter')
+
+                amom.measure_potential()
+                amom.measure_circularity()
+                #amom.gas_momentum_heatmap()
+                amom.write_fits()
+
 
 
 
