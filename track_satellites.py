@@ -31,7 +31,7 @@ if __name__ == '__main__':
         for DD in np.arange(min_DD, max_DD):
             fits_name = momentum_directory + '/' + simname + '_' + 'DD%.4i_momentum.fits'%DD
             a = fits.open(fits_name)
-            ms_s = a['STAR_MASS'].data
+            mss = a['STAR_MASS'].data
             id_s = a['STARS_ID'].data
             xs, ys, zs = a['STARS_GAL_POSITION'].data
             vxs, vys, vzs = a['STARS_GAL_VELOCITY'].data
@@ -43,8 +43,8 @@ if __name__ == '__main__':
             gd_indices = array([0 for i in arange(len(anchor_ids))])
             for g in arange(len(anchor_ids)):
                 gd_indices[g] = int(where(id_s == anchor_ids[g])[0])
-            gd_indices.astype('int')
 
+            anchor_mss    = mss[gd_indices]
             anchor_xs    = xs[gd_indices]
             anchor_ys    = ys[gd_indices]
             anchor_zs    = zs[gd_indices]
