@@ -103,7 +103,7 @@ if __name__ == '__main__':
     momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
     for simname in ['nref11n_selfshield_z15']:
         anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
-        Parallel(n_jobs = 3, backend = 'threading')(delayed(make_savefile)(anchor_ids = anchor_ids, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
+        Parallel(n_jobs = 8, backend = 'threading')(delayed(make_savefile)(anchor_ids = anchor_ids, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
 
 
 
