@@ -66,7 +66,7 @@ if __name__ == '__main__':
             anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss)
 
 
-            to_save.append(['%.4i'%DD, anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg]])
+            to_save.append(['%.4i'%DD, anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg])
 
 
         np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_cens.npy'%to_save)
