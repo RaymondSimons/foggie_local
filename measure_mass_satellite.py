@@ -59,7 +59,7 @@ if __name__ == '__main__':
     def _darkmatter(pfilter, data):
         return data[(pfilter.filtered_type, "particle_type")] == 4
 
-    gc_sphere =  self.ds.sphere(center, ds.arr(5,'kpc'))
+    gc_sphere =  self.ds.sphere(cen, ds.arr(5,'kpc'))
 
 
 
