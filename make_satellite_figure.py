@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
     #L = [1*math.cos(pi*(DD)/100.),0, 1*math.sin(pi*(DD)/100.)] # vector normal to cutting plane
 
-    L = [0, 0, -1]
+    L = [0.7071067811865464, 0, -0.7071067811865487]
 
     W1 = yt.YTArray([15, 15, 15], 'kpc')
     W2 = yt.YTArray([100, 100, 100], 'kpc')
