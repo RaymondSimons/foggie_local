@@ -75,7 +75,8 @@ if __name__ == '__main__':
     vel_vec = array([anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg])
     #L = vel_vec/np.linalg.norm(vel_vec)
 
-    L = [0,0,1]
+
+    L = [1*math.cos(pi*(DD)/100.),0, 1*math.sin(pi*(DD)/100.)] # vector normal to cutting plane
 
     W1 = yt.YTArray([15, 15, 15], 'kpc')
     W2 = yt.YTArray([100, 100, 100], 'kpc')
