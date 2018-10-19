@@ -6,7 +6,7 @@ import math
 from joblib import Parallel, delayed
 import os, sys, argparse
 import yt
-import matploblib.pyplot as plt
+import matplotlib.pyplot as plt
 def parse():
     '''
     Parse command line arguments
@@ -24,6 +24,7 @@ def parse():
 
     args = vars(parser.parse_args())
     return args
+
 
 
 
