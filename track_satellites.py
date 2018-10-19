@@ -28,7 +28,7 @@ if __name__ == '__main__':
     for simname in ['nref11n_selfshield_z15']:
         to_save = []
         anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
-        for DD in np.arange(min_dd, max_dd):
+        for DD in np.arange(min_DD, max_DD):
             fits_name = simname + '_' + 'DD%.4i_momentum.fits'%DD
             ms_s = a['STAR_MASS'].data
             id_s = a['STARS_ID'].data
