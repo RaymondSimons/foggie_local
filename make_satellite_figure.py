@@ -84,7 +84,7 @@ if __name__ == '__main__':
     image2 = yt.off_axis_projection(ds, cen, L, W2, N, ('gas', 'density'), north_vector =  north_vector)
 
 
-    fig, axes = subplots(1,2, figsize = (10.8, 5))
+    fig, axes = plt.subplots(1,2, figsize = (10.8, 5))
 
 
     image1 = image1.in_units('Msun * kpc**-2')
