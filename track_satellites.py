@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
             gd_indices = nan * zeros(len(anchor_ids))
             for g in arange(len(anchor_ids)):
-                gd_indices[g] = where(id_s == anchor_ids[g])[0]
+                gd_indices[g] = int(where(id_s == anchor_ids[g])[0])
 
             anchor_xs    = xs[gd_indices]
             anchor_ys    = ys[gd_indices]
