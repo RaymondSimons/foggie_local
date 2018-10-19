@@ -21,6 +21,7 @@ def parse():
 
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
 
+    parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
 
     args = vars(parser.parse_args())
     return args
@@ -55,8 +56,10 @@ if __name__ == '__main__':
 
     simname = args['simname']
     DD = int(args['DD'])
+    haloname = args['haloname']
 
     snapname = 'DD%.4i'
+    
     ds = yt.load('/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
 
     cen_file =  np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_cen.npy'%(simname, DD))[()]
