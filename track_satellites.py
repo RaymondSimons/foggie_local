@@ -23,6 +23,9 @@ def weighted_avg_and_std(values, weights):
 
 def make_savefile(anchor_ids, DD, simname):
     fits_name = momentum_directory + '/' + simname + '_' + 'DD%.4i_momentum.fits'%DD
+
+    print 'Opening %s...'%fits_name
+
     a = fits.open(fits_name)
     mss = a['STAR_MASS'].data
     id_s = a['STARS_ID'].data
