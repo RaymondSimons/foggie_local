@@ -76,7 +76,9 @@ if __name__ == '__main__':
     #L = vel_vec/np.linalg.norm(vel_vec)
 
 
-    L = [1*math.cos(pi*(DD)/100.),0, 1*math.sin(pi*(DD)/100.)] # vector normal to cutting plane
+    #L = [1*math.cos(pi*(DD)/100.),0, 1*math.sin(pi*(DD)/100.)] # vector normal to cutting plane
+
+    L = [0, 0, -1]
 
     W1 = yt.YTArray([15, 15, 15], 'kpc')
     W2 = yt.YTArray([100, 100, 100], 'kpc')
