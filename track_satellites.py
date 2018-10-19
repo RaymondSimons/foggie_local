@@ -6,6 +6,27 @@ import math
 from joblib import Parallel, delayed
 
 
+def parse():
+    '''
+    Parse command line arguments
+    ''' 
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                     description='''\
+                                Generate the cameras to use in Sunrise and make projection plots
+                                of the data for some of these cameras. Then export the data within
+                                the fov to a FITS file in a format that Sunrise understands.
+                                ''')
+    parser.add_argument('-DDmax', '--DDmax', default=None, help='max DD')
+    parser.add_argument('-DDmin', '--DDmin', default=None, help='min DD')
+    parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
+
+
+
+    args = vars(parser.parse_args())
+    return args
+
+
+
 def weighted_avg_and_std(values, weights):
     """
     Return the weighted average and standard deviation.
@@ -73,8 +94,12 @@ def make_savefile(anchor_ids, DD, simname):
 
 
 if __name__ == '__main__':
-    min_DD = 600
-    max_DD = 610
+    args = parse()
+
+    simname = args['simname']
+    min_DD = args['DDmin']
+    max_DD = args['DDmax']
+
     momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
     for simname in ['nref11n_selfshield_z15']:
         anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
