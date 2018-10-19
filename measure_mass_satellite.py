@@ -72,17 +72,17 @@ if __name__ == '__main__':
     ds.add_particle_filter('youngstars')
 
 
-    DM_mass = gc_sphere.quantities.total_quantity([("darkmatter", "particle_mass")])
-    gas_mass = gc_sphere.quantities.total_quantity([("gas", "cell_mass")])
-    gas_metal_mass = gc_sphere.quantities.total_quantity([("gas", "metal_mass")])
-    stars_mass = gc_sphere.quantities.total_quantity([("stars", "particle_mass")])
-    youngstars_mass = gc_sphere.quantities.total_quantity([("youngstars", "particle_mass")])
+    DM_mass = gc_sphere.quantities.total_quantity([("darkmatter", "particle_mass")]).to('Msun')
+    gas_mass = gc_sphere.quantities.total_quantity([("gas", "cell_mass")]).to('Msun')
+    gas_metal_mass = gc_sphere.quantities.total_quantity([("gas", "metal_mass")]).to('Msun')
+    stars_mass = gc_sphere.quantities.total_quantity([("stars", "particle_mass")]).to('Msun')
+    youngstars_mass = gc_sphere.quantities.total_quantity([("youngstars", "particle_mass")]).to('Msun')
 
 
 
     mass = [gas_mass,gas_metal_mass, DM_mass, stars_mass, youngstars_mass]
 
-    np.save('/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_0.npy', mass)
+    np.save('/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_0.npy'%(simname, DD), mass)
 
 
 
