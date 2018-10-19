@@ -77,8 +77,8 @@ if __name__ == '__main__':
 
     L = [0,0,1]
 
-    W1 = yt.YTArray([10, 10, 10], 'kpc')
-    W2 = yt.YTArray([50, 50, 50], 'kpc')
+    W1 = yt.YTArray([15, 15, 15], 'kpc')
+    W2 = yt.YTArray([100, 100, 100], 'kpc')
 
     north_vector = [0,1,0]
     N = 512
