@@ -77,7 +77,12 @@ def make_savefile(anchor_ids, DD, simname):
     anchor_vys_box   = vys_box[gd_indices]
     anchor_vzs_box   = vzs_box[gd_indices]
 
-
+    anchor_xs = weighted_avg_and_std(anchor_xs,  weights = anchor_mss)
+    anchor_ys = weighted_avg_and_std(anchor_ys,  weights = anchor_mss)
+    anchor_zs = weighted_avg_and_std(anchor_zs, weights = anchor_mss)
+    anchor_vxs= weighted_avg_and_std(anchor_vxs, weights = anchor_mss)
+    anchor_vys= weighted_avg_and_std(anchor_vys, weights = anchor_mss)
+    anchor_vzs= weighted_avg_and_std(anchor_vzs, weights = anchor_mss)
     anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box, weights = anchor_mss)
     anchor_ys_box_avg, _  = weighted_avg_and_std(anchor_ys_box, weights = anchor_mss)
     anchor_zs_box_avg, _  = weighted_avg_and_std(anchor_zs_box, weights = anchor_mss)
