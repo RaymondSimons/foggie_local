@@ -29,7 +29,8 @@ if __name__ == '__main__':
         to_save = []
         anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
         for DD in np.arange(min_DD, max_DD):
-            fits_name = simname + '_' + 'DD%.4i_momentum.fits'%DD
+            fits_name = momentum_directory + '/' + simname + '_' + 'DD%.4i_momentum.fits'%DD
+            a = fits.open(fits_name)
             ms_s = a['STAR_MASS'].data
             id_s = a['STARS_ID'].data
             x_s, y_s, z_s = a['STARS_GAL_POSITION'].data
