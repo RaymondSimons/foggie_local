@@ -77,12 +77,12 @@ def make_savefile(anchor_ids, DD, simname):
     anchor_vys_box   = vys_box[gd_indices]
     anchor_vzs_box   = vzs_box[gd_indices]
 
-    anchor_xs = weighted_avg_and_std(anchor_xs,  weights = anchor_mss)
-    anchor_ys = weighted_avg_and_std(anchor_ys,  weights = anchor_mss)
-    anchor_zs = weighted_avg_and_std(anchor_zs, weights = anchor_mss)
-    anchor_vxs= weighted_avg_and_std(anchor_vxs, weights = anchor_mss)
-    anchor_vys= weighted_avg_and_std(anchor_vys, weights = anchor_mss)
-    anchor_vzs= weighted_avg_and_std(anchor_vzs, weights = anchor_mss)
+    anchor_xs_avg, _ = weighted_avg_and_std(anchor_xs,  weights = anchor_mss)
+    anchor_ys_avg, _ = weighted_avg_and_std(anchor_ys,  weights = anchor_mss)
+    anchor_zs_avg, _ = weighted_avg_and_std(anchor_zs, weights = anchor_mss)
+    anchor_vxs_avg, _= weighted_avg_and_std(anchor_vxs, weights = anchor_mss)
+    anchor_vys_avg, _= weighted_avg_and_std(anchor_vys, weights = anchor_mss)
+    anchor_vzs_avg, _= weighted_avg_and_std(anchor_vzs, weights = anchor_mss)
     anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box, weights = anchor_mss)
     anchor_ys_box_avg, _  = weighted_avg_and_std(anchor_ys_box, weights = anchor_mss)
     anchor_zs_box_avg, _  = weighted_avg_and_std(anchor_zs_box, weights = anchor_mss)
@@ -91,7 +91,9 @@ def make_savefile(anchor_ids, DD, simname):
     anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss)
 
 
-    to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg]
+    to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg, anchor_xs_avg, anchor_ys_avg, anchor_zs_avg, anchor_vxs_avg, anchor_vys_avg, anchor_vzs_avg]
+
+
 
     print 'Saving to /nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_cen.npy...'%(simname, DD)
     np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_cen.npy'%(simname, DD),to_save)
