@@ -31,33 +31,6 @@ def parse():
 
 
 
-def measure_potential(self, r_min = 0.1,  r_step1 = 0.2, r_cen1 = 5, r_step2 = 1,  r_cen2 = 15, r_step3 = 5, r_max = 200.):
-
-    print 'Measuring the potential...'
-    center = self.ds.arr([self.cen_x, self.cen_y, self.cen_z], 'kpc')
-
-    rad_steps = concatenate((arange(r_min,  r_cen1, r_step1), 
-                             arange(r_cen1, r_cen2, r_step2),
-                             arange(r_cen2, r_max,  r_step3)))
-    self.mass_profile = zeros((2,len(rad_steps)))
-
-    for i in arange(0,len(rad_steps)):
-        print i, rad_steps[i], len(rad_steps)
-        try:
-            gc_sphere =  self.ds.sphere(center, self.ds.arr(rad_steps[i],'kpc'))
-            baryon_mass, particle_mass = gc_sphere.quantities.total_quantity(["cell_mass", "particle_mass"])
-            self.mass_profile[0,i] = rad_steps[i]
-            self.mass_profile[1,i] = baryon_mass + particle_mass
-        except:
-            print '\tsomething broken in measure_potential..'
-            self.mass_profile[0,i] = 0.
-            self.mass_profile[1,i] = 0.
-
-
-    self.spl = UnivariateSpline(self.mass_profile[0,:], self.mass_profile[1,:])
-
-
-
 
 if __name__ == '__main__':
     args = parse()
@@ -69,20 +42,47 @@ if __name__ == '__main__':
     snapname = 'DD%.4i'%DD
 
     ds = yt.load('/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
-
     cen_file =  np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_cen.npy'%(simname, DD))[()]
     anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg = cen_file
 
     cen = yt.YTArray([anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg], 'kpc')
 
-
-    gc_sphere =  ds.sphere(center, ds.arr(3,'kpc'))
-
-
+    def _stars(pfilter, data):
+        return data[(pfilter.filtered_type, "particle_type")] == 2
 
 
+    def _youngstars(pfilter, data):
+        return data[(pfilter.filtered_type, "age")] < 2.e7
 
 
+    # these are only the must refine dark matter particles
+    def _darkmatter(pfilter, data):
+        return data[(pfilter.filtered_type, "particle_type")] == 4
+
+    gc_sphere =  self.ds.sphere(center, ds.arr(5,'kpc'))
+
+
+
+    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+    yt.add_particle_filter("youngstars",function=_youngstars, filtered_type='all',requires=["age"])
+    yt.add_particle_filter("darkmatter",function=_darkmatter, filtered_type='all',requires=["particle_type"])
+
+    ds.add_particle_filter('stars')
+    ds.add_particle_filter('darkmatter')
+    ds.add_particle_filter('youngstars')
+
+
+    DM_mass = gc_sphere.quantities.total_quantity([("darkmatter", "particle_mass")])
+    gas_mass = gc_sphere.quantities.total_quantity([("gas", "cell_mass")])
+    gas_metal_mass = gc_sphere.quantities.total_quantity([("gas", "metal_mass")])
+    stars_mass = gc_sphere.quantities.total_quantity([("stars", "particle_mass")])
+    youngstars_mass = gc_sphere.quantities.total_quantity([("youngstars", "particle_mass")])
+
+
+
+    mass = [gas_mass,gas_metal_mass, DM_mass, stars_mass, youngstars_mass]
+
+    np.save('/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_0.npy', mass)
 
 
 
