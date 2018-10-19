@@ -33,11 +33,11 @@ if __name__ == '__main__':
             a = fits.open(fits_name)
             ms_s = a['STAR_MASS'].data
             id_s = a['STARS_ID'].data
-            x_s, y_s, z_s = a['STARS_GAL_POSITION'].data
-            vx_s, vy_s, vz_s = a['STARS_GAL_VELOCITY'].data
+            xs, ys, zs = a['STARS_GAL_POSITION'].data
+            vxs, vys, vzs = a['STARS_GAL_VELOCITY'].data
             ep_s = a['STARS_EPSILON_FIXED'].data
-            x_s_box, y_s_box, z_s_box = a['STARS_BOX_POSITION'].data
-            vx_s_box, vy_s_box, vz_s_box = a['STARS_BOX_VELOCITY'].data
+            xs_box, ys_box, zs_box = a['STARS_BOX_POSITION'].data
+            vxs_box, vys_box, vzs_box = a['STARS_BOX_VELOCITY'].data
 
 
             gd_indices = nan * zeros(len(anchor_ids))
