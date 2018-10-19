@@ -98,8 +98,8 @@ if __name__ == '__main__':
     args = parse()
 
     simname = args['simname']
-    min_DD = args['DDmin']
-    max_DD = args['DDmax']
+    min_DD = int(args['DDmin'])
+    max_DD = int(args['DDmax'])
 
     momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
     for simname in ['nref11n_selfshield_z15']:
