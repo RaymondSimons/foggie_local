@@ -1,7 +1,7 @@
 import astropy
 from astropy.io import fits
 import numpy as np
-
+from numpy import *
 
 
 
