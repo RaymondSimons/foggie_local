@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import astropy
 from astropy.io import fits
 import numpy as np
@@ -5,7 +7,6 @@ from numpy import *
 import math
 from joblib import Parallel, delayed
 import os, sys, argparse
-matplotlib.use('Agg')
 import yt
 import matplotlib.pyplot as plt
 def parse():
