@@ -75,7 +75,7 @@ if __name__ == '__main__':
     vel_vec = array([anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg])
     #L = vel_vec/np.linalg.norm(vel_vec)
 
-    L = [1,0,0]
+    L = [0,0,1]
 
     W1 = yt.YTArray([10, 10, 10], 'kpc')
     W2 = yt.YTArray([50, 50, 50], 'kpc')
