@@ -100,11 +100,9 @@ if __name__ == '__main__':
     simname = args['simname']
     min_DD = int(args['DDmin'])
     max_DD = int(args['DDmax'])
-
     momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
-    for simname in ['nref11n_selfshield_z15']:
-        anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
-        Parallel(n_jobs = 8, backend = 'threading')(delayed(make_savefile)(anchor_ids = anchor_ids, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
+    anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
+    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_ids = anchor_ids, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
 
 
 
