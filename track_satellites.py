@@ -40,7 +40,7 @@ if __name__ == '__main__':
             vxs_box, vys_box, vzs_box = a['STARS_BOX_VELOCITY'].data
 
 
-            gd_indices = nan * zeros(len(anchor_ids))
+            gd_indices = array([0 for i in arange(len(anchor_ids))])
             for g in arange(len(anchor_ids)):
                 gd_indices[g] = int(where(id_s == anchor_ids[g])[0])
             gd_indices.astype('int')
