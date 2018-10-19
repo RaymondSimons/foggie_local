@@ -2,7 +2,7 @@ import astropy
 from astropy.io import fits
 import numpy as np
 from numpy import *
-
+import math
 
 
 def weighted_avg_and_std(values, weights):
@@ -11,9 +11,9 @@ def weighted_avg_and_std(values, weights):
 
     values, weights -- Numpy ndarrays with the same shape.
     """
-    average = numpy.average(values, weights=weights)
+    average = average(values, weights=weights)
     # Fast and numerically precise:
-    variance = numpy.average((values-average)**2, weights=weights)
+    variance = average((values-average)**2, weights=weights)
     return (average, math.sqrt(variance))
 
 
