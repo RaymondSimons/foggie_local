@@ -284,6 +284,6 @@ if __name__ == '__main__':
         hdus_fits = fits.HDUList(hdus)
 
 
-        hdus_fits.writeto(out_cat_direct + '/'+simname+'anchors_DD%.4i.fits'%DDnum, overwrite = True)
+        hdus_fits.writeto(out_cat_direct + '/'+simname+'_anchors_DD%.4i.fits'%DDnum, overwrite = True)
 
 

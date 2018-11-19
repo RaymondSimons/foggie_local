@@ -65,7 +65,6 @@ def get_particles(haloname, simname, snapname):
     def _stars(pfilter, data):
         return data[(pfilter.filtered_type, "particle_type")] == 2
 
-    #this gets dark matter particles in zoom region only
     def _darkmatter(pfilter, data):
         return data[(pfilter.filtered_type, "particle_type")] == 4
 
