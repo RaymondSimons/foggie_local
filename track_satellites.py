@@ -49,6 +49,9 @@ def make_savefile(anchor_ids, DD, simname):
     print 'Opening %s...'%fits_name
 
     a = fits.open(fits_name)
+
+
+
     mss = a['STAR_MASS'].data
     id_s = a['STARS_ID'].data
     xs, ys, zs = a['STARS_GAL_POSITION'].data
@@ -58,45 +61,54 @@ def make_savefile(anchor_ids, DD, simname):
     vxs_box, vys_box, vzs_box = a['STARS_BOX_VELOCITY'].data
 
 
-    gd_indices = array([0 for i in arange(len(anchor_ids))])
-    for g in arange(len(anchor_ids)):
-        gd_indices[g] = int(where(id_s == anchor_ids[g])[0])
-
-    anchor_mss    = mss[gd_indices]
-    anchor_xs    = xs[gd_indices]
-    anchor_ys    = ys[gd_indices]
-    anchor_zs    = zs[gd_indices]
-    anchor_vxs   = vxs[gd_indices]
-    anchor_vys   = vys[gd_indices]
-    anchor_vzs   = vzs[gd_indices]
-
-    anchor_xs_box    =  xs_box[gd_indices]
-    anchor_ys_box    =  ys_box[gd_indices]
-    anchor_zs_box    =  zs_box[gd_indices]
-    anchor_vxs_box   = vxs_box[gd_indices]
-    anchor_vys_box   = vys_box[gd_indices]
-    anchor_vzs_box   = vzs_box[gd_indices]
-
-    anchor_xs_avg, _ = weighted_avg_and_std(anchor_xs,  weights = anchor_mss)
-    anchor_ys_avg, _ = weighted_avg_and_std(anchor_ys,  weights = anchor_mss)
-    anchor_zs_avg, _ = weighted_avg_and_std(anchor_zs, weights = anchor_mss)
-    anchor_vxs_avg, _= weighted_avg_and_std(anchor_vxs, weights = anchor_mss)
-    anchor_vys_avg, _= weighted_avg_and_std(anchor_vys, weights = anchor_mss)
-    anchor_vzs_avg, _= weighted_avg_and_std(anchor_vzs, weights = anchor_mss)
-    anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box, weights = anchor_mss)
-    anchor_ys_box_avg, _  = weighted_avg_and_std(anchor_ys_box, weights = anchor_mss)
-    anchor_zs_box_avg, _  = weighted_avg_and_std(anchor_zs_box, weights = anchor_mss)
-    anchor_vxs_box_avg, _ = weighted_avg_and_std(anchor_vxs_box, weights = anchor_mss)
-    anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss)
-    anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss)
 
 
-    to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg, anchor_xs_avg, anchor_ys_avg, anchor_zs_avg, anchor_vxs_avg, anchor_vys_avg, anchor_vzs_avg]
+    for i in arange(5):
+
+        anchor_ids = a['OLDSTARS_%.2i'%i].data['ids']
+        gd_indices = array([0 for i in arange(len(anchor_ids))])
 
 
 
-    print 'Saving to /nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_cen.npy...'%(simname, DD)
-    np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_cen.npy'%(simname, DD),to_save)
+
+        for g in arange(len(anchor_ids)):
+            gd_indices[g] = int(where(id_s == anchor_ids[g])[0])
+
+        anchor_mss    = mss[gd_indices]
+        anchor_xs    = xs[gd_indices]
+        anchor_ys    = ys[gd_indices]
+        anchor_zs    = zs[gd_indices]
+        anchor_vxs   = vxs[gd_indices]
+        anchor_vys   = vys[gd_indices]
+        anchor_vzs   = vzs[gd_indices]
+
+        anchor_xs_box    =  xs_box[gd_indices]
+        anchor_ys_box    =  ys_box[gd_indices]
+        anchor_zs_box    =  zs_box[gd_indices]
+        anchor_vxs_box   = vxs_box[gd_indices]
+        anchor_vys_box   = vys_box[gd_indices]
+        anchor_vzs_box   = vzs_box[gd_indices]
+
+        anchor_xs_avg, _ = weighted_avg_and_std(anchor_xs,  weights = anchor_mss)
+        anchor_ys_avg, _ = weighted_avg_and_std(anchor_ys,  weights = anchor_mss)
+        anchor_zs_avg, _ = weighted_avg_and_std(anchor_zs, weights = anchor_mss)
+        anchor_vxs_avg, _= weighted_avg_and_std(anchor_vxs, weights = anchor_mss)
+        anchor_vys_avg, _= weighted_avg_and_std(anchor_vys, weights = anchor_mss)
+        anchor_vzs_avg, _= weighted_avg_and_std(anchor_vzs, weights = anchor_mss)
+        anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box, weights = anchor_mss)
+        anchor_ys_box_avg, _  = weighted_avg_and_std(anchor_ys_box, weights = anchor_mss)
+        anchor_zs_box_avg, _  = weighted_avg_and_std(anchor_zs_box, weights = anchor_mss)
+        anchor_vxs_box_avg, _ = weighted_avg_and_std(anchor_vxs_box, weights = anchor_mss)
+        anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss)
+        anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss)
+
+
+        to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg, anchor_xs_avg, anchor_ys_avg, anchor_zs_avg, anchor_vxs_avg, anchor_vys_avg, anchor_vzs_avg]
+
+
+
+        print '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, i)
+        np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, i),to_save)
 
 
 
@@ -108,8 +120,11 @@ if __name__ == '__main__':
     min_DD = int(args['DDmin'])
     max_DD = int(args['DDmax'])
     momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
-    anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
-    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_ids = anchor_ids, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
+    #anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
+
+    anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
+
+    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_ids = anchor_fits, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
 
 
 
