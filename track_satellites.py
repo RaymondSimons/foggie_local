@@ -63,9 +63,9 @@ def make_savefile(anchor_fits, DD, simname):
 
 
 
-    for j in arange(5):
+    for sat_n in arange(5):
 
-        anchor_ids = anchor_fits['OLDSTARS_%.2i'%i].data['ids']
+        anchor_ids = anchor_fits['OLDSTARS_%.2i'%sat_n].data['ids']
         gd_indices = array([0 for i in arange(len(anchor_ids))])
 
 
@@ -107,8 +107,8 @@ def make_savefile(anchor_fits, DD, simname):
 
 
 
-        print '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, j)
-        np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, j),to_save)
+        print '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n)
+        np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n),to_save)
 
 
 
