@@ -158,7 +158,7 @@ class momentum_obj():
 
     def recenter(self, galprops):
         print 'Recentering...'
-        self.cen_x, self.cen_y, self.cen_z = yt.YTArray(galprops['stars_com'][0], 'kpc')
+        self.cen_x, self.cen_y, self.cen_z = yt.YTArray(galprops['stars_center'][0], 'kpc')
         
         
 
