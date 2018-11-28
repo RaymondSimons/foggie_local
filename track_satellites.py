@@ -43,7 +43,7 @@ def weighted_avg_and_std(values, weights):
 
 
 
-def make_savefile(anchor_ids, DD, simname):
+def make_savefile(anchor_fits, DD, simname):
     fits_name = momentum_directory + '/' + simname + '_' + 'DD%.4i_momentum.fits'%DD
 
     print 'Opening %s...'%fits_name
@@ -65,7 +65,7 @@ def make_savefile(anchor_ids, DD, simname):
 
     for i in arange(5):
 
-        anchor_ids = a['OLDSTARS_%.2i'%i].data['ids']
+        anchor_ids = anchor_fits['OLDSTARS_%.2i'%i].data['ids']
         gd_indices = array([0 for i in arange(len(anchor_ids))])
 
 
@@ -124,7 +124,7 @@ if __name__ == '__main__':
 
     anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
 
-    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_ids = anchor_fits, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
+    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
 
 
 
