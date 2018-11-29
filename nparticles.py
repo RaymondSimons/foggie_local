@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
     snapname = 'DD%.4i'%DD
 
-    ds = yt.load('/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
+    ds = yt.load('/nobackupp2/mpeeples/%s/orig/%s/%s/%s'%(haloname, simname, snapname, snapname))
 
     dd = ds.all_data()
     star_mass = dd['io', 'particle_mass'].in_units('Msun')
