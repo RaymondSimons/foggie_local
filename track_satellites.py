@@ -114,19 +114,19 @@ def make_savefile(anchor_fits, DD, simname):
         anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss, good = good)
         anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss, good = good)
 
-        cols1 = fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D')
-         fits.Column(name = 'anchor_xs      ', array =  anchor_xs     , format = 'D')
-         fits.Column(name = 'anchor_ys      ', array =  anchor_ys     , format = 'D')
-         fits.Column(name = 'anchor_zs      ', array =  anchor_zs     , format = 'D')
-         fits.Column(name = 'anchor_vxs     ', array =  anchor_vxs    , format = 'D')
-         fits.Column(name = 'anchor_vys     ', array =  anchor_vys    , format = 'D')
-         fits.Column(name = 'anchor_vzs     ', array =  anchor_vzs    , format = 'D')
-         fits.Column(name = 'anchor_xs_box  ', array =  anchor_xs_box , format = 'D')
-         fits.Column(name = 'anchor_ys_box  ', array =  anchor_ys_box , format = 'D')
-         fits.Column(name = 'anchor_zs_box  ', array =  anchor_zs_box , format = 'D')
-         fits.Column(name = 'anchor_vxs_box ', array =  anchor_vxs_box, format = 'D')
-         fits.Column(name = 'anchor_vys_box ', array =  anchor_vys_box, format = 'D')
-         fits.Column(name = 'anchor_vzs_box ', array =  anchor_vzs_box, format = 'D')
+        cols1 = fits.ColDefs([fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D'),
+                 fits.Column(name = 'anchor_xs      ', array =  anchor_xs     , format = 'D'),
+                 fits.Column(name = 'anchor_ys      ', array =  anchor_ys     , format = 'D'),
+                 fits.Column(name = 'anchor_zs      ', array =  anchor_zs     , format = 'D'),
+                 fits.Column(name = 'anchor_vxs     ', array =  anchor_vxs    , format = 'D'),
+                 fits.Column(name = 'anchor_vys     ', array =  anchor_vys    , format = 'D'),
+                 fits.Column(name = 'anchor_vzs     ', array =  anchor_vzs    , format = 'D'),
+                 fits.Column(name = 'anchor_xs_box  ', array =  anchor_xs_box , format = 'D'),
+                 fits.Column(name = 'anchor_ys_box  ', array =  anchor_ys_box , format = 'D'),
+                 fits.Column(name = 'anchor_zs_box  ', array =  anchor_zs_box , format = 'D'),
+                 fits.Column(name = 'anchor_vxs_box ', array =  anchor_vxs_box, format = 'D'),
+                 fits.Column(name = 'anchor_vys_box ', array =  anchor_vys_box, format = 'D'),
+                 fits.Column(name = 'anchor_vzs_box ', array =  anchor_vzs_box, format = 'D')])
 
 
 
