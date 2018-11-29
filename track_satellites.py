@@ -68,7 +68,7 @@ def make_savefile(anchor_fits, DD, simname):
     prim_hdu = fits.PrimaryHDU()
     hdus.append(prim_hdu)
 
-    for sat_n in arange(5):
+    for sat_n in arange(5,6):
 
         anchor_ids = anchor_fits['OLDSTARS_%.2i'%sat_n].data['ids']
         gd_indices = array([0 for i in arange(len(anchor_ids))])
