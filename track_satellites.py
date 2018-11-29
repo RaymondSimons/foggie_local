@@ -126,7 +126,8 @@ def make_savefile(anchor_fits, DD, simname):
                               fits.Column(name = 'anchor_zs_box  ', array =  anchor_zs_box , format = 'D'),
                               fits.Column(name = 'anchor_vxs_box ', array =  anchor_vxs_box, format = 'D'),
                               fits.Column(name = 'anchor_vys_box ', array =  anchor_vys_box, format = 'D'),
-                              fits.Column(name = 'anchor_vzs_box ', array =  anchor_vzs_box, format = 'D')])
+                              fits.Column(name = 'anchor_vzs_box ', array =  anchor_vzs_box, format = 'D'),
+                              ])
 
 
 
@@ -145,7 +146,7 @@ def make_savefile(anchor_fits, DD, simname):
 
 
     hdus_fits = fits.HDUList(hdus)
-    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD), clobber = True)
+    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD), overwrite = True)
 
 
 
