@@ -42,7 +42,7 @@ if __name__ == '__main__':
     ds = yt.load('/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
 
     dd = ds.all_data()
-    star_mass = dd['stars', 'particle_mass'].in_units('Msun')
+    star_mass = dd['io', 'particle_mass'].in_units('Msun')
 
     n1 = len(star_mass)
     n2 = len(where(star_mass < 1.5e3)[0])
