@@ -28,7 +28,7 @@ def parse():
     parser.add_argument('-cenx', '--cenx', default=None, help='box position, x')
     parser.add_argument('-ceny', '--ceny', default=None, help='box position, y')
     parser.add_argument('-cenz', '--cenz', default=None, help='box position, z')
-    parser.add_argument('-ls', '--ls', default=[[1,0,0], [0,1,0], [0, 0, 1]], help='direction of camera')
+    parser.add_argument('-ls', '--ls', default=[1,0,0], help='direction of camera')
     parser.add_argument('-w', '--w', default=yt.YTArray([100, 100, 100], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-n', '--n', default=[0,0.7,0.7], help='north vector of camera')
     parser.add_argument('-npix', '--npix', default=512, help='number of pixels')
@@ -51,13 +51,6 @@ if __name__ == '__main__':
     W    = args['w']
     north_vector = args['n']
     N = int(args['npix'])
-    Ls = [1,0,0]
-
-    W1 = yt.YTArray([15, 15, 15], 'kpc')
-    W2 = yt.YTArray([100, 100, 100], 'kpc')
-
-    north_vector = [0,0.7,0.7]
-    N = 512
 
     ds = yt.load('/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
     cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
