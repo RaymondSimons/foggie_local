@@ -65,6 +65,10 @@ if __name__ == '__main__':
     density_slc_max = 5
     p.set_zlim(field = "density", zmin, zmax)
     p.set_cmap(field = "density", cmap = density_color_map)
+    p.set_unit(('gas','density'),'Msun/pc**2')
+    p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+    p.annotate_scale(size_bar_args={'color':'white'})
+    p.hide_axes()
     yt.write_image(np.log10(image1), "/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/%s_%.4i.png"%(simname, DD))
 
 
