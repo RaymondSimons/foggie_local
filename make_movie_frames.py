@@ -10,6 +10,7 @@ from joblib import Parallel, delayed
 import os, sys, argparse
 import yt
 import matplotlib.pyplot as plt
+plt.close('all')
 def parse():
     '''
     Parse command line arguments
@@ -20,7 +21,7 @@ def parse():
                                 of the data for some of these cameras. Then export the data within
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
-    parser.add_argument('-DD', '--DD', default=None, help='DD to use')
+    parser.add_argument('-DD', '--DD', default=600, help='DD to use')
 
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
 
@@ -30,9 +31,11 @@ def parse():
     parser.add_argument('-ceny', '--ceny', default=None, help='box position, y')
     parser.add_argument('-cenz', '--cenz', default=None, help='box position, z')
     parser.add_argument('-ls', '--ls', default=[1,0,0], help='direction of camera')
-    parser.add_argument('-w', '--w', default=yt.YTArray([100, 100, 100], 'kpc'), help='width of camera, kpc')
+    parser.add_argument('-w', '--w', default=yt.YTArray([85, 85, 85], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-n', '--n', default=[0,0.7,0.7], help='north vector of camera')
     parser.add_argument('-npix', '--npix', default=512, help='number of pixels')
+    parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
+    parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures', help='figures output directory')
 
     args = vars(parser.parse_args())
     return args
@@ -52,25 +55,40 @@ if __name__ == '__main__':
     W    = args['w']
     north_vector = args['n']
     N = int(args['npix'])
+    simdir = args['simdir']
+    figdir = args['figdir']
 
-    ds = yt.load('/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
+    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname, snapname, snapname))
     cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
-
-    p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)
-    density_color_map = sns.blend_palette(("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
     density_proj_min = 5e-2  # msun / pc^2
     density_proj_max = 1e4
-    density_slc_min = 5e-8  # msun / pc^3
-    density_slc_max = 5
-    p.set_zlim("density", density_proj_min, density_proj_max)
-    p.set_cmap(field = "density", cmap = density_color_map)
-    p.set_unit(('gas','density'),'Msun/pc**2')
-    p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-    p.annotate_scale(size_bar_args={'color':'white'})
-    p.hide_axes()
-    yt.write_image(np.log10(p), "/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/%s_%.4i.png"%(simname, DD))
 
+    p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
+    density_color_map = sns.blend_palette(("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
+
+    p = p.in_units('Msun * pc**-2')
+
+
+    fig, ax = plt.subplots(1,1, figsize = (10,9))
+
+
+    im1 = ax.imshow(np.log10(p), vmin = log10(density_proj_min), vmax = log10(density_proj_max), cmap = density_color_map)
+
+    ax.axis('off')
+    cax = fig.add_axes([0.915, 0.0, 0.02, 1.0])
+    cbr = fig.colorbar(im1, cax=cax, orientation="vertical", cmap = density_color_map)
+    cbr.set_label(r'log projected gas density (M$_{\odot}$ kpc$^{-2}$)', fontsize = 15)
+    
+    #p.set_zlim("density", density_proj_min, density_proj_max)
+    #p.set_cmap(field = "density", cmap = density_color_map)
+    #p.set_unit(('gas','density'),'Msun/pc**2')
+    #p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+    #p.annotate_scale(size_bar_args={'color':'white'})
+    #p.hide_axes()
+    #yt.write_image(np.log10(p), "%s/%s_%.4i.png"%(figdir, simname, DD), cmap_name = density_color_map)
+    fig.subplots_adjust(left = 0.0, right = 0.92, top =1.0, bottom = 0.0, hspace = 0.0, wspace = 0.0)
+    fig.savefig("%s/%s_%.4i.png"%(figdir, simname, DD), dpi = 300)
 
 
 
