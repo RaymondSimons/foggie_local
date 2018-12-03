@@ -69,7 +69,7 @@ if __name__ == '__main__':
     p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
     p.annotate_scale(size_bar_args={'color':'white'})
     p.hide_axes()
-    yt.write_image(np.log10(image1), "/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/%s_%.4i.png"%(simname, DD))
+    yt.write_image(np.log10(p), "/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/%s_%.4i.png"%(simname, DD))
 
 
 
