@@ -73,6 +73,8 @@ if __name__ == '__main__':
     density_proj_min = 5e-2  # msun / pc^2
     density_proj_max = 1e4
 
+    print Ls
+
     p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
     density_color_map = sns.blend_palette(("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
 
