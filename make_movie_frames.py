@@ -89,11 +89,11 @@ if __name__ == '__main__':
 
 
     if not add_cbar:
-        fig, ax = plt.subplots(1,2, figsize = (20,10))
+        fig, axes = plt.subplots(1,2, figsize = (20,10))
         fig.subplots_adjust(left = 0.0, right = 1.0, top =1.0, bottom = 0.0)
 
     else:
-        fig, ax = plt.subplots(1,1, figsize = (10,9))
+        fig, axes = plt.subplots(1,1, figsize = (10,9))
         fig.subplots_adjust(left = 0.0, right = 0.92, top =1.0, bottom = 0.0, hspace = 0.0, wspace = 0.0)
 
 
