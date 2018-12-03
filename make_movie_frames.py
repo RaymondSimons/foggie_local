@@ -49,8 +49,8 @@ if __name__ == '__main__':
     cenz = float(args['cenz'])
     Ls   = args['ls']
     W    = args['w']
-    north_vector = float(args['n'])
-    N = float(args['npix'])
+    north_vector = args['n']
+    N = int(args['npix'])
 
     ds = yt.load('/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
     cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
