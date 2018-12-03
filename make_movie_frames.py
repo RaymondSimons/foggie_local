@@ -63,7 +63,7 @@ if __name__ == '__main__':
     density_proj_max = 1e4
     density_slc_min = 5e-8  # msun / pc^3
     density_slc_max = 5
-    p.set_zlim("density", zmin, zmax)
+    p.set_zlim("density", density_proj_min, density_proj_max)
     p.set_cmap(field = "density", cmap = density_color_map)
     p.set_unit(('gas','density'),'Msun/pc**2')
     p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
