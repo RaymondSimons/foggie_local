@@ -51,7 +51,7 @@ if __name__ == '__main__':
     W    = args['w']
     north_vector = args['n']
     N = int(args['npix'])
-    Ls = [[1,0,0], [0,1,0], [0, 0, 1]]
+    Ls = [1,0,0]
 
     W1 = yt.YTArray([15, 15, 15], 'kpc')
     W2 = yt.YTArray([100, 100, 100], 'kpc')
