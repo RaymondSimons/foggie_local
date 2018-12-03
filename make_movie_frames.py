@@ -27,10 +27,12 @@ def parse():
 
     parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
 
-    parser.add_argument('-cenx', '--cenx', default=None, help='box position, x')
-    parser.add_argument('-ceny', '--ceny', default=None, help='box position, y')
-    parser.add_argument('-cenz', '--cenz', default=None, help='box position, z')
-    parser.add_argument('-ls', '--ls', default=[1,0,0], help='direction of camera')
+    parser.add_argument('-cenx', '--cenx', default=None, help='box position of galaxy, x')
+    parser.add_argument('-ceny', '--ceny', default=None, help='box position of galaxy, y')
+    parser.add_argument('-cenz', '--cenz', default=None, help='box position of galaxy, z')
+    parser.add_argument('-lx', '--lx', default=1, help='direction of camera, x')
+    parser.add_argument('-ly', '--ly', default=0, help='direction of camera, y')
+    parser.add_argument('-lz', '--lz', default=0, help='direction of camera, z')
     parser.add_argument('-w', '--w', default=yt.YTArray([85, 85, 85], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-n', '--n', default=[0,0.7,0.7], help='north vector of camera')
     parser.add_argument('-npix', '--npix', default=512, help='number of pixels')
@@ -51,8 +53,10 @@ if __name__ == '__main__':
     snapname = 'DD%.4i'%DD
     cenx = float(args['cenx'])
     ceny = float(args['ceny'])
-    cenz = float(args['cenz'])
-    Ls   = args['ls']
+    cenz = float(args['cenz'])    
+    Lx   = args['lx']
+    Ly   = args['ly']
+    Lz   = args['lz']
     W    = args['w']
     north_vector = args['n']
     N = int(args['npix'])
@@ -60,6 +64,8 @@ if __name__ == '__main__':
     figdir = args['figdir']
     add_cbar = args['add_cbar']
 
+
+    Ls = [Lx, Ly, Lz]
 
     ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname, snapname, snapname))
     cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
