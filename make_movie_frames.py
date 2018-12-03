@@ -47,8 +47,8 @@ if __name__ == '__main__':
     cenx = float(args['cenx'])
     ceny = float(args['ceny'])
     cenz = float(args['cenz'])
-    Ls   = float(args['ls'])
-    W    = float(args['w'])
+    Ls   = args['ls']
+    W    = args['w']
     north_vector = float(args['n'])
     N = float(args['npix'])
 
