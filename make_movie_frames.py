@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
 
     image1 = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)
-    yt.write_image(np.log10(image1), "/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/%s_offaxis_projection.png"%simname)
+    yt.write_image(np.log10(image1), "/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/%s_%.4i.png"%(simname, DD))
 
 
 
