@@ -36,6 +36,7 @@ def parse():
     parser.add_argument('-npix', '--npix', default=512, help='number of pixels')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
     parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures', help='figures output directory')
+    parser.add_argument('-add_cbar', '--add_cbar', default=False, help='add a colorbar')
 
     args = vars(parser.parse_args())
     return args
@@ -57,6 +58,8 @@ if __name__ == '__main__':
     N = int(args['npix'])
     simdir = args['simdir']
     figdir = args['figdir']
+    add_cbar = args['add_cbar']
+
 
     ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname, snapname, snapname))
     cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
@@ -70,30 +73,26 @@ if __name__ == '__main__':
     p = p.in_units('Msun * pc**-2')
 
 
-    fig, ax = plt.subplots(1,1, figsize = (10,9))
+    if not add_cbar:
+        fig, ax = plt.subplots(1,1, figsize = (10,10))
+        fig.subplots_adjust(left = 0.0, right = 1.0, top =1.0, bottom = 0.0)
+
+    else:
+        fig, ax = plt.subplots(1,1, figsize = (10,9))
+        fig.subplots_adjust(left = 0.0, right = 0.92, top =1.0, bottom = 0.0, hspace = 0.0, wspace = 0.0)
+
 
 
     im1 = ax.imshow(np.log10(p), vmin = log10(density_proj_min), vmax = log10(density_proj_max), cmap = density_color_map)
-
     ax.axis('off')
-    cax = fig.add_axes([0.915, 0.0, 0.02, 1.0])
-    cbr = fig.colorbar(im1, cax=cax, orientation="vertical", cmap = density_color_map)
-    cbr.set_label(r'log projected gas density (M$_{\odot}$ kpc$^{-2}$)', fontsize = 15)
-    
-    #p.set_zlim("density", density_proj_min, density_proj_max)
-    #p.set_cmap(field = "density", cmap = density_color_map)
-    #p.set_unit(('gas','density'),'Msun/pc**2')
-    #p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-    #p.annotate_scale(size_bar_args={'color':'white'})
-    #p.hide_axes()
-    #yt.write_image(np.log10(p), "%s/%s_%.4i.png"%(figdir, simname, DD), cmap_name = density_color_map)
-    fig.subplots_adjust(left = 0.0, right = 0.92, top =1.0, bottom = 0.0, hspace = 0.0, wspace = 0.0)
+    if add_cbar:
+        cax = fig.add_axes([0.915, 0.0, 0.02, 1.0])
+        cbr = fig.colorbar(im1, cax=cax, orientation="vertical", cmap = density_color_map)
+        cbr.set_label(r'log projected gas density (M$_{\odot}$ kpc$^{-2}$)', fontsize = 15)
+
     fig.savefig("%s/%s_%.4i.png"%(figdir, simname, DD), dpi = 300)
 
 
-
-
-#python make_movie_frames.py -DD 300 -simname nref11n_selfshield_z15 -cenx 10000 -ceny 10000 -cenz 10000 
 
 
 
