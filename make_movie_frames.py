@@ -86,6 +86,7 @@ if __name__ == '__main__':
     metal_color_map = sns.blend_palette(("black", "#4575b4", "#984ea3", "#984ea3", "#d73027", "darkorange", "#ffe34d"), as_cmap=True)
 
     p = p.in_units('Msun * pc**-2')
+    M = M.in_units('Zsun')
 
 
     if not add_cbar:
