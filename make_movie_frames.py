@@ -65,8 +65,8 @@ if __name__ == '__main__':
     add_cbar = args['add_cbar']
 
 
-    Ls = [Lx, Ly, Lz]
-
+    #Ls = [Lx, Ly, Lz]
+    Ls = [0, 0, 1]
     ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname, snapname, snapname))
     cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
