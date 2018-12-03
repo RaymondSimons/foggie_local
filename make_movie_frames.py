@@ -5,6 +5,7 @@ from astropy.io import fits
 import numpy as np
 from numpy import *
 import math
+import seaborn as sns
 from joblib import Parallel, delayed
 import os, sys, argparse
 import yt
@@ -56,7 +57,14 @@ if __name__ == '__main__':
     cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
-    image1 = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)
+    p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)
+    density_color_map = sns.blend_palette(("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
+    density_proj_min = 5e-2  # msun / pc^2
+    density_proj_max = 1e4
+    density_slc_min = 5e-8  # msun / pc^3
+    density_slc_max = 5
+    p.set_zlim(field = "density", zmin, zmax)
+    p.set_cmap(field = "density", cmap = density_color_map)
     yt.write_image(np.log10(image1), "/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/%s_%.4i.png"%(simname, DD))
 
 
