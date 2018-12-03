@@ -81,7 +81,7 @@ if __name__ == '__main__':
     print Ls
 
     p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
-    M = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'metallicity'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
+    M = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'metallicity'), weight = ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
     density_color_map = sns.blend_palette(("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
     metal_color_map = sns.blend_palette(("black", "#4575b4", "#984ea3", "#984ea3", "#d73027", "darkorange", "#ffe34d"), as_cmap=True)
 
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
 
     im1 = axes[0].imshow(np.log10(p), vmin = log10(density_proj_min), vmax = log10(density_proj_max), cmap = density_color_map)
-    im2 = axes[1].imshow(np.log10(M), vmin = log10(metal_min), vmax = log10(metal_max), cmap = metal_color_map)
+    im2 = axes[1].imshow(np.log10(M), vmin = log10(metal_min),        vmax = log10(metal_max), cmap = metal_color_map)
 
     for ax in axes:
         ax.axis('off')
