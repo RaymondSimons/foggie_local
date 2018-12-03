@@ -28,7 +28,7 @@ def parse():
     parser.add_argument('-cenx', '--cenx', default=None, help='box position, x')
     parser.add_argument('-ceny', '--ceny', default=None, help='box position, y')
     parser.add_argument('-cenz', '--cenz', default=None, help='box position, z')
-    parser.add_argument('-ls', '--ls', default=None, help='direction of camera')
+    parser.add_argument('-ls', '--ls', default=[[1,0,0], [0,1,0], [0, 0, 1]], help='direction of camera')
     parser.add_argument('-w', '--w', default=yt.YTArray([100, 100, 100], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-n', '--n', default=[0,0.7,0.7], help='north vector of camera')
     parser.add_argument('-npix', '--npix', default=512, help='number of pixels')
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     cenx = float(args['cenx'])
     ceny = float(args['ceny'])
     cenz = float(args['cenz'])
-    Ls   = float(args['Ls'])
+    Ls   = float(args['ls'])
     W    = float(args['w'])
     north_vector = float(args['n'])
     N = float(args['npix'])
@@ -63,9 +63,7 @@ if __name__ == '__main__':
 
 
 
-
-
-
+#python make_movie_frames.py -DD 300 -simname nref11n_selfshield_z15 -cenx 10000 -ceny 10000 -cenz 10000 
 
 
 
