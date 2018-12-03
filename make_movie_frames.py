@@ -33,7 +33,7 @@ def parse():
     parser.add_argument('-lx', '--lx', default=1, help='direction of camera, x')
     parser.add_argument('-ly', '--ly', default=0, help='direction of camera, y')
     parser.add_argument('-lz', '--lz', default=0, help='direction of camera, z')
-    parser.add_argument('-w', '--w', default=yt.YTArray([85, 85, 85], 'kpc'), help='width of camera, kpc')
+    parser.add_argument('-w', '--w', default=yt.YTArray([50, 50, 50], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-n', '--n', default=[0,0.7,0.7], help='north vector of camera')
     parser.add_argument('-npix', '--npix', default=512, help='number of pixels')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     density_proj_max = 1e4
 
     metal_min = 1.e-4
-    metal_max = 3.
+    metal_max = 10.
 
 
 
