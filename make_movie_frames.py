@@ -54,9 +54,9 @@ if __name__ == '__main__':
     cenx = float(args['cenx'])
     ceny = float(args['ceny'])
     cenz = float(args['cenz'])    
-    Lx   = args['lx']
-    Ly   = args['ly']
-    Lz   = args['lz']
+    Lx   = float(args['lx'])
+    Ly   = float(args['ly'])
+    Lz   = float(args['lz'])
     W    = args['w']
     north_vector = args['n']
     N = int(args['npix'])
