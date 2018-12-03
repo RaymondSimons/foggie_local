@@ -73,16 +73,23 @@ if __name__ == '__main__':
     density_proj_min = 5e-2  # msun / pc^2
     density_proj_max = 1e4
 
+    metal_min = 1.e-4
+    metal_max = 3.
+
+
+
     print Ls
 
-    p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
+    p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'metallicity'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
     density_color_map = sns.blend_palette(("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
+    metallicity_colors = sns.blend_palette(("black", "#4575b4", "#984ea3", "#984ea3", "#d73027", "darkorange", "#ffe34d"), n_colors=21)
+
 
     p = p.in_units('Msun * pc**-2')
 
 
     if not add_cbar:
-        fig, ax = plt.subplots(1,1, figsize = (10,10))
+        fig, ax = plt.subplots(1,2, figsize = (20,10))
         fig.subplots_adjust(left = 0.0, right = 1.0, top =1.0, bottom = 0.0)
 
     else:
@@ -91,8 +98,12 @@ if __name__ == '__main__':
 
 
 
-    im1 = ax.imshow(np.log10(p), vmin = log10(density_proj_min), vmax = log10(density_proj_max), cmap = density_color_map)
-    ax.axis('off')
+    im1 = axes[0].imshow(np.log10(p), vmin = log10(density_proj_min), vmax = log10(density_proj_max), cmap = density_color_map)
+    im2 = axes[1].imshow(np.log10(M), vmin = log10(metal_min), vmax = log10(metal_max), cmap = metallicity_colors)
+
+    for ax in axes:
+        ax.axis('off')
+
     if add_cbar:
         cax = fig.add_axes([0.915, 0.0, 0.02, 1.0])
         cbr = fig.colorbar(im1, cax=cax, orientation="vertical", cmap = density_color_map)
