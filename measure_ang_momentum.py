@@ -445,7 +445,7 @@ class momentum_obj():
 
 def run_measure_momentum(haloname, simname, snapname, galprops, on_system = 'pfe'):
     if on_system == 'pfe':
-        snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+        snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/orig/%s/%s/%s"%(haloname, simname, snapname, snapname))))
         out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
     else:
         snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
