@@ -371,8 +371,8 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
 
-    parser.add_argument('-simname', nargs='?', default=None, help='Snapshot files to be analyzed.')
-    parser.add_argument('-snapname', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-simname', '--simname', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-DDname', '--DDname', nargs='?', default=None, help='Snapshot files to be analyzed.')
 
 
     args = vars(parser.parse_args())
@@ -384,7 +384,7 @@ if __name__=="__main__":
 
     args = parse()
     simname = args['simname']
-    ddname = args['snapname']
+    ddname = args['DDname']
 
     snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(simname, ddname))))
 
