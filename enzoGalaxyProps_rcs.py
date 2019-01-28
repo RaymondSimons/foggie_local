@@ -386,7 +386,7 @@ if __name__=="__main__":
     simname = args['simname']
     ddname = args['DDname']
 
-    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(simname, ddname))))
+    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(simname, ddname, ddname))))
 
 
 
