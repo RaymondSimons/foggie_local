@@ -601,6 +601,7 @@ if __name__ == "__main__":
             print 'run_all_parallel set to True, but no simname or haloname provided.'
     else:
         for snapname in snaps:
+            print snapname
             amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
 
 
