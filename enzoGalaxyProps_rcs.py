@@ -371,9 +371,8 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
 
-    parser.add_argument('-sim_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
-
-    parser.add_argument('-snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-simname', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-snapname', nargs='?', default=None, help='Snapshot files to be analyzed.')
 
 
     args = vars(parser.parse_args())
@@ -381,19 +380,13 @@ def parse():
 
 
 if __name__=="__main__":
-    #snaps = np.sort(np.asarray(glob.glob("RD????/RD????")))  #ENZO format a list of snapshots in separate directories
-    #snaps = np.sort(np.asarray(glob.glob("~/Dropbox/rcs_foggie/data/halo_008508/nref11n_nref10f_selfshield_z6/RD????/RD????")))
-
-    #snaps = np.asarray(['/Users/rsimons/Dropbox/rcs_foggie/data/halo_008508/nref11n_nref10f_selfshield_z6/RD0018/RD0018'])
     form='ENZO'
 
     args = parse()
-    simname = args['sim_name']
+    simname = args['simname']
+    ddname = args['snapname']
 
-    #snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/nref11n_selfshield_z15/%s/%s"%(args['snap_name'], args['snap_name']))))
-    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(args['sim_name'], args['snap_name'], args['snap_name']))))
-    #snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/orig/%s/%s/%s"%(args['sim_name'], args['snap_name'], args['snap_name']))))
-    #snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/halo_008508/DD????/DD????")))
+    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(simname, ddname))))
 
 
 
@@ -515,10 +508,10 @@ if __name__=="__main__":
     # Save galaxy props file
     if False:
         galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
-        galaxy_props_file = galprops_outdir + '/' + simname + '_' + args['snap_name'] + '_galprops.npy'
+        galaxy_props_file = galprops_outdir + '/' + simname + '_' + ddname + '_galprops.npy'
     else:
         galprops_outdir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
-        galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
+        galaxy_props_file = galprops_outdir + '/'  + simname + '_' + ddname + '_galprops.npy'
 
 
     print( '\nSuccessfully computed galaxy properties')
