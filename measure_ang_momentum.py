@@ -32,7 +32,7 @@ def parse():
     parser.add_argument('-snapname', '--snapname', default=None, help='Snapshot files to be analyzed.')
 
     parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
-    parser.add_argument('-on_system', '--on_system', default='local', help='System being used (pfe or local)')
+    parser.add_argument('-on_system', '--on_system', default='pfe', help='System being used (pfe or local)')
     parser.add_argument('-ddmin', '--ddmin', default=906, help='halo_name')
     parser.add_argument('-ddmax', '--ddmax', default=907, help='halo_name')
     parser.add_argument('-n_jobs', '--n_jobs', default=3, help='number of jobs')
