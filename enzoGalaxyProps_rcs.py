@@ -484,7 +484,7 @@ if __name__=="__main__":
 
 
     # Save galaxy props file
-    if False:
+    if True:
         galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
         galaxy_props_file = galprops_outdir + '/' + simname + '_' + ddname + '_galprops.npy'
     else:
