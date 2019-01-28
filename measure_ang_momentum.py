@@ -27,14 +27,14 @@ def parse():
 
     parser.add_argument('-run_parallel', '--run_parallel', default=False, help='Run parallel')
 
-    parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
+    parser.add_argument('-simname', '--simname', default='nref11n_nref10f', help='Simulation to be analyzed.')
 
     parser.add_argument('-snapname', '--snapname', default=None, help='Snapshot files to be analyzed.')
 
     parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
-    parser.add_argument('-on_system', '--on_system', default='pfe', help='System being used (pfe or local)')
-    parser.add_argument('-ddmin', '--ddmin', default=500, help='halo_name')
-    parser.add_argument('-ddmax', '--ddmax', default=600, help='halo_name')
+    parser.add_argument('-on_system', '--on_system', default='local', help='System being used (pfe or local)')
+    parser.add_argument('-ddmin', '--ddmin', default=906, help='halo_name')
+    parser.add_argument('-ddmax', '--ddmax', default=907, help='halo_name')
     parser.add_argument('-n_jobs', '--n_jobs', default=3, help='number of jobs')
 
 
@@ -43,7 +43,53 @@ def parse():
     return args
 
 
+def recenter_2(amom):
+    print 'Recentering...'
+    #amom.cen_x, amom.cen_y, amom.cen_z = yt.YTArray(galprops['stars_center'][0], 'kpc')
+    #amom.cen_x, amom.cen_y, amom.cen_z = yt.YTArray([ds.quan(0.4922914505, 'code_length'), ds.quan(0.482047080994, 'code_length'), ds.quan(0.504963874817, 'code_length')]).to('kpc')
+    #amom.cen_x, 
 
+
+
+
+    amom.stars_x   = amom.stars_x_box  - amom.cen_x
+    amom.stars_y   = amom.stars_y_box  - amom.cen_y
+    amom.stars_z   = amom.stars_z_box  - amom.cen_z
+    amom.stars_pos = array([amom.stars_x, amom.stars_y, amom.stars_z])
+    amom.stars_pos_mag = sqrt(amom.stars_x**2.  + amom.stars_y**2.  + amom.stars_z**2.)
+
+
+    amom.dark_x   = amom.dark_x_box  - amom.cen_x
+    amom.dark_y   = amom.dark_y_box  - amom.cen_y
+    amom.dark_z   = amom.dark_z_box  - amom.cen_z
+    amom.dark_pos = array([amom.dark_x, amom.dark_y, amom.dark_z])
+    amom.dark_pos_mag = sqrt(amom.dark_x**2.  + amom.dark_y**2.  + amom.dark_z**2.)
+
+
+    #Determine the mass-weighted velocity of the stars in the inner 1 kpc
+
+    stars_inner_1kpc = where(amom.stars_pos_mag < 1)[0]
+    print len(stars_inner_1kpc)
+    amom.cen_vx = np.average(amom.stars_vx_box[stars_inner_1kpc], weights = amom.star_mass[stars_inner_1kpc])
+    amom.cen_vy = np.average(amom.stars_vy_box[stars_inner_1kpc], weights = amom.star_mass[stars_inner_1kpc])
+    amom.cen_vz = np.average(amom.stars_vz_box[stars_inner_1kpc], weights = amom.star_mass[stars_inner_1kpc])
+
+
+    amom.stars_vx  = amom.stars_vx_box - amom.cen_vx
+    amom.stars_vy  = amom.stars_vy_box - amom.cen_vy
+    amom.stars_vz  = amom.stars_vz_box - amom.cen_vz
+    amom.stars_vel = array([amom.stars_vx, amom.stars_vy, amom.stars_vz])
+    amom.stars_vel_mag = sqrt(amom.stars_vx**2. + amom.stars_vy**2. + amom.stars_vz**2.)
+
+
+
+    amom.dark_vx  = amom.dark_vx_box - amom.cen_vx
+    amom.dark_vy  = amom.dark_vy_box - amom.cen_vy
+    amom.dark_vz  = amom.dark_vz_box - amom.cen_vz
+    amom.dark_vel = array([amom.dark_vx, amom.dark_vy, amom.dark_vz])
+    amom.dark_vel_mag = sqrt(amom.dark_vx**2. + amom.dark_vy**2. + amom.dark_vz**2.)
+
+    return amom
 
 class momentum_obj():
     def __init__(self, simname, aname, snapfile, fits_name):
@@ -55,7 +101,6 @@ class momentum_obj():
 
     def load(self):
         dd = self.ds.all_data()
-        print 'Loading star velocities...'
 
         def _stars(pfilter, data):
             return data[(pfilter.filtered_type, "particle_type")] == 2
@@ -72,15 +117,15 @@ class momentum_obj():
 
 
         try:
-            self.stars_vx = dd['stars', 'particle_velocity_x'].in_units('km/s')
-            assert self.stars_vx.shape > 5
+            print 'Loading stars particle indices...'
+            self.stars_id = dd['stars', 'particle_index']
+            assert self.stars_id.shape > 5
         except AttributeError,AssertionError:
             print "No star particles found, skipping: ", self.ds._file_amr
             return
 
 
-        print 'Loading stars particle indices...'
-        self.stars_id = dd['stars', 'particle_index']
+
         #self.stars_metallicity1 = dd['stars', 'particle_metallicity1']
         #self.stars_metallicity2 = dd['stars', 'particle_metallicity2']
         
@@ -125,10 +170,6 @@ class momentum_obj():
         self.dark_age = self.ds.arr(cosmo.age(self.ds.current_redshift).value, 'Gyr').in_units('yr') - self.dark_creation_time
 
 
-
-
-
-
         if False:
             print 'Loading gas velocity...'
             self.gas_vx = dd['gas', 'velocity_x'].in_units('km/s')
@@ -159,10 +200,6 @@ class momentum_obj():
     def recenter(self, galprops):
         print 'Recentering...'
         self.cen_x, self.cen_y, self.cen_z = yt.YTArray(galprops['stars_center'][0], 'kpc')
-        
-        
-
-
         self.stars_x   = self.stars_x_box  - self.cen_x
         self.stars_y   = self.stars_y_box  - self.cen_y
         self.stars_z   = self.stars_z_box  - self.cen_z
@@ -192,12 +229,14 @@ class momentum_obj():
         self.stars_vel_mag = sqrt(self.stars_vx**2. + self.stars_vy**2. + self.stars_vz**2.)
 
 
-
         self.dark_vx  = self.dark_vx_box - self.cen_vx
+
         self.dark_vy  = self.dark_vy_box - self.cen_vy
         self.dark_vz  = self.dark_vz_box - self.cen_vz
         self.dark_vel = array([self.dark_vx, self.dark_vy, self.dark_vz])
         self.dark_vel_mag = sqrt(self.dark_vx**2. + self.dark_vy**2. + self.dark_vz**2.)
+
+
 
 
 
@@ -374,8 +413,11 @@ class momentum_obj():
 
         colhdr = fits.Header()
 
-        master_hdulist.append(fits.ImageHDU(data = self.L_disk                                                             , header = colhdr, name = 'net_angmomentum'))  
-        master_hdulist.append(fits.ImageHDU(data = self.L_disk_fixed                                                       , header = colhdr, name = 'net_angmomentum_fixed'))  
+        if False:
+            master_hdulist.append(fits.ImageHDU(data = self.L_disk                                                             , header = colhdr, name = 'net_angmomentum'))  
+            master_hdulist.append(fits.ImageHDU(data = self.L_disk_fixed                                                       , header = colhdr, name = 'net_angmomentum_fixed'))  
+
+
         master_hdulist.append(fits.ImageHDU(data = self.stars_id                                                           , header = colhdr, name = 'stars_id'))
         master_hdulist.append(fits.ImageHDU(data = self.dark_id                                                            , header = colhdr, name = 'dark_id'))
 
@@ -391,16 +433,20 @@ class momentum_obj():
         master_hdulist.append(fits.ImageHDU(data = np.stack((self.dark_x ,      self.dark_y ,      self.dark_z))                 , header = colhdr, name = 'dark_gal_position'))
         master_hdulist.append(fits.ImageHDU(data = np.stack((self.dark_vx ,     self.dark_vy ,     self.dark_vz))                , header = colhdr, name = 'dark_gal_velocity'))
 
-        master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_jx, self.stars_jy, self.stars_jz))                 , header = colhdr, name = 'stars_gal_angmomentum'))
-        master_hdulist.append(fits.ImageHDU(data = np.stack((self.dark_jx,  self.dark_jy,  self.dark_jz))                  , header = colhdr, name = 'dark_gal_angmomentum'))
 
 
 
-        master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars                                                      , header = colhdr, name = 'stars_epsilon'))
-        master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars_fixed                                                , header = colhdr, name = 'stars_epsilon_fixed'))
+        if False:
+            master_hdulist.append(fits.ImageHDU(data = np.stack((self.stars_jx, self.stars_jy, self.stars_jz))                 , header = colhdr, name = 'stars_gal_angmomentum'))
+            master_hdulist.append(fits.ImageHDU(data = np.stack((self.dark_jx,  self.dark_jy,  self.dark_jz))                  , header = colhdr, name = 'dark_gal_angmomentum'))
 
-        master_hdulist.append(fits.ImageHDU(data = self.epsilon_dark                                                       , header = colhdr, name = 'dark_epsilon'))
-        master_hdulist.append(fits.ImageHDU(data = self.epsilon_dark_fixed                                                 , header = colhdr, name = 'dark_epsilon_fixed'))
+
+
+            master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars                                                      , header = colhdr, name = 'stars_epsilon'))
+            master_hdulist.append(fits.ImageHDU(data = self.epsilon_stars_fixed                                                , header = colhdr, name = 'stars_epsilon_fixed'))
+
+            master_hdulist.append(fits.ImageHDU(data = self.epsilon_dark                                                       , header = colhdr, name = 'dark_epsilon'))
+            master_hdulist.append(fits.ImageHDU(data = self.epsilon_dark_fixed                                                 , header = colhdr, name = 'dark_epsilon_fixed'))
 
 
         master_hdulist.append(fits.ImageHDU(data = self.star_mass                                                           , header = colhdr, name = 'star_mass'))
@@ -409,8 +455,8 @@ class momentum_obj():
         master_hdulist.append(fits.ImageHDU(data = self.dark_mass                                                           , header = colhdr, name = 'dark_mass'))
         master_hdulist.append(fits.ImageHDU(data = self.dark_age                                                            , header = colhdr, name = 'dark_age'))
 
-
-        master_hdulist.append(fits.ImageHDU(data = self.mass_profile                                                        , header = colhdr, name = 'mass_profile'))
+        if False:
+            master_hdulist.append(fits.ImageHDU(data = self.mass_profile                                                        , header = colhdr, name = 'mass_profile'))
 
 
 
@@ -448,8 +494,11 @@ def run_measure_momentum(haloname, simname, snapname, galprops, on_system = 'pfe
         snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/orig/%s/%s/%s"%(haloname, simname, snapname, snapname))))
         out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
     else:
-        snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+        print "/Volumes/gdrive/foggie/%s/nref11n/%s/%s/%s"%(haloname, simname, snapname, snapname)
+        snaps = np.sort(np.asarray(glob.glob("/Volumes/gdrive/foggie/%s/nref11n/%s/%s/%s"%(haloname, simname, snapname, snapname))))
         out_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
+        #snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+        #out_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
 
 
 
@@ -501,20 +550,6 @@ def run_measure_momentum(haloname, simname, snapname, galprops, on_system = 'pfe
         return amom
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
 
     args = parse()
@@ -524,39 +559,63 @@ if __name__ == "__main__":
     haloname = args['haloname']
     run_parallel = args['run_parallel']
     on_system = args['on_system']
+    ddmin, ddmax = int(args['ddmin']), int(args['ddmax'])
 
-    
+    #ddmin = 906
+    #ddmax = 908
+    #run_parallel = False
+    #haloname = 'halo_008508'
+    #simname = 'nref11n_nref10f'
+    #on_system = 'local'
+
+    '''
     if on_system == 'pfe':
         galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
         galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
     else:
-        galaxy_props_file = '/Users/rsimons/Dropbox/rcs_foggie/outputs/nref11n_selfshield_z15_galprops.npy'
+        galprops_outdir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
+        galaxy_props_file = galprops_outdir + '/temp_galprops.npy'
 
     galprops = np.load(galaxy_props_file)[()]
-    
-    print haloname, simname, snapname, run_parallel
+    '''
+    #print haloname, simname, snapname, run_parallel
+
+    #ddmin, ddmax = int(args['ddmin']), int(args['ddmax'])
+    #snapnames = ['DD%.4i'%i for i in arange(ddmin, ddmax)]
+
+    #snapnames = ['DD0906']
+    #snapnames = ['DD0907']
+    #snapnames = ['DD0956']
+
+
+
+
 
     if run_parallel:
         n_jobs = int(args['n_jobs'])
-        ddmin, ddmax = int(args['ddmin']), int(args['ddmax'])
         if (simname is not None) & (haloname is not None):
-            snapnames = ['DD%.4i'%i for i in arange(ddmin, ddmax)]
             Parallel(n_jobs = n_jobs, backend = 'threading')(delayed(run_measure_momentum)(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system) for snapname in snapnames)
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
     else:
-        amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
+        for snapname in snapnames:
+            amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
 
 
-        if False:
-            # Test run_measure_momentum in ipython
-            
+    if False:
+        # Test run_measure_momentum in ipython
+        for s, snapname in enumerate(snapnames):
             if on_system == 'pfe':
                 snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
                 out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
             else:
-                snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+                print "/Volumes/gdrive/foggie/%s/nref11n/%s/%s/%s"%(haloname, simname, snapname, snapname)
+                
+                snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/%s/%s/%s"%(haloname, snapname, snapname))))
                 out_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
+                #snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+                #out_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
+
 
 
             assert os.path.lexists(snaps[0])
@@ -587,17 +646,22 @@ if __name__ == "__main__":
                 amom.load()
 
                 
-                amom.recenter(galprops)
+                #amom.recenter(galprops)
+                if snapname == 'DD0906': cen = yt.YTArray([ds.quan(0.4922914505, 'code_length'), ds.quan(0.482047080994, 'code_length'), ds.quan(0.504963874817, 'code_length')]).to('kpc')
+                if snapname == 'DD0907': cen = yt.YTArray([ds.quan(0.492289543152, 'code_length'), ds.quan(0.48203754425, 'code_length'), ds.quan(0.504967689514, 'code_length')]).to('kpc')
+                if snapname == 'DD0956': cen = yt.YTArray([ds.quan(0.49216556549072266, 'code_length'), ds.quan(0.48153591156005865, 'code_length'), ds.quan(0.5051298141479492, 'code_length')]).to('kpc')
 
+                amom.cen_x, amom.cen_y, amom.cen_z = cen[0], cen[1], cen[2]
+                amom = recenter_2(amom)
+                
+                #amom.L_disk = galprops['gas_L'][0]
+                #amom.L_disk_fixed = [-0.37085436,  0.14802026,  0.91681898]
 
-                amom.L_disk = galprops['gas_L'][0]
-                amom.L_disk_fixed = [-0.37085436,  0.14802026,  0.91681898]
+                #amom.calc_angular_momentum(ptype = 'stars')
+                #amom.calc_angular_momentum(ptype = 'darkmatter')
 
-                amom.calc_angular_momentum(ptype = 'stars')
-                amom.calc_angular_momentum(ptype = 'darkmatter')
-
-                amom.measure_potential()
-                amom.measure_circularity()
+                #amom.measure_potential()
+                #amom.measure_circularity()
                 #amom.gas_momentum_heatmap()
                 amom.write_fits()
 

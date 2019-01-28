@@ -6,10 +6,8 @@ import numpy as np
 from numpy import *
 import astropy
 from astropy.cosmology import Planck13 as cosmo
-import findGalaxyProps as fGP
+#import findGalaxyProps as fGP
 import os, sys, argparse
-
-
 
 
 def find_center(dd, ds, units = 'kpc', cen_pos = 10.e3, bin_width = 4.e3, del_pos = 20):
@@ -373,9 +371,9 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
 
-    parser.add_argument('sim_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-sim_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
 
-    parser.add_argument('snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
+    parser.add_argument('-snap_name', nargs='?', default=None, help='Snapshot files to be analyzed.')
 
 
     args = vars(parser.parse_args())
@@ -393,8 +391,9 @@ if __name__=="__main__":
     simname = args['sim_name']
 
     #snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/nref11n_selfshield_z15/%s/%s"%(args['snap_name'], args['snap_name']))))
-    #snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(args['sim_name'], args['snap_name'], args['snap_name']))))
-    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/orig/%s/%s/%s"%(args['sim_name'], args['snap_name'], args['snap_name']))))
+    snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/%s/%s/%s"%(args['sim_name'], args['snap_name'], args['snap_name']))))
+    #snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/halo_008508/orig/%s/%s/%s"%(args['sim_name'], args['snap_name'], args['snap_name']))))
+    #snaps = np.sort(np.asarray(glob.glob("/Users/rsimons/Dropbox/rcs_foggie/data/halo_008508/DD????/DD????")))
 
 
 
@@ -514,8 +513,12 @@ if __name__=="__main__":
 
 
     # Save galaxy props file
-    galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
-    galaxy_props_file = galprops_outdir + '/' + simname + '_' + args['snap_name'] + '_galprops.npy'
+    if False:
+        galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
+        galaxy_props_file = galprops_outdir + '/' + simname + '_' + args['snap_name'] + '_galprops.npy'
+    else:
+        galprops_outdir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
+        galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
 
 
     print( '\nSuccessfully computed galaxy properties')
