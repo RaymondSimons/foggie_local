@@ -491,7 +491,7 @@ class momentum_obj():
 
 def run_measure_momentum(haloname, simname, snapname, galprops, on_system = 'pfe'):
     if on_system == 'pfe':
-        snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/orig/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+        snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
         out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
     else:
         print "/Volumes/gdrive/foggie/%s/nref11n/%s/%s/%s"%(haloname, simname, snapname, snapname)
@@ -532,8 +532,8 @@ def run_measure_momentum(haloname, simname, snapname, galprops, on_system = 'pfe
 
 
         amom.L_disk = galprops['gas_L'][0]
+        #amom.L_disk_fixed = [-0.37085436,  0.14802026,  0.91681898]
         amom.L_disk_fixed = [-0.37085436,  0.14802026,  0.91681898]
-
 
 
         amom.calc_angular_momentum(ptype = 'stars')
@@ -600,9 +600,7 @@ if __name__ == "__main__":
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
     else:
-        for snapname in snaps:
-            print snapname
-            amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
+        amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
 
 
     if False:
