@@ -568,7 +568,7 @@ if __name__ == "__main__":
     #simname = 'nref11n_nref10f'
     #on_system = 'local'
 
-    '''
+
     if on_system == 'pfe':
         galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
         galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
@@ -577,8 +577,8 @@ if __name__ == "__main__":
         galaxy_props_file = galprops_outdir + '/temp_galprops.npy'
 
     galprops = np.load(galaxy_props_file)[()]
-    '''
-    #print haloname, simname, snapname, run_parallel
+
+
 
     #ddmin, ddmax = int(args['ddmin']), int(args['ddmax'])
     #snapnames = ['DD%.4i'%i for i in arange(ddmin, ddmax)]
@@ -598,8 +598,7 @@ if __name__ == "__main__":
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
     else:
-        for snapname in snapnames:
-            amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
+        amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
 
 
     if False:
