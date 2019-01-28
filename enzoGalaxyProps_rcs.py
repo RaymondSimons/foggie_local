@@ -84,7 +84,6 @@ def find_rvirial(dd, ds, center, start_rad = 0, delta_rad_coarse = 20, delta_rad
         dark_mass   = v_sphere[('darkmatter', 'particle_mass')].in_units('Msun').sum()  
         rho_internal = dark_mass.in_units('g')/((r0.in_units('cm'))**3.*(pi*4/3.))
         if rho_internal < 200*ds.arr(critical_density,'g')/ds.arr(1.,'cm')**3.:
-            #now run fine test
             print('\tNow running fine search on the virial radius')
             r0 = r0_prev
             while True:
