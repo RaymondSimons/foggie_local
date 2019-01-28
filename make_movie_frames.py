@@ -51,9 +51,6 @@ if __name__ == '__main__':
     DD = int(args['DD'])
     haloname = args['haloname']
     snapname = 'DD%.4i'%DD
-    cenx = float(args['cenx'])
-    ceny = float(args['ceny'])
-    cenz = float(args['cenz'])    
     Lx   = float(args['lx'])
     Ly   = float(args['ly'])
     Lz   = float(args['lz'])
@@ -68,6 +65,25 @@ if __name__ == '__main__':
     #Ls = [Lx, Ly, Lz]
     Ls = [0, 0, 1]
     ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname, snapname, snapname))
+
+    if True:
+        cenx = float(args['cenx'])
+        ceny = float(args['ceny'])
+        cenz = float(args['cenz'])    
+    else:
+        #Read center from galprops
+        galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
+        gp = np.load(galaxy_props_file)[()]
+        cenx = float(gp['stars_center'][0])
+        ceny = float(gp['stars_center'][1])
+        cenz = float(gp['stars_center'][2])
+
+
+
+
+
+
+
     cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
     density_proj_min = 5e-2  # msun / pc^2
@@ -80,8 +96,13 @@ if __name__ == '__main__':
 
     print Ls
 
-    p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
-    M = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'metallicity'), weight = ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
+    #p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
+    #M = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'metallicity'), weight = ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
+
+
+    p = yt.ProjectionPlot(ds, fields = ('gas', 'density'), center = cen, width =  W)#, zmin = density_proj_min, zmax = density_proj_max)
+    M = yt.ProjectionPlot(ds, fields = ('gas', 'metallicity'), center = cen, width =  W, weight = ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
+
     density_color_map = sns.blend_palette(("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
     metal_color_map = sns.blend_palette(("black", "#4575b4", "#984ea3", "#984ea3", "#d73027", "darkorange", "#ffe34d"), as_cmap=True)
 
