@@ -572,6 +572,8 @@ if __name__ == "__main__":
     if on_system == 'pfe':
         galprops_outdir = '/nobackupp2/rcsimons/foggie_momentum/galprops'
         galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
+        snaps = np.sort(np.asarray(glob.glob("/nobackupp2/mpeeples/%s/%s/%s/%s"%(haloname, simname, snapname, snapname))))
+        out_dir = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'
     else:
         galprops_outdir = '/Users/rsimons/Dropbox/rcs_foggie/outputs'
         galaxy_props_file = galprops_outdir + '/temp_galprops.npy'
@@ -598,7 +600,8 @@ if __name__ == "__main__":
         else:
             print 'run_all_parallel set to True, but no simname or haloname provided.'
     else:
-        amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
+        for snapname in snaps:
+            amom = run_measure_momentum(haloname = haloname, simname = simname, snapname = snapname, galprops = galprops, on_system = on_system)
 
 
     if False:
