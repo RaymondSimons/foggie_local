@@ -31,15 +31,9 @@ def parse():
     parser.add_argument('-cenx', '--cenx', default=None, help='box position of galaxy, x')
     parser.add_argument('-ceny', '--ceny', default=None, help='box position of galaxy, y')
     parser.add_argument('-cenz', '--cenz', default=None, help='box position of galaxy, z')
-    parser.add_argument('-lx', '--lx', default=1, help='direction of camera, x')
-    parser.add_argument('-ly', '--ly', default=0, help='direction of camera, y')
-    parser.add_argument('-lz', '--lz', default=0, help='direction of camera, z')
-    parser.add_argument('-w', '--w', default=yt.YTArray([50, 50, 50], 'kpc'), help='width of camera, kpc')
-    parser.add_argument('-n', '--n', default=[0,0.7,0.7], help='north vector of camera')
-    parser.add_argument('-npix', '--npix', default=512, help='number of pixels')
+    parser.add_argument('-w', '--w', default=yt.YTArray([150, 150, 150], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
     parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures', help='figures output directory')
-    parser.add_argument('-add_cbar', '--add_cbar', default=False, help='add a colorbar')
 
     args = vars(parser.parse_args())
     return args
@@ -52,47 +46,22 @@ if __name__ == '__main__':
     DD = int(args['DD'])
     haloname = args['haloname']
     snapname = 'DD%.4i'%DD
-    Lx   = float(args['lx'])
-    Ly   = float(args['ly'])
-    Lz   = float(args['lz'])
     cenx   = float(args['cenx'])
     ceny   = float(args['ceny'])
     cenz   = float(args['cenz'])
     W    = args['w']
-    north_vector = args['n']
-    N = int(args['npix'])
     simdir = args['simdir']
     figdir = args['figdir']
 
 
-    wd = 150
-    W = yt.YTArray([wd, wd, wd], 'kpc')
-
-
     ds = yt.load('%s/%s/%s/%s'%(simdir, simname, DDname, DDname))
-    gp = np.load('/Users/rsimons/Dropbox/rcs_foggie/galprops/halo_008508/nref11n_nref10f_selfshield_z6_DD1049_galprops.npy', encoding = 'latin1')[()]
-
     cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
-
-    sats_n = np.load('/Users/rsimons/Dropbox/rcs_foggie/outputs/nref11n_selfshield_z15_%s_sats.npy'%DDname)[()]
-    sats_f = np.load('/Users/rsimons/Dropbox/rcs_foggie/outputs/nref11n_nref10f_selfshield_z6_%s_sats.npy'%DDname)[()]
-    def _stars(pfilter, data):
-        return data[(pfilter.filtered_type, "particle_type")] == 2
-
-    # these are only the must refine dark matter particles
-    def _darkmatter(pfilter, data):
-        return data[(pfilter.filtered_type, "particle_type")] == 4
+    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
 
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
-    yt.add_particle_filter("darkmatter",function=_darkmatter, filtered_type='all',requires=["particle_type"])
-    ds_n.add_particle_filter('stars')
-    ds_n.add_particle_filter('darkmatter')
-    ds_f.add_particle_filter('stars')
-    ds_f.add_particle_filter('darkmatter')
-
-
+    ds.add_particle_filter('stars')
 
 
     fig = plt.figure(1, figsize = (20,20))
@@ -129,18 +98,12 @@ if __name__ == '__main__':
     p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
     p.hide_axes()
     p.annotate_scale(size_bar_args={'color':'white'})
-    #p.annotate_marker(pos = ds.arr(cen), coord_system = 'data', marker = 'o')
-    #c = [0.1, 0.1]
-    #p.annotate_text(c, 'o', coord_system = 'axis', text_args={'family':'sans-serif', 'color': 'white', 'ha': 'center', 'va': 'center', 'size':60, 'alpha':0.3, 'fontweight':'ultralight'})
 
     p.set_zlim(field = ('stars','particle_mass'), zmin = 5.e35, zmax = 1.e42)
     plot = p.plots[('stars','particle_mass')]
     plot.figure = fig
     plot.axes = grid[1].axes
     p._setup_plots()
-
-
-
 
     fig.set_size_inches(12, 6)
     fig.savefig('%s/cen_%s_%.4i.png'%(figdir, simname, DD))
