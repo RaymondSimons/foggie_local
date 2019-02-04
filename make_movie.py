@@ -84,6 +84,7 @@ if __name__ == '__main__':
                     axes_pad = 0.0, label_mode = "1",
                     share_all = False, cbar_mode=None,
                     aspect = False)        
+    wd = W[0].value
 
     box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
                cen_g[1] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
