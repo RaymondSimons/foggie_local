@@ -16,7 +16,6 @@ import numpy as np
 from yt.units import kpc
 import matplotlib.pyplot as plt
 from consistency import *
-mpl.rcParams['text.usetex'] = True
 import seaborn as sns
 from mpl_toolkits.axes_grid1 import AxesGrid
 
