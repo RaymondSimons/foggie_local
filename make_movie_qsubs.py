@@ -16,7 +16,7 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
     #for DDmin in arange(200, 1050, 100):
     DDmin = 200
     DDmax = 1050
-    N_split = 5
+    N_split = 3
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_movie.sh'%(simname, DDmin, DDmax), 'w+')
 
     for DD in arange(DDmin, DDmax, N_split):
