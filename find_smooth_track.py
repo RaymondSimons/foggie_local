@@ -13,7 +13,7 @@ plt.ioff()
 plt.close('all')
 
 
-gp_dir = '/Users/rsimons/Dropbox/rcs_foggie/galprops'
+gp_dir = '/Users/rsimons/Dropbox/rcs_foggie/galprops/halo_008508'
 
 simnames = ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']
 
@@ -24,13 +24,27 @@ for simname in simnames:
     x = []
     y = []
     z = []
-    DD_arr = arange(200, 700)
+    DD_arr = arange(200, 1056)
     for DD in DD_arr:
-        a = np.load(gp_dir + '/%s_DD%.4i_galprops.npy'%(simname, DD))[()]
-        x.append(a['stars_center'][0][0])
-        y.append(a['stars_center'][0][1])
-        z.append(a['stars_center'][0][2])
+        try:
+            a = np.load(gp_dir + '/%s_DD%.4i_galprops.npy'%(simname, DD))[()]
+            x.append(a['stars_center'][0][0])
+            y.append(a['stars_center'][0][1])
+            z.append(a['stars_center'][0][2])
+        except:
 
+            x.append(nan)
+            y.append(nan)
+            z.append(nan)
+
+    x = array(x)
+    y = array(y)
+    z = array(z)
+
+    DD_arr = DD_arr[~isnan(z)]
+    x = x[~isnan(z)]
+    y = y[~isnan(z)]
+    z = z[~isnan(z)]
 
     x_fit = polyfit(DD_arr, x, deg = 4)
     y_fit = polyfit(DD_arr, y, deg = 4)
@@ -64,3 +78,17 @@ for simname in simnames:
 
 
     fig.savefig('/Users/rsimons/Dropbox/rcs_foggie/figures/%s_trackcen.png'%simname, dpi = 400)
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
