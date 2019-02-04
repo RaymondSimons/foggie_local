@@ -68,9 +68,9 @@ def make_savefile(anchor_fits, DD, simname):
     prim_hdu = fits.PrimaryHDU()
     hdus.append(prim_hdu)
 
-    for sat_n in arange(5,6):
-
-        anchor_ids = anchor_fits['OLDSTARS_%.2i'%sat_n].data['ids']
+    for sat_n in arange(shape(a)[0]):
+        #anchor_ids = anchor_fits['OLDSTARS_%.2i'%sat_n].data['ids']
+        anchor_ids = anchor_fits[sat_n][0]
         gd_indices = array([0 for i in arange(len(anchor_ids))])
 
 
@@ -160,8 +160,8 @@ if __name__ == '__main__':
     momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
     #anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
 
-    anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
-
+    #anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
+    anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy')[()]
     Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
 
 
