@@ -6,20 +6,22 @@ import matplotlib.pyplot as plt
 
 for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
 
+    #cen_fits = np.load('/Users/rsimons/Dropbox/rcs_foggie/catalogs/center_%s.npy'%simname)[()]
     cen_fits = np.load('/Users/rsimons/Dropbox/rcs_foggie/catalogs/center_%s.npy'%simname)[()]
+
     xf = cen_fits['x']
     yf = cen_fits['y']
     zf = cen_fits['z']
 
     for DDmin in arange(200, 1050, 100):
         DDmax = DDmin + 100
-        sf = open('./qsubs/submit_%s_%i_%i_movie.sh'%(simname, DDmin, DDmax), 'w+')
+        sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_movie.sh'%(simname, DDmin, DDmax), 'w+')
 
         for DD in arange(DDmin, DDmax):
             snap_name = 'DD%.2i'%(DD)
             sim_snap_name = snap_name + '_' + simname
             qsub_fname = '%s_movie.qsub'%(sim_snap_name)
-            qf = open('./qsubs/%s'%qsub_fname, 'w+')
+            qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/%s'%qsub_fname, 'w+')
             
             qf.write('#PBS -S /bin/bash\n')
             qf.write('#PBS -l select=1:ncpus=16:model=san\n')
