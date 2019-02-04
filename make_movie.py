@@ -53,7 +53,7 @@ if __name__ == '__main__':
     simdir = args['simdir']
     figdir = args['figdir']
 
-
+    DDname = 'DD%.4i'%DD
     ds = yt.load('%s/%s/%s/%s'%(simdir, simname, DDname, DDname))
     cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
