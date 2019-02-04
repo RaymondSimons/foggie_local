@@ -42,7 +42,7 @@ def parse():
     parser.add_argument('-cenz', '--cenz', default=None, help='box position of galaxy, z')
     parser.add_argument('-w', '--w', default=yt.YTArray([150, 150, 150], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
-    parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures', help='figures output directory')
+    parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/central_gal', help='figures output directory')
 
     args = vars(parser.parse_args())
     return args
