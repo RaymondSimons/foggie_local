@@ -18,8 +18,8 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
     DDmax = 1050
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_movie.sh'%(simname, DDmin, DDmax), 'w+')
 
-    for DD_25 in arange(DDmin, DDmax, 25):
-        snap_name = 'DD%.4i_DD%.4i'%(DD_25, DD_25 + 25)
+    for DD_10 in arange(DDmin, DDmax, 10):
+        snap_name = 'DD%.4i_DD%.4i'%(DD_10, DD_10 + 10)
         sim_snap_name = snap_name + '_' + simname
         qsub_fname = '%s_movie.qsub'%(sim_snap_name)
         qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/%s'%qsub_fname, 'w+')
@@ -36,7 +36,7 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
         qf.write('#PBS -V\n')
         qf.write('#PBS -W group_list=s1698\n\n\n\n')      
 
-        for DD in arange(DD_25, DD_25 + 25):
+        for DD in arange(DD_10, DD_10 + 10):
             cenx = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
             ceny = yf[0] * DD**4. + yf[1] * DD**3. + yf[2] * DD**2. + yf[3] * DD + yf[4]
             cenz = zf[0] * DD**4. + zf[1] * DD**3. + zf[2] * DD**2. + zf[3] * DD + zf[4]
