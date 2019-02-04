@@ -40,7 +40,7 @@ def parse():
     parser.add_argument('-cenx', '--cenx', default=None, help='box position of galaxy, x')
     parser.add_argument('-ceny', '--ceny', default=None, help='box position of galaxy, y')
     parser.add_argument('-cenz', '--cenz', default=None, help='box position of galaxy, z')
-    parser.add_argument('-w', '--w', default=yt.YTArray([150, 150, 150], 'kpc'), help='width of camera, kpc')
+    parser.add_argument('-w', '--w', default=yt.YTArray([75, 75, 75], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
     parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/central_gal', help='figures output directory')
 
@@ -85,10 +85,13 @@ if __name__ == '__main__':
                     aspect = False)        
     wd = W[0].value
 
-    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
-               cen_g[1] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
-               cen_g[2] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([200., wd]), 'kpc')]
+    #box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
+    #           cen_g[1] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
+    #           cen_g[2] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([200., wd]), 'kpc')]
 
+    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([100., wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([100., wd]), 'kpc'), \
+               cen_g[1] - 0.5 * yt.YTArray(max([100., wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([100., wd]), 'kpc'), \
+               cen_g[2] - 0.5 * yt.YTArray(max([100., wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([100., wd]), 'kpc')]
 
 
     p = yt.ProjectionPlot(ds, 'y', ("gas","density"), center = cen_g, data_source=box, width=W)
