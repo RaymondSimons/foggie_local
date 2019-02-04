@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
 
     #cen_fits = np.load('/Users/rsimons/Dropbox/rcs_foggie/catalogs/center_%s.npy'%simname)[()]
-    cen_fits = np.load('/Users/rsimons/Dropbox/rcs_foggie/catalogs/center_%s.npy'%simname)[()]
+    cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%simname)[()]
 
     xf = cen_fits['x']
     yf = cen_fits['y']
