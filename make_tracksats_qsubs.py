@@ -11,8 +11,9 @@ for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
         min_DD = i
         max_DD = i + split_n
         snapname = 'sats_%s_%i_%i'%(simname, min_DD, max_DD)
-
-        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/tracksats_%s_%i_%i.qsub'%(simname, min_DD, max_DD), 'w+')
+        qsub_fname = 'tracksats_%s_%i_%i.qsub'%(simname, min_DD, max_DD)
+        
+        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=12:model=has\n')
@@ -29,4 +30,12 @@ for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
         qf.write('python /u/rcsimons/scripts/foggie_local/track_satellites.py -simname %s -DDmin %i -DDmax %i > ./outfiles/%s_track_satellites.err > ./outfiles/%s_track_satellites.out\n'%(simname, min_DD, max_DD, snapname, snapname))
 
         qf.close()
+
+
+        sf.write('qsub %s\n'%qsub_fname)
+
+    sf.close()
+
+
+
 
