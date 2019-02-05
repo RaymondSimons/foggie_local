@@ -138,7 +138,7 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD):
 
 
 
-        print '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n, anchor_str)
+
         np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_%s_cen.npy'%(simname, DD, sat_n, anchor_str),to_save)
 
 
