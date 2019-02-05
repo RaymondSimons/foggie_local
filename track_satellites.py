@@ -48,7 +48,7 @@ def weighted_avg_and_std(values, weights, good):
 
 
 
-def make_savefile(anchor_fits, simname, anchor_str, ds, ad):
+def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD):
     
 
 
@@ -64,6 +64,13 @@ def make_savefile(anchor_fits, simname, anchor_str, ds, ad):
     xs_box, ys_box, zs_box = a['STARS_BOX_POSITION'].data
     vxs_box, vys_box, vzs_box = a['STARS_BOX_VELOCITY'].data
     '''
+    DDname = 'DD%.4i'%DD
+    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+    ad = ds.all_data()
+    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+
+    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+    ds.add_particle_filter('stars')
 
 
 
@@ -155,8 +162,8 @@ if __name__ == '__main__':
     #anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
     anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_DD1049_anchors.npy'%simname)[()]
 
-    #Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname, anchor_str = '1049', ds = ds) for DD in np.arange(min_DD, max_DD))
-    
+    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, simname = simname, anchor_str = '1049', haloname = haloname, simdir = simdir, DD = DD) for DD in np.arange(min_DD, max_DD))
+    '''
     for DD in np.arange(min_DD, max_DD):
         DDname = 'DD%.4i'%DD
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
@@ -167,7 +174,7 @@ if __name__ == '__main__':
         ds.add_particle_filter('stars')
         make_savefile(anchor_fits = anchor_fits, simname = simname, anchor_str = '1049', ds = ds, ad = ad) 
 
-
+    '''
 
 
 
