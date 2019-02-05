@@ -146,7 +146,7 @@ def make_savefile(anchor_fits, DD, simname, anchor_str):
 
 
     hdus_fits = fits.HDUList(hdus)
-    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_%s_anchorprops.fits'%(simname, DD, anchor_str, overwrite = True)
+    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_%s_anchorprops.fits'%(simname, DD, anchor_str), overwrite = True)
 
 
 
