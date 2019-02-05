@@ -20,6 +20,9 @@ def parse():
     parser.add_argument('-DDmax', '--DDmax', default=None, help='max DD')
     parser.add_argument('-DDmin', '--DDmin', default=None, help='min DD')
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
+    parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
+    parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/central_gal', help='figures output directory')
+    parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
 
 
 
@@ -45,15 +48,23 @@ def weighted_avg_and_std(values, weights, good):
 
 
 
-def make_savefile(anchor_fits, DD, simname):
-    fits_name = momentum_directory + '/' + simname + '_' + 'DD%.4i_momentum.fits'%DD
+def make_savefile(anchor_fits, DD, simname, anchor_str):
+    
+    DDname = 'DD%.4i'%DD
+    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+    ad = ds.all_data()
+    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
 
+    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+    ds.add_particle_filter('stars')
+
+    #fits_name = momentum_directory + '/' + simname + '_' + 'DD%.4i_momentum.fits'%DD
     print 'Opening %s...'%fits_name
 
-    a = fits.open(fits_name)
+    #a = fits.open(fits_name)
 
 
-
+    '''
     mss = a['STAR_MASS'].data
     id_s = a['STARS_ID'].data
     xs, ys, zs = a['STARS_GAL_POSITION'].data
@@ -61,6 +72,18 @@ def make_savefile(anchor_fits, DD, simname):
     ep_s = a['STARS_EPSILON_FIXED'].data
     xs_box, ys_box, zs_box = a['STARS_BOX_POSITION'].data
     vxs_box, vys_box, vzs_box = a['STARS_BOX_VELOCITY'].data
+    '''
+
+    mss = ad['stars', 'particle_mass'].in_units('Msun')
+    xs_box = dd['stars', 'particle_position_x'].in_units('kpc')
+    ys_box = dd['stars', 'particle_position_y'].in_units('kpc')
+    zs_box = dd['stars', 'particle_position_z'].in_units('kpc')  
+
+    vxs_box = dd['stars', 'particle_velocity_x'].in_units('km/s')
+    vys_box = dd['stars', 'particle_velocity_y'].in_units('km/s')
+    vzs_box = dd['stars', 'particle_velocity_z'].in_units('km/s')
+
+    id_s = dd['stars', 'particle_index']
 
 
 
@@ -80,13 +103,6 @@ def make_savefile(anchor_fits, DD, simname):
             gd_indices[g] = int(where(id_s == anchor_ids[g])[0])
 
         anchor_mss      = mss[gd_indices]
-        anchor_xs       = xs[gd_indices]
-        anchor_ys       = ys[gd_indices]
-        anchor_zs       = zs[gd_indices]
-        anchor_vxs      = vxs[gd_indices]
-        anchor_vys      = vys[gd_indices]
-        anchor_vzs      = vzs[gd_indices]
-
         anchor_xs_box    =  xs_box[gd_indices]
         anchor_ys_box    =  ys_box[gd_indices]
         anchor_zs_box    =  zs_box[gd_indices]
@@ -95,18 +111,8 @@ def make_savefile(anchor_fits, DD, simname):
         anchor_vzs_box   = vzs_box[gd_indices]
 
 
-        good = where((abs(anchor_xs - median(anchor_xs)) < 5) & (abs(anchor_ys - median(anchor_ys)) < 5) & (abs(anchor_zs - median(anchor_zs)) < 5))          
+        good = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5) & (abs(anchor_ys_box - median(anchor_ys_box)) < 5) & (abs(anchor_zs_box - median(anchor_zs_box)) < 5))          
 
-
-
-
-
-        anchor_xs_avg, _ = weighted_avg_and_std(anchor_xs,  weights = anchor_mss, good = good)
-        anchor_ys_avg, _ = weighted_avg_and_std(anchor_ys,  weights = anchor_mss, good = good)
-        anchor_zs_avg, _ = weighted_avg_and_std(anchor_zs,  weights = anchor_mss, good = good)
-        anchor_vxs_avg, _= weighted_avg_and_std(anchor_vxs, weights = anchor_mss, good = good)
-        anchor_vys_avg, _= weighted_avg_and_std(anchor_vys, weights = anchor_mss, good = good)
-        anchor_vzs_avg, _= weighted_avg_and_std(anchor_vzs, weights = anchor_mss, good = good)
         anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box,  weights = anchor_mss, good = good)
         anchor_ys_box_avg, _  = weighted_avg_and_std(anchor_ys_box,  weights = anchor_mss, good = good)
         anchor_zs_box_avg, _  = weighted_avg_and_std(anchor_zs_box,  weights = anchor_mss, good = good)
@@ -115,12 +121,6 @@ def make_savefile(anchor_fits, DD, simname):
         anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss, good = good)
 
         cols1 = fits.ColDefs([fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D'),
-                              fits.Column(name = 'anchor_xs      ', array =  anchor_xs     , format = 'D'),
-                              fits.Column(name = 'anchor_ys      ', array =  anchor_ys     , format = 'D'),
-                              fits.Column(name = 'anchor_zs      ', array =  anchor_zs     , format = 'D'),
-                              fits.Column(name = 'anchor_vxs     ', array =  anchor_vxs    , format = 'D'),
-                              fits.Column(name = 'anchor_vys     ', array =  anchor_vys    , format = 'D'),
-                              fits.Column(name = 'anchor_vzs     ', array =  anchor_vzs    , format = 'D'),
                               fits.Column(name = 'anchor_xs_box  ', array =  anchor_xs_box , format = 'D'),
                               fits.Column(name = 'anchor_ys_box  ', array =  anchor_ys_box , format = 'D'),
                               fits.Column(name = 'anchor_zs_box  ', array =  anchor_zs_box , format = 'D'),
@@ -137,16 +137,16 @@ def make_savefile(anchor_fits, DD, simname):
 
 
 
-        to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg, anchor_xs_avg, anchor_ys_avg, anchor_zs_avg, anchor_vxs_avg, anchor_vys_avg, anchor_vzs_avg]
+        #to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg]
 
 
 
-        print '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n)
-        np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n),to_save)
+        #print '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen2.npy'%(simname, DD, sat_n)
+        #np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen2.npy'%(simname, DD, sat_n),to_save)
 
 
     hdus_fits = fits.HDUList(hdus)
-    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD), overwrite = True)
+    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_%s_anchorprops.fits'%(simname, DD, anchor_str, overwrite = True)
 
 
 
@@ -157,12 +157,13 @@ if __name__ == '__main__':
     simname = args['simname']
     min_DD = int(args['DDmin'])
     max_DD = int(args['DDmax'])
-    momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
+    #momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
     #anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
 
     #anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
-    anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy')[()]
-    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname) for DD in np.arange(min_DD, max_DD))
+    anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD1049_anchors.npy'%simname)[()]
+
+    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname, anchor_str = '1049') for DD in np.arange(min_DD, max_DD))
 
 
 
