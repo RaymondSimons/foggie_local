@@ -158,9 +158,6 @@ if __name__ == '__main__':
     #anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
     anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_DD1049_anchors.npy'%simname)[()]
 
-
-    #fits_name = momentum_directory + '/' + simname + '_' + 'DD%.4i_momentum.fits'%DD
-    print 'Opening %s...'%fits_name
     #Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname, anchor_str = '1049', ds = ds) for DD in np.arange(min_DD, max_DD))
     for DD in np.arange(min_DD, max_DD):
         DDname = 'DD%.4i'%DD
