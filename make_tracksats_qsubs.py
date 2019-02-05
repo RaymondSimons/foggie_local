@@ -1,6 +1,6 @@
 import numpy as np
 from numpy import *
-split_n = 10
+split_n = 4
 
 DDmin = 200
 DDmax = 1050
@@ -12,7 +12,7 @@ for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
         max_DD = i + split_n
         snapname = 'sats_%s_%i_%i'%(simname, min_DD, max_DD)
 
-        qf = open('./qsubs/tracksats_%s_%i_%i.qsub'%(simname, min_DD, max_DD), 'w+')
+        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/tracksats_%s_%i_%i.qsub'%(simname, min_DD, max_DD), 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=12:model=has\n')
