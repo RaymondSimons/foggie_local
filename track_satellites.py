@@ -157,13 +157,14 @@ if __name__ == '__main__':
     simname = args['simname']
     min_DD = int(args['DDmin'])
     max_DD = int(args['DDmax'])
+    simdir = args['simdir']
     #momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
     #anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
 
     #anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
     anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_DD1049_anchors.npy'%simname)[()]
 
-    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname, anchor_str = '1049') for DD in np.arange(min_DD, max_DD))
+    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname, anchor_str = '1049', simdir = simdir) for DD in np.arange(min_DD, max_DD))
 
 
 
