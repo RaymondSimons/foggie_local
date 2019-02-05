@@ -75,15 +75,15 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD):
 
 
     mss = ad['stars', 'particle_mass'].in_units('Msun')
-    xs_box = dd['stars', 'particle_position_x'].in_units('kpc')
-    ys_box = dd['stars', 'particle_position_y'].in_units('kpc')
-    zs_box = dd['stars', 'particle_position_z'].in_units('kpc')  
+    xs_box = ad['stars', 'particle_position_x'].in_units('kpc')
+    ys_box = ad['stars', 'particle_position_y'].in_units('kpc')
+    zs_box = ad['stars', 'particle_position_z'].in_units('kpc')  
 
-    vxs_box = dd['stars', 'particle_velocity_x'].in_units('km/s')
-    vys_box = dd['stars', 'particle_velocity_y'].in_units('km/s')
-    vzs_box = dd['stars', 'particle_velocity_z'].in_units('km/s')
+    vxs_box = ad['stars', 'particle_velocity_x'].in_units('km/s')
+    vys_box = ad['stars', 'particle_velocity_y'].in_units('km/s')
+    vzs_box = ad['stars', 'particle_velocity_z'].in_units('km/s')
 
-    id_s = dd['stars', 'particle_index']
+    id_s = ad['stars', 'particle_index']
 
 
 
