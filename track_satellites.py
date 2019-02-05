@@ -48,18 +48,9 @@ def weighted_avg_and_std(values, weights, good):
 
 
 
-def make_savefile(anchor_fits, DD, simname, anchor_str, simdir):
+def make_savefile(anchor_fits, simname, anchor_str, ds, ad):
     
-    DDname = 'DD%.4i'%DD
-    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
-    ad = ds.all_data()
-    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
 
-    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
-    ds.add_particle_filter('stars')
-
-    #fits_name = momentum_directory + '/' + simname + '_' + 'DD%.4i_momentum.fits'%DD
-    print 'Opening %s...'%fits_name
 
     #a = fits.open(fits_name)
 
@@ -73,6 +64,8 @@ def make_savefile(anchor_fits, DD, simname, anchor_str, simdir):
     xs_box, ys_box, zs_box = a['STARS_BOX_POSITION'].data
     vxs_box, vys_box, vzs_box = a['STARS_BOX_VELOCITY'].data
     '''
+
+
 
     mss = ad['stars', 'particle_mass'].in_units('Msun')
     xs_box = dd['stars', 'particle_position_x'].in_units('kpc')
@@ -158,14 +151,26 @@ if __name__ == '__main__':
     min_DD = int(args['DDmin'])
     max_DD = int(args['DDmax'])
     simdir = args['simdir']
+    haloname = args['haloname']
     #momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
     #anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
 
     #anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
     anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_DD1049_anchors.npy'%simname)[()]
 
-    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname, anchor_str = '1049', simdir = simdir) for DD in np.arange(min_DD, max_DD))
 
+    #fits_name = momentum_directory + '/' + simname + '_' + 'DD%.4i_momentum.fits'%DD
+    print 'Opening %s...'%fits_name
+    #Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname, anchor_str = '1049', ds = ds) for DD in np.arange(min_DD, max_DD))
+    for DD in np.arange(min_DD, max_DD):
+        DDname = 'DD%.4i'%DD
+        ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+        ad = ds.all_data()
+        def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+
+        yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+        ds.add_particle_filter('stars')
+        make_savefile(anchor_fits = anchor_fits, simname = simname, anchor_str = '1049', ds = ds, ad = ad) 
 
 
 
