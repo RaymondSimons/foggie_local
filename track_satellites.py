@@ -162,7 +162,7 @@ if __name__ == '__main__':
     #anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
     anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_DD1049_anchors.npy'%simname)[()]
 
-    Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, simname = simname, anchor_str = '1049', haloname = haloname, simdir = simdir, DD = DD) for DD in np.arange(min_DD, max_DD))
+    Parallel(n_jobs = 1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, simname = simname, anchor_str = '1049', haloname = haloname, simdir = simdir, DD = DD) for DD in np.arange(min_DD, max_DD))
     '''
     for DD in np.arange(min_DD, max_DD):
         DDname = 'DD%.4i'%DD
