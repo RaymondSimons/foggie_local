@@ -89,9 +89,6 @@ def make_savefile(anchor_fits, simname, anchor_str, ds, ad):
         anchor_ids = anchor_fits[sat_n][0]
         gd_indices = array([0 for i in arange(len(anchor_ids))])
 
-
-
-
         for g in arange(len(anchor_ids)):
             gd_indices[g] = int(where(id_s == anchor_ids[g])[0])
 
@@ -159,6 +156,7 @@ if __name__ == '__main__':
     anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_DD1049_anchors.npy'%simname)[()]
 
     #Parallel(n_jobs = -1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, DD = DD, simname = simname, anchor_str = '1049', ds = ds) for DD in np.arange(min_DD, max_DD))
+    
     for DD in np.arange(min_DD, max_DD):
         DDname = 'DD%.4i'%DD
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
