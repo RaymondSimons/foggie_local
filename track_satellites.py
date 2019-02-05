@@ -48,7 +48,7 @@ def weighted_avg_and_std(values, weights, good):
 
 
 
-def make_savefile(anchor_fits, DD, simname, anchor_str):
+def make_savefile(anchor_fits, DD, simname, anchor_str, simdir):
     
     DDname = 'DD%.4i'%DD
     ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
