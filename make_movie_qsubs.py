@@ -17,12 +17,12 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
     DDmin = 200
     DDmax = 1050
     N_split = 4
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_movie.sh'%(simname, DDmin, DDmax), 'w+')
+    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_movie_sats.sh'%(simname, DDmin, DDmax), 'w+')
 
     for DD in arange(DDmin, DDmax, N_split):
         snap_name = 'DD%.4i_DD%.4i'%(DD, DD + N_split)
         sim_snap_name = snap_name + '_' + simname
-        qsub_fname = '%s_movie.qsub'%(sim_snap_name)
+        qsub_fname = '%s_sats_movie.qsub'%(sim_snap_name)
         qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
@@ -38,12 +38,17 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
         qf.write('#PBS -W group_list=s1698\n\n\n\n')      
 
         for DDi in arange(DD, DD + N_split):
-            cenx = xf[0] * DDi**4. + xf[1] * DDi**3. + xf[2] * DDi**2. + xf[3] * DDi + xf[4]
-            ceny = yf[0] * DDi**4. + yf[1] * DDi**3. + yf[2] * DDi**2. + yf[3] * DDi + yf[4]
-            cenz = zf[0] * DDi**4. + zf[1] * DDi**3. + zf[2] * DDi**2. + zf[3] * DDi + zf[4]
+            #cenx = xf[0] * DDi**4. + xf[1] * DDi**3. + xf[2] * DDi**2. + xf[3] * DDi + xf[4]
+            #ceny = yf[0] * DDi**4. + yf[1] * DDi**3. + yf[2] * DDi**2. + yf[3] * DDi + yf[4]
+            #cenz = zf[0] * DDi**4. + zf[1] * DDi**3. + zf[2] * DDi**2. + zf[3] * DDi + zf[4]
+            sat_n = 0
+            cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
+            cenx = cen_np[0]
+            ceny = cen_np[1]
+            cenz = cen_np[2]
 
             out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(simname, DDi, simname, DDi)
-            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -cenx %.4f -ceny %.4f -cenz %.4f %s\n'%(DDi, simname, cenx, ceny, cenz, out_string))
+            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -cenx %.4f -ceny %.4f -cenz %.4f -W 10%s\n'%(DDi, simname, cenx, ceny, cenz, out_string))
 
         qf.close()
 
