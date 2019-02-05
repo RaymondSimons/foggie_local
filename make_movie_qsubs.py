@@ -4,7 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
+#for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
+for simname in ['nref11n_selfshield_z15']:
+
 
     #cen_fits = np.load('/Users/rsimons/Dropbox/rcs_foggie/catalogs/center_%s.npy'%simname)[()]
     cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%simname)[()]
@@ -48,7 +50,7 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
             cenz = cen_np[2]
 
             out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(simname, DDi, simname, DDi)
-            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -cenx %.4f -ceny %.4f -cenz %.4f -W 10%s\n'%(DDi, simname, cenx, ceny, cenz, out_string))
+            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -cenx %.4f -ceny %.4f -cenz %.4f -w 10 -wd 20%s\n'%(DDi, simname, cenx, ceny, cenz, out_string))
 
         qf.close()
 
