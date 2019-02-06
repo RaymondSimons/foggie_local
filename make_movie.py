@@ -44,7 +44,7 @@ def parse():
     parser.add_argument('-wdd', '--wdd', default=100., help='width of camera, kpc')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
     parser.add_argument('-figdir', '--figdir', \
-                        default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/satellites', \
+                        default='/nobackupp2/rcsimons/foggie_momentum/figures/satellites', \
                         help='figures output directory')
     parser.add_argument('-figname', '--figname', default='temp.png', help='figures output directory')
     parser.add_argument('-axis', '--axis', default='z', help='figures output directory')
