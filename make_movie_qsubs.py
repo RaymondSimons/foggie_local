@@ -46,9 +46,7 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
             sat_n = 0
 
             out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(simname, DDi, simname, DDi)
-            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 20 -wdd 5 -axis x -figname %s_%.4i.png%s\n'%(DDi, simname, simname, DDi, out_string))
-            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 20 -wdd 5 -axis y -figname %s_%.4i.png%s\n'%(DDi, simname, simname, DDi, out_string))
-            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 20 -wdd 5 -axis z -figname %s_%.4i.png%s\n'%(DDi, simname, simname, DDi, out_string))
+            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 20 -wdd 5 -figname %s_%.4i.png%s\n'%(DDi, simname, simname, DDi, out_string))
 
 
         qf.close()

@@ -55,60 +55,27 @@ def parse():
 
 
 
-if __name__ == '__main__':
-    args = parse()
-    simname = args['simname']
-    DD = int(args['DD'])
-    haloname = args['haloname']
-    snapname = 'DD%.4i'%DD
-    #cenx   = float(args['cenx'])
-    #ceny   = float(args['ceny'])
-    #cenz   = float(args['cenz'])
-    wd    = float(args['wd'])
-    wdd    = float(args['wdd'])
+def make_figure(sat_n, figname, figdir, wd, wdd, ds):
 
-    axis = args['axis']
-    simdir = args['simdir']
-    figdir = args['figdir']
-    figname = args['figname']
-
-
-
-
-
-    DDname = 'DD%.4i'%DD
-    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
-
-
-
-
-
-    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
-
-    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
-    ds.add_particle_filter('stars')
-
-
-
-    for sat_n in arange(5):
         try:
             cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
-            cenx = cen_np[0]
-            ceny = cen_np[1]
-            cenz = cen_np[2]
-            cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
+        except:
+            return
+        cenx = cen_np[0]
+        ceny = cen_np[1]
+        cenz = cen_np[2]
+        cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
-            fig = plt.figure(1, figsize = (20,20))
+        fig = plt.figure(1, figsize = (20,20))
 
-            grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                            nrows_ncols = (1, 2),
-                            axes_pad = 0.0, label_mode = "1",
-                            share_all = False, cbar_mode=None,
-                            aspect = False)        
+        grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                        nrows_ncols = (1, 2),
+                        axes_pad = 0.0, label_mode = "1",
+                        share_all = False, cbar_mode=None,
+                        aspect = False)        
 
-
-
+        for axis in ['x', 'y', 'z']:
             if axis == 'x':
                 box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0] + 0.5 * yt.YTArray(wdd, 'kpc'), \
                            cen_g[1] - 0.5 * yt.YTArray(wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(wd,  'kpc'), \
@@ -161,8 +128,34 @@ if __name__ == '__main__':
             fig.savefig('%s/satn%i_%s-axis_%s'%(figdir, sat_n, axis, figname))
 
 
-        except:
-            pass
+if __name__ == '__main__':
+    args = parse()
+    simname = args['simname']
+    DD = int(args['DD'])
+    haloname = args['haloname']
+    snapname = 'DD%.4i'%DD
+    wd    = float(args['wd'])
+    wdd    = float(args['wdd'])
+    axis = args['axis']
+    simdir = args['simdir']
+    figdir = args['figdir']
+    figname = args['figname']
+
+
+
+
+
+    DDname = 'DD%.4i'%DD
+    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+
+    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+
+    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+    ds.add_particle_filter('stars')
+
+    Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(sat_n, figname, figdir, wd, wdd, ds) for sat_n in arange(5):)
+
+
 
 
 
