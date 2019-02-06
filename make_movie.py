@@ -41,7 +41,7 @@ def parse():
     parser.add_argument('-ceny', '--ceny', default=None, help='box position of galaxy, y')
     parser.add_argument('-cenz', '--cenz', default=None, help='box position of galaxy, z')
     parser.add_argument('-w', '--w', default=yt.YTArray([75, 75, 75], 'kpc'), help='width of camera, kpc')
-    parser.add_argument('-wd', '--wd', default=100., help='width of camera, kpc')
+    parser.add_argument('-wdd', '--wdd', default=100., help='width of camera, kpc')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
     parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/satellites', help='figures output directory')
     parser.add_argument('-figname', '--figname', default='temp.png', help='figures output directory')
@@ -61,7 +61,9 @@ if __name__ == '__main__':
     cenx   = float(args['cenx'])
     ceny   = float(args['ceny'])
     cenz   = float(args['cenz'])
-    W    = args['w']
+    W    = float(args['w'])
+    wdd    = float(args['wdd'])
+
     simdir = args['simdir']
     figdir = args['figdir']
     figname = args['figname']

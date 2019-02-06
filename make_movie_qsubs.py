@@ -50,7 +50,7 @@ for simname in ['nref11n_selfshield_z15']:
             cenz = cen_np[2]
 
             out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(simname, DDi, simname, DDi)
-            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -cenx %.4f -ceny %.4f -cenz %.4f -w 10 -wd 20 -figname sat%.2i_%s_%.4i.png%s\n'%(DDi, simname, cenx, ceny, cenz, sat_n, simname, DD, out_string))
+            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -cenx %.4f -ceny %.4f -cenz %.4f -w 10 -wdd 20 -figname sat%.2i_%s_%.4i.png%s\n'%(DDi, simname, cenx, ceny, cenz, sat_n, simname, DD, out_string))
 
 
         qf.close()
