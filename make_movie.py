@@ -153,7 +153,7 @@ if __name__ == '__main__':
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     ds.add_particle_filter('stars')
 
-    Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(sat_n, figname, figdir, wd, wdd, ds) for sat_n in arange(5):)
+    Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(sat_n, figname, figdir, wd, wdd, ds) for sat_n in arange(5))
 
 
 
