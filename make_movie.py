@@ -79,7 +79,6 @@ if __name__ == '__main__':
 
 
 
-    cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
     def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
@@ -95,6 +94,7 @@ if __name__ == '__main__':
             cenx = cen_np[0]
             ceny = cen_np[1]
             cenz = cen_np[2]
+            cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
             fig = plt.figure(1, figsize = (20,20))
