@@ -17,7 +17,7 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
 
     #for DDmin in arange(200, 1050, 100):
     DDmin = 200
-    DDmax = 500
+    DDmax = 1050
     N_split = 10
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_movie_sats.sh'%(simname, DDmin, DDmax), 'w+')
 
@@ -29,7 +29,7 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=san\n')
-        qf.write('#PBS -l walltime=0:40:00\n')
+        qf.write('#PBS -l walltime=2:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%sim_snap_name)
         qf.write('#PBS -M rsimons@jhu.edu\n')
