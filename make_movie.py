@@ -55,7 +55,7 @@ def parse():
 
 
 
-def make_figure(sat_n, figname, figdir, wd, wdd, ds, fig, grid):
+def make_figure(sat_n, figname, figdir, wd, wdd, ds):
 
         try:
             cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
