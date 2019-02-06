@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 from consistency import *
 import seaborn as sns
 from mpl_toolkits.axes_grid1 import AxesGrid
-
+plt.ioff()
 
 plt.close('all')
 def parse():
