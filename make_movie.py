@@ -71,16 +71,16 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds):
         for axis in ['x', 'y', 'z']:
             if axis == 'x':
                 box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0] + 0.5 * yt.YTArray(wdd, 'kpc'), \
-                           cen_g[1] - 0.5 * yt.YTArray(2*wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(2*wd,  'kpc'), \
-                           cen_g[2] - 0.5 * yt.YTArray(2*wd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wd,  'kpc')]
+                           cen_g[1] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(5*wd,  'kpc'), \
+                           cen_g[2] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wd,  'kpc')]
 
             elif axis == 'y':
-                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(2*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(2*wd, 'kpc'), \
+                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(5*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(5*wd, 'kpc'), \
                            cen_g[1] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(wdd,  'kpc'), \
-                           cen_g[2] - 0.5 * yt.YTArray(2*wd,  'kpc'): cen_g[2]  + 0.5 * yt.YTArray(2*wd,  'kpc')]
+                           cen_g[2] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[2]  + 0.5 * yt.YTArray(5*wd,  'kpc')]
             elif axis == 'z':
-                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(2*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(2*wd, 'kpc'), \
-                           cen_g[1] - 0.5 * yt.YTArray(2*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(2*wd,  'kpc'), \
+                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(5*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(5*wd, 'kpc'), \
+                           cen_g[1] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(5*wd,  'kpc'), \
                            cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
 
 
