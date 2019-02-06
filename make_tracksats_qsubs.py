@@ -27,7 +27,9 @@ for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
         qf.write('#PBS -V\n')
         qf.write('#PBS -W group_list=s1698\n\n\n\n')  
 
-        qf.write('python /u/rcsimons/scripts/foggie_local/track_satellites.py -simname %s -DDmin %i -DDmax %i > ./outfiles/%s_track_satellites.err > ./outfiles/%s_track_satellites.out\n'%(simname, min_DD, max_DD, snapname, snapname))
+        qf.write('python /u/rcsimons/scripts/foggie_local/track_satellites.py \
+                 -simname %s -DDmin %i -DDmax %i > ./outfiles/%s_track_satellites.err > \
+                 ./outfiles/%s_track_satellites.out\n'%(simname, min_DD, max_DD, snapname, snapname))
 
         qf.close()
 
