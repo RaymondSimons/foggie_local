@@ -44,16 +44,9 @@ for simname in ['nref11n_nref10f_selfshield_z6', 'nref11n_selfshield_z15']:
             #ceny = yf[0] * DDi**4. + yf[1] * DDi**3. + yf[2] * DDi**2. + yf[3] * DDi + yf[4]
             #cenz = zf[0] * DDi**4. + zf[1] * DDi**3. + zf[2] * DDi**2. + zf[3] * DDi + zf[4]
             sat_n = 0
-            try:
-                cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DDi, sat_n))[()]
-                cenx = cen_np[0]
-                ceny = cen_np[1]
-                cenz = cen_np[2]
 
-                out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(simname, DDi, simname, DDi)
-                qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -cenx %.4f -ceny %.4f -cenz %.4f -wd 10 -wdd 20 -figname sat%.2i_%s_%.4i.png%s\n'%(DDi, simname, cenx, ceny, cenz, sat_n, simname, DDi, out_string))
-            except:
-                pass
+            out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(simname, DDi, simname, DDi)
+            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 10 -wdd 20 -figname %s_%.4i.png%s\n'%(DDi, simname, simname, DDi, out_string))
 
         qf.close()
 

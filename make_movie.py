@@ -60,15 +60,18 @@ if __name__ == '__main__':
     DD = int(args['DD'])
     haloname = args['haloname']
     snapname = 'DD%.4i'%DD
-    cenx   = float(args['cenx'])
-    ceny   = float(args['ceny'])
-    cenz   = float(args['cenz'])
+    #cenx   = float(args['cenx'])
+    #ceny   = float(args['ceny'])
+    #cenz   = float(args['cenz'])
     wd    = float(args['wd'])
     wdd    = float(args['wdd'])
 
     simdir = args['simdir']
     figdir = args['figdir']
     figname = args['figname']
+
+
+
 
 
     DDname = 'DD%.4i'%DD
@@ -85,53 +88,64 @@ if __name__ == '__main__':
     ds.add_particle_filter('stars')
 
 
-    fig = plt.figure(1, figsize = (20,20))
 
-    grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                    nrows_ncols = (1, 2),
-                    axes_pad = 0.0, label_mode = "1",
-                    share_all = False, cbar_mode=None,
-                    aspect = False)        
-
-
-    #box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
-    #           cen_g[1] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
-    #           cen_g[2] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([200., wd]), 'kpc')]
-
-    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'), \
-               cen_g[1] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'), \
-               cen_g[2] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc')]
-
-    W = yt.YTArray([wd, wd, wd], 'kpc')
-    p = yt.ProjectionPlot(ds, 'y', ("gas","density"), center = cen_g, data_source=box, width=W)
-    p.set_unit(('gas','density'), 'Msun/pc**2')
-    p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
-    p.set_cmap(('gas', 'density'), density_color_map)
-    p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-    p.hide_axes()
-    p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-    p.annotate_scale(size_bar_args={'color':'white'})
-    plot = p.plots[("gas","density")]
-    plot.figure = fig
-    plot.axes = grid[0].axes
-    p._setup_plots()
+    for sat_n in arange(5):
+        try:
+            cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
+            cenx = cen_np[0]
+            ceny = cen_np[1]
+            cenz = cen_np[2]
 
 
-    p = yt.ParticleProjectionPlot(ds, 'y', ('stars', 'particle_mass'), center = cen_g, data_source=box, width = W)   
-    cmp = plt.cm.Greys_r
-    cmp.set_bad('k')
-    p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
-    p.hide_axes()
-    p.annotate_scale(size_bar_args={'color':'white'})
+            fig = plt.figure(1, figsize = (20,20))
 
-    p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35, zmax = 1.e42)
-    plot = p.plots[('stars','particle_mass')]
-    plot.figure = fig
-    plot.axes = grid[1].axes
-    p._setup_plots()
+            grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                            nrows_ncols = (1, 2),
+                            axes_pad = 0.0, label_mode = "1",
+                            share_all = False, cbar_mode=None,
+                            aspect = False)        
 
-    fig.set_size_inches(12, 6)
-    fig.savefig('%s/%s'%(figdir, figname))
+
+            #box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
+            #           cen_g[1] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
+            #           cen_g[2] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([200., wd]), 'kpc')]
+
+            box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'), \
+                       cen_g[1] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'), \
+                       cen_g[2] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc')]
+
+            W = yt.YTArray([wd, wd, wd], 'kpc')
+            p = yt.ProjectionPlot(ds, 'y', ("gas","density"), center = cen_g, data_source=box, width=W)
+            p.set_unit(('gas','density'), 'Msun/pc**2')
+            p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
+            p.set_cmap(('gas', 'density'), density_color_map)
+            p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+            p.hide_axes()
+            p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+            p.annotate_scale(size_bar_args={'color':'white'})
+            plot = p.plots[("gas","density")]
+            plot.figure = fig
+            plot.axes = grid[0].axes
+            p._setup_plots()
+
+
+            p = yt.ParticleProjectionPlot(ds, 'y', ('stars', 'particle_mass'), center = cen_g, data_source=box, width = W)   
+            cmp = plt.cm.Greys_r
+            cmp.set_bad('k')
+            p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
+            p.hide_axes()
+            p.annotate_scale(size_bar_args={'color':'white'})
+
+            p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35, zmax = 1.e42)
+            plot = p.plots[('stars','particle_mass')]
+            plot.figure = fig
+            plot.axes = grid[1].axes
+            p._setup_plots()
+
+            fig.set_size_inches(12, 6)
+            fig.savefig('%s/satn%i_%s'%(figdir, sat_n, figname))
+        except:
+            pass
 
 
 
