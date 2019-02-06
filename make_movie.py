@@ -87,6 +87,14 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds, fig, grid):
 
 
 
+            fig = plt.figure(1, figsize = (20,20))
+
+            grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                            nrows_ncols = (1, 2),
+                            axes_pad = 0.0, label_mode = "1",
+                            share_all = False, cbar_mode=None,
+                            aspect = False)        
+
 
 
             W = yt.YTArray([wd, wd, wd], 'kpc')
@@ -156,16 +164,7 @@ if __name__ == '__main__':
 
     for s, sat_n in enumerate(arange(5)):
 
-
-        fig = plt.figure(s, figsize = (20,20))
-
-        grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                        nrows_ncols = (1, 2),
-                        axes_pad = 0.0, label_mode = "1",
-                        share_all = False, cbar_mode=None,
-                        aspect = False)        
-
-        make_figure(sat_n, figname, figdir, wd, wdd, ds, figs_list[s], grid_list[s])
+        make_figure(sat_n, figname, figdir, wd, wdd, ds)
         plt.close('all')
 
 
