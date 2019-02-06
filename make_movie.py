@@ -43,7 +43,9 @@ def parse():
     parser.add_argument('-w', '--w', default=yt.YTArray([75, 75, 75], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-wd', '--wd', default=100., help='width of camera, kpc')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
-    parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/central_gal', help='figures output directory')
+    parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/satellites', help='figures output directory')
+    parser.add_argument('-figname', '--figname', default='temp.png', help='figures output directory')
+
 
     args = vars(parser.parse_args())
     return args
@@ -62,6 +64,8 @@ if __name__ == '__main__':
     W    = args['w']
     simdir = args['simdir']
     figdir = args['figdir']
+    figname = args['figname']
+
 
     DDname = 'DD%.4i'%DD
     ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
@@ -123,8 +127,7 @@ if __name__ == '__main__':
     p._setup_plots()
 
     fig.set_size_inches(12, 6)
-    fig.savefig('%s/cen_%s_%.4i.png'%(figdir, simname, DD))
-
+    fig.savefig('%s/%s'%(figdir, figname))
 
 
 
