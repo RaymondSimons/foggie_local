@@ -28,7 +28,7 @@ for simname in ['nref11n_selfshield_z15']:
         qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
-        qf.write('#PBS -l select=1:ncpus=16:model=san\n')
+        qf.write('#PBS -l select=1:ncpus=16:model=has\n')
         qf.write('#PBS -l walltime=1:30:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%sim_snap_name)
