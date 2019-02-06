@@ -40,7 +40,7 @@ def parse():
     parser.add_argument('-cenx', '--cenx', default=None, help='box position of galaxy, x')
     parser.add_argument('-ceny', '--ceny', default=None, help='box position of galaxy, y')
     parser.add_argument('-cenz', '--cenz', default=None, help='box position of galaxy, z')
-    parser.add_argument('-w', '--w', default=yt.YTArray([75, 75, 75], 'kpc'), help='width of camera, kpc')
+    parser.add_argument('-wd', '--wd', default=yt.YTArray([75, 75, 75], 'kpc'), help='width of camera, kpc')
     parser.add_argument('-wdd', '--wdd', default=100., help='width of camera, kpc')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
     parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/satellites', help='figures output directory')
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     cenx   = float(args['cenx'])
     ceny   = float(args['ceny'])
     cenz   = float(args['cenz'])
-    W    = float(args['w'])
+    wd    = float(args['wd'])
     wdd    = float(args['wdd'])
 
     simdir = args['simdir']
@@ -90,7 +90,7 @@ if __name__ == '__main__':
                     axes_pad = 0.0, label_mode = "1",
                     share_all = False, cbar_mode=None,
                     aspect = False)        
-    wd = W[0].value
+
 
     #box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
     #           cen_g[1] - 0.5 * yt.YTArray(max([200., wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([200., wd]), 'kpc'), \
@@ -100,7 +100,7 @@ if __name__ == '__main__':
                cen_g[1] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'), \
                cen_g[2] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc')]
 
-
+    W = yt.YTArray([wd, wd, wd], 'kpc')
     p = yt.ProjectionPlot(ds, 'y', ("gas","density"), center = cen_g, data_source=box, width=W)
     p.set_unit(('gas','density'), 'Msun/pc**2')
     p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
