@@ -55,7 +55,7 @@ def parse():
 
 
 
-def make_figure(sat_n, figname, figdir, wd, wdd, ds):
+def make_figure(sat_n, figname, figdir, wd, wdd, ds, fig, grid):
 
         try:
             cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
@@ -67,13 +67,6 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds):
         cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
-        fig = plt.figure(1, figsize = (20,20))
-
-        grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                        nrows_ncols = (1, 2),
-                        axes_pad = 0.0, label_mode = "1",
-                        share_all = False, cbar_mode=None,
-                        aspect = False)        
 
         for axis in ['x', 'y', 'z']:
             if axis == 'x':
@@ -143,6 +136,22 @@ if __name__ == '__main__':
 
 
 
+    figs_list = []
+    grid_list = []
+    for s, sat_n in enumerate(arange(5)):
+
+
+        fig = plt.figure(s, figsize = (20,20))
+
+        grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                        nrows_ncols = (1, 2),
+                        axes_pad = 0.0, label_mode = "1",
+                        share_all = False, cbar_mode=None,
+                        aspect = False)        
+        figs_list.append(fig)
+        grid_list.append(grid)
+
+
 
 
     DDname = 'DD%.4i'%DD
@@ -153,7 +162,7 @@ if __name__ == '__main__':
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     ds.add_particle_filter('stars')
 
-    Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(sat_n, figname, figdir, wd, wdd, ds) for sat_n in arange(5))
+    Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(sat_n, figname, figdir, wd, wdd, ds, figs_list[s], grid_list[s]) for s, sat_n in enumerate(arange(5)))
 
 
 
