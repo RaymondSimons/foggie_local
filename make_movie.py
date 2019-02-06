@@ -100,7 +100,7 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds):
             W = yt.YTArray([wd, wd, wd], 'kpc')
             p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
             p.set_unit(('gas','density'), 'Msun/pc**2')
-            p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
+            p.set_zlim(('gas', 'density'), zmin = density_proj_min * 0.5, zmax =  density_proj_max)
             p.set_cmap(('gas', 'density'), density_color_map)
             p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
             p.hide_axes()
