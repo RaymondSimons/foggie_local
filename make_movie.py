@@ -47,6 +47,7 @@ def parse():
                         default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/satellites', \
                         help='figures output directory')
     parser.add_argument('-figname', '--figname', default='temp.png', help='figures output directory')
+    parser.add_argument('-axis', '--axis', default='z', help='figures output directory')
 
 
     args = vars(parser.parse_args())
@@ -66,6 +67,7 @@ if __name__ == '__main__':
     wd    = float(args['wd'])
     wdd    = float(args['wdd'])
 
+    axis = args['axis']
     simdir = args['simdir']
     figdir = args['figdir']
     figname = args['figname']
@@ -105,12 +107,30 @@ if __name__ == '__main__':
                             share_all = False, cbar_mode=None,
                             aspect = False)        
 
-            box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'), \
-                       cen_g[1] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'), \
-                       cen_g[2] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc')]
+
+
+            if axis == 'x':
+                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0] + 0.5 * yt.YTArray(wdd, 'kpc'), \
+                           cen_g[1] - 0.5 * yt.YTArray(wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(wd,  'kpc'), \
+                           cen_g[2] - 0.5 * yt.YTArray(wd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wd,  'kpc')]
+
+            elif axis == 'y':
+                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(wd, 'kpc'), \
+                           cen_g[1] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(wdd,  'kpc'), \
+                           cen_g[2] - 0.5 * yt.YTArray(wd,  'kpc'): cen_g[2]  + 0.5 * yt.YTArray(wd,  'kpc')]
+            elif axis == 'z':
+                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(wd, 'kpc'), \
+                           cen_g[1] - 0.5 * yt.YTArray(wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(wd,  'kpc'), \
+                           cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
+
+
+
+
+
+
 
             W = yt.YTArray([wd, wd, wd], 'kpc')
-            p = yt.ProjectionPlot(ds, 'y', ("gas","density"), center = cen_g, data_source=box, width=W)
+            p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
             p.set_unit(('gas','density'), 'Msun/pc**2')
             p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
             p.set_cmap(('gas', 'density'), density_color_map)
@@ -124,7 +144,7 @@ if __name__ == '__main__':
             p._setup_plots()
 
 
-            p = yt.ParticleProjectionPlot(ds, 'y', ('stars', 'particle_mass'), center = cen_g, data_source=box, width = W)   
+            p = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_g, data_source=box, width = W)   
             cmp = plt.cm.Greys_r
             cmp.set_bad('k')
             p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
@@ -138,7 +158,9 @@ if __name__ == '__main__':
             p._setup_plots()
 
             fig.set_size_inches(12, 6)
-            fig.savefig('%s/satn%i_%s'%(figdir, sat_n, figname))
+            fig.savefig('%s/satn%i_%s-axis_%s'%(figdir, sat_n, axis, figname))
+
+
         except:
             pass
 
