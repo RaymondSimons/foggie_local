@@ -119,7 +119,7 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds, fig, grid):
 
             fig.set_size_inches(12, 6)
             fig.savefig('%s/satn%i_%s-axis_%s'%(figdir, sat_n, axis, figname))
-
+            plt.close('all')
 
 if __name__ == '__main__':
     args = parse()
@@ -138,18 +138,6 @@ if __name__ == '__main__':
 
     figs_list = []
     grid_list = []
-    for s, sat_n in enumerate(arange(5)):
-
-
-        fig = plt.figure(s, figsize = (20,20))
-
-        grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                        nrows_ncols = (1, 2),
-                        axes_pad = 0.0, label_mode = "1",
-                        share_all = False, cbar_mode=None,
-                        aspect = False)        
-        figs_list.append(fig)
-        grid_list.append(grid)
 
 
 
@@ -162,15 +150,23 @@ if __name__ == '__main__':
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     ds.add_particle_filter('stars')
 
-    Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(sat_n, figname, figdir, wd, wdd, ds, figs_list[s], grid_list[s]) for s, sat_n in enumerate(arange(5)))
+    #Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(sat_n, figname, figdir, wd, wdd, ds, figs_list[s], grid_list[s]) for s, sat_n in enumerate(arange(5)))
 
 
 
+    for s, sat_n in enumerate(arange(5)):
 
 
+        fig = plt.figure(s, figsize = (20,20))
 
+        grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                        nrows_ncols = (1, 2),
+                        axes_pad = 0.0, label_mode = "1",
+                        share_all = False, cbar_mode=None,
+                        aspect = False)        
 
-
+        make_figure(sat_n, figname, figdir, wd, wdd, ds, figs_list[s], grid_list[s])
+        plt.close('all')
 
 
 
