@@ -119,7 +119,7 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds):
             p.hide_axes()
             p.annotate_scale(size_bar_args={'color':'white'})
 
-            p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35, zmax = 1.e42)
+            p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
             plot = p.plots[('stars','particle_mass')]
             plot.figure = fig
             plot.axes = grid[1].axes
