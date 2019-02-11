@@ -126,14 +126,14 @@ if __name__ == '__main__':
             gas_H.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H'])]))
             gas_H0.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H0'])]))
             gas_H1.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H1'])]))
-            gas_CIV.append(gc_sphere.quantities.total_quantity([("gas", species_dict['C IV'])]))
-            gas_OVI.append(gc_sphere.quantities.total_quantity([("gas", species_dict['O VI'])]))
-            gas_MgII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['Mg II'])]))
-            gas_SII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['Si II'])]))
-            gas_CII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['C II'])]))
-            gas_SIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['Si III'])]))
-            gas_SIV.append(gc_sphere.quantities.total_quantity([("gas", species_dict['Si IV'])]))
-            gas_NeVIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['Ne VIII'])]))
+            gas_CIV.append(gc_sphere.quantities.total_quantity([("gas", species_dict['CIV'])]))
+            gas_OVI.append(gc_sphere.quantities.total_quantity([("gas", species_dict['OVI'])]))
+            gas_MgII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['MgII'])]))
+            gas_SII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiII'])]))
+            gas_CII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['CII'])]))
+            gas_SIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiIII'])]))
+            gas_SIV.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiIV'])]))
+            gas_NeVIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['NeVIII'])]))
 
 
 
