@@ -61,7 +61,7 @@ if __name__ == '__main__':
     ds.add_particle_filter('stars')
     ds.add_particle_filter('darkmatter')
     ds.add_particle_filter('youngstars')
-
+    print ('adding trident fields...')
     trident.add_ion_fields(ds, ions=['C IV', 'O VI', 'Mg II', 'Si II', 'C II', 'Si III', 'Si IV', 'Ne VIII'])
     
     #Parallel(n_jobs = -1, backend = 'threading')(delayed(measure_mass)(simname = simname, DD = DD, sat_n = sat_n, ds = ds) for sat_n in np.arange(5))
@@ -116,6 +116,7 @@ if __name__ == '__main__':
 
 
         for rr, r in enumerate(r_arr):        
+            print (rr, r)
             gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
 
 
