@@ -93,7 +93,7 @@ if __name__ == '__main__':
         cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
-        r_arr = arange(0.5, 3, 0.5)
+        r_arr = arange(0.25, 2, 0.25)
 
         DM              = []
         gas_tot         = []
@@ -148,9 +148,6 @@ if __name__ == '__main__':
 
         #np.save('/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i.npy'%(simname, DD, sat_n), mass)
 
-
-
-        print '\tGenerating fits for %s...'%self.aname
         master_hdulist = []
         prihdr = fits.Header()
         prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
