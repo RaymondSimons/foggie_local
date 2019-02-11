@@ -27,7 +27,7 @@ for sim_name in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
         qf.write('#PBS -o ./outfiles/%s_pbs.out\n'%sim_snap_name)
         qf.write('#PBS -e ./outfiles/%s_pbs.err\n'%sim_snap_name)
         qf.write('#PBS -V\n')
-        qf.write('#PBS -W group_list=s1698\n\n\n\n')  
+        qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
         qf.write('python /u/rcsimons/scripts/foggie_local/measure_mass_satellite.py --DD %i --simname  %s  > ./outfiles/%s.err > ./outfiles/%s.out\n'%(i, sim_name, sim_snap_name, sim_snap_name))
 
