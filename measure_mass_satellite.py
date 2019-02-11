@@ -1,5 +1,3 @@
-import matplotlib
-matplotlib.use('Agg')
 import astropy
 from astropy.io import fits
 import numpy as np
@@ -93,7 +91,7 @@ if __name__ == '__main__':
         cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
-        r_arr = arange(0.1, 20, 0.1)
+        r_arr = arange(0.5, 30, 0.5)
 
         DM              = []
         gas_tot         = []
