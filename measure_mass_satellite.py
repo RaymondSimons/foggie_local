@@ -93,7 +93,7 @@ if __name__ == '__main__':
         cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
-        r_arr = arange(0.5, 30, 0.5)
+        r_arr = arange(0.5, 3, 0.5)
 
         DM              = []
         gas_tot         = []
