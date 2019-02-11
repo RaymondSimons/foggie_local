@@ -8,9 +8,11 @@ for sim_name in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
 
     ddmin = 660
     ddmax = 1050
+    N_split = 10
+
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, ddmin, ddmax), 'w+')
-    for i in arange(ddmin, ddmax):
-        snap_name = 'DD%.4i'%i
+    for DD in arange(DDmin, DDmax, N_split):
+        snap_name = 'DD%.4i_DD%.4i'%(DD, DD + N_split)
         sim_snap_name = snap_name + '_' + sim_name+'_satmass'
 
         qsub_fname = '%s.qsub'%(sim_snap_name)
@@ -29,7 +31,8 @@ for sim_name in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
         qf.write('#PBS -V\n')
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
-        qf.write('python /u/rcsimons/scripts/foggie_local/measure_mass_satellite.py --DD %i --simname  %s  > ./outfiles/%s.err > ./outfiles/%s.out\n'%(i, sim_name, sim_snap_name, sim_snap_name))
+        for DDi in arange(DD, DD + N_split):
+            qf.write('python /u/rcsimons/scripts/foggie_local/measure_mass_satellite.py --DD %i --simname  %s  > ./outfiles/%s.err > ./outfiles/%s.out\n'%(DDi, sim_name, sim_snap_name, sim_snap_name))
 
 
 

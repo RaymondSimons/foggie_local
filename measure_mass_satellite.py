@@ -9,6 +9,7 @@ from joblib import Parallel, delayed
 import os, sys, argparse
 import yt
 import matplotlib.pyplot as plt
+import trident
 
 def parse():
     '''
