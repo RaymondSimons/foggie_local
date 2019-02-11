@@ -186,9 +186,9 @@ if __name__ == '__main__':
         master_hdulist.append(fits.ImageHDU(data =  array(gas_NeVIII     ), header = colhdr, name = 'gas_NeVIII'))
 
 
-        print '\tSaving to ' + self.fits_name
         thdulist = fits.HDUList(master_hdulist)
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i_1049.fits'%(simname, DD, sat_n)
+        print '\tSaving to ' + fits_name
         thdulist.writeto(fits_name, clobber = True)
 
 
