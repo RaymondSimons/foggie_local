@@ -8,7 +8,7 @@ for sim_name in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
 
     ddmin = 660
     ddmax = 1050
-    N_split = 10
+    N_split = 5
 
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, ddmin, ddmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
