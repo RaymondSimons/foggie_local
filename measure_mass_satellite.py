@@ -60,17 +60,19 @@ if __name__ == '__main__':
     ds.add_particle_filter('darkmatter')
     ds.add_particle_filter('youngstars')
     print ('adding trident fields...')
-    trident.add_ion_fields(ds, ions=['C IV', 'O VI', 'Mg II', 'Si II', 'C II', 'Si III', 'Si IV', 'Ne VIII'])
+    trident.add_ion_fields(ds, ions=['O VI', 'O VII', 'Mg II', 'Si II', 'C II', 'C III', 'C IV',  'Si III', 'Si IV', 'Ne VIII'])
     
     #Parallel(n_jobs = -1, backend = 'threading')(delayed(measure_mass)(simname = simname, DD = DD, sat_n = sat_n, ds = ds) for sat_n in np.arange(5))
     species_dict = {'H'   : 'H_mass',
                     'H0'   : 'H_p0_mass',
                     'H1'   : 'H_p1_mass',
+                    'CII': 'C_p1_mass',
                     'CIII': 'C_p2_mass',
                     'CIV': 'C_p3_mass',
                     'HI': 'H_p0_mass',
                     'MgII': 'Mg_p1_mass',
                     'OVI': 'O_p5_mass',
+                    'OVII': 'O_p6_mass',
                     'SiII': "Si_p1_mass",
                     'SiIII': "Si_p2_mass",
                     'SiIV': "Si_p3_mass",
@@ -101,11 +103,13 @@ if __name__ == '__main__':
         gas_H           = []
         gas_H0          = []
         gas_H1          = []
+        gas_CII         = []
+        gas_CIII        = []
         gas_CIV         = []
         gas_OVI         = []
+        gas_OVII        = []
         gas_MgII        = []
         gas_SII         = []
-        gas_CII         = []
         gas_SIII        = []
         gas_SIV         = []
         gas_NeVIII      = []
@@ -126,11 +130,12 @@ if __name__ == '__main__':
             gas_H.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H'])]))
             gas_H0.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H0'])]))
             gas_H1.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H1'])]))
+            gas_CII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['CII'])]))
+            gas_CIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['CIII'])]))
             gas_CIV.append(gc_sphere.quantities.total_quantity([("gas", species_dict['CIV'])]))
             gas_OVI.append(gc_sphere.quantities.total_quantity([("gas", species_dict['OVI'])]))
             gas_MgII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['MgII'])]))
             gas_SII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiII'])]))
-            gas_CII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['CII'])]))
             gas_SIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiIII'])]))
             gas_SIV.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiIV'])]))
             gas_NeVIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['NeVIII'])]))
@@ -169,19 +174,16 @@ if __name__ == '__main__':
         master_hdulist.append(fits.ImageHDU(data =  array(gas_H          ), header = colhdr, name = 'gas_H'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_H0         ), header = colhdr, name = 'gas_H0'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_H1         ), header = colhdr, name = 'gas_H1'))
+        master_hdulist.append(fits.ImageHDU(data =  array(gas_CII        ), header = colhdr, name = 'gas_CII'))
+        master_hdulist.append(fits.ImageHDU(data =  array(gas_CIII       ), header = colhdr, name = 'gas_CIII'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_CIV        ), header = colhdr, name = 'gas_CIV'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_OVI        ), header = colhdr, name = 'gas_OVI'))
+        master_hdulist.append(fits.ImageHDU(data =  array(gas_OVII       ), header = colhdr, name = 'gas_OVII'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_MgII       ), header = colhdr, name = 'gas_MgII'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_SII        ), header = colhdr, name = 'gas_SII'))
-        master_hdulist.append(fits.ImageHDU(data =  array(gas_CII        ), header = colhdr, name = 'gas_CII'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_SIII       ), header = colhdr, name = 'gas_SIII'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_SIV        ), header = colhdr, name = 'gas_SIV'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_NeVIII     ), header = colhdr, name = 'gas_NeVIII'))
-
-
-
-
-
 
 
         print '\tSaving to ' + self.fits_name
