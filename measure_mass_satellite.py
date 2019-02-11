@@ -79,7 +79,7 @@ if __name__ == '__main__':
                     'NeVIII': 'Ne_p7_mass',
                     'FeXIV': 'Fe_p13_mass'}
 
-    for sat_n in np.arange(1):
+    for sat_n in np.arange(5):
         #cen_file =  np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n))[()]
 
         #anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg, anchor_xs_avg, anchor_ys_avg, anchor_zs_avg, anchor_vxs_avg, anchor_vys_avg, anchor_vzs_avg = cen_file
@@ -93,7 +93,7 @@ if __name__ == '__main__':
         cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
-        r_arr = arange(0.25, 2, 0.25)
+        r_arr = arange(0.25, 20, 0.25)
 
         DM              = []
         gas_tot         = []
