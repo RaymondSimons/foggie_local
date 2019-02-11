@@ -186,7 +186,8 @@ if __name__ == '__main__':
 
         print '\tSaving to ' + self.fits_name
         thdulist = fits.HDUList(master_hdulist)
-        thdulist.writeto(self.fits_name, clobber = True)
+        fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i_1049.fits'%(simname, DD, sat_n)
+        thdulist.writeto(fits_name, clobber = True)
 
         return master_hdulist
 

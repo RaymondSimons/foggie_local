@@ -6,16 +6,16 @@ from numpy import *
 
 for sim_name in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
 
-    ddmin = 250
-    ddmax = 400
-    sf = open('../random_qsubs/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, ddmin, ddmax), 'w+')
+    ddmin = 660
+    ddmax = 1050
+    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, ddmin, ddmax), 'w+')
     for i in arange(ddmin, ddmax):
         snap_name = 'DD%.4i'%i
         sim_snap_name = snap_name + '_' + sim_name+'_satmass'
 
         qsub_fname = '%s.qsub'%(sim_snap_name)
 
-        qf = open('../random_qsubs/%s'%qsub_fname, 'w+')
+        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=san\n')
