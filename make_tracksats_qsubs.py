@@ -1,9 +1,9 @@
 import numpy as np
 from numpy import *
-split_n = 4
+split_n = 3
 
-DDmin = 200
-DDmax = 1050
+DDmin = 44
+DDmax = 1450
 
 for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_tracksats.sh'%(simname, DDmin, DDmax), 'w+')
