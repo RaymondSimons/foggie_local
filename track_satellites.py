@@ -115,7 +115,18 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
             anchor_vzs_box   = vzs_box[gd_indices]
 
 
-            good = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5) & (abs(anchor_ys_box - median(anchor_ys_box)) < 5) & (abs(anchor_zs_box - median(anchor_zs_box)) < 5))          
+            #good = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5) & 
+            #             (abs(anchor_ys_box - median(anchor_ys_box)) < 5) & 
+            #             (abs(anchor_zs_box - median(anchor_zs_box)) < 5))[0]
+            good = arange(len(anchor_xs_box))
+
+            #goodx = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5))[0]
+            #goody = where((abs(anchor_ys_box - median(anchor_ys_box)) < 5))[0]
+            #goodz = where((abs(anchor_zs_box - median(anchor_zs_box)) < 5))[0]
+
+
+            #print len(goodx), len(goody), len(goodz)          
+
 
             anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box,  weights = anchor_mss, good = good)
             anchor_ys_box_avg, _  = weighted_avg_and_std(anchor_ys_box,  weights = anchor_mss, good = good)
