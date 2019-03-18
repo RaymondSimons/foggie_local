@@ -1,2 +1,0 @@
-to_save = [a['OLDSTARS_00'].data['ids'], 
-          a['OLDSTARS_01'].data['ids']]

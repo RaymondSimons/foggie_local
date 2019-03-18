@@ -92,7 +92,7 @@ def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
     hdus.append(prim_hdu)
 
     for sat_n in arange(shape(anchor_fits)[0]):
-        anchor_ids = anchor_fits[sat_n][0]
+        anchor_ids = anchor_fits[sat_n]
         gd_indices = []
         for anch_id in anchor_ids: 
             match = where(id_s == anch_id)[0]
