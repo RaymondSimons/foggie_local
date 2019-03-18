@@ -141,29 +141,28 @@ def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
             anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss, good = good)
             anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss, good = good)
 
-            cols1 = fits.ColDefs([fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D'),
+            cols1 = fits.ColDefs([fits.Column(name = 'anchor_xs_box_avg     ', array =  anchor_xs_box_avg    , format = 'D'),
+                                  fits.Column(name = 'anchor_ys_box_avg     ', array =  anchor_ys_box_avg    , format = 'D'),
+                                  fits.Column(name = 'anchor_zs_box_avg     ', array =  anchor_zs_box_avg    , format = 'D'),
+                                  fits.Column(name = 'anchor_vxs_box_avg     ', array =  anchor_vxs_box_avg    , format = 'D'),
+                                  fits.Column(name = 'anchor_vys_box_avg     ', array =  anchor_vys_box_avg    , format = 'D'),
+                                  fits.Column(name = 'anchor_vzs_box_avg     ', array =  anchor_vzs_box_avg    , format = 'D'),
+                                  fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D'),
                                   fits.Column(name = 'anchor_xs_box  ', array =  anchor_xs_box , format = 'D'),
                                   fits.Column(name = 'anchor_ys_box  ', array =  anchor_ys_box , format = 'D'),
                                   fits.Column(name = 'anchor_zs_box  ', array =  anchor_zs_box , format = 'D'),
                                   fits.Column(name = 'anchor_vxs_box ', array =  anchor_vxs_box, format = 'D'),
                                   fits.Column(name = 'anchor_vys_box ', array =  anchor_vys_box, format = 'D'),
                                   fits.Column(name = 'anchor_vzs_box ', array =  anchor_vzs_box, format = 'D'),
+                                  fits.Column(name = 'ids_used_avg', array =  good, format = 'I'),
                                   ])
-
 
 
             hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'table_%.2i'%sat_n))
 
+            #to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg]
 
-
-
-
-            to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg]
-
-
-
-
-            np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n),to_save)
+            #np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n),to_save)
         else:
             print 'less than 10 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
 
