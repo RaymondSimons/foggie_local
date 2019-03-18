@@ -105,6 +105,7 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
         gd_indices       = array(gd_indices)
  
         if len(gd_indices) > 10:
+            print 'more than 10 anchor stars found for sat %i'%sat_n
             anchor_mss       = mss[gd_indices]
             anchor_xs_box    =  xs_box[gd_indices]
             anchor_ys_box    =  ys_box[gd_indices]
@@ -147,7 +148,7 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
 
             np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_%s_cen.npy'%(simname, DD, sat_n, anchor_str),to_save)
 
-            
+
     hdus_fits = fits.HDUList(hdus)
     hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_%s_anchorprops.fits'%(simname, DD, anchor_str), overwrite = True)
 
