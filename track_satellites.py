@@ -150,7 +150,6 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
 
 if __name__ == '__main__':
     args = parse()
-
     simname = args['simname']
     min_DD = int(args['DDmin'])
     max_DD = int(args['DDmax'])

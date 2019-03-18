@@ -5,7 +5,9 @@ split_n = 3
 DDmin = 44
 DDmax = 1450
 
-for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
+#natural = nref11n_selfshield_z15
+
+for simname in ['natural', 'nref11n_nref10f_selfshield_z6']:
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/tracks/submit_%s_%.4i_%.4i_tracksats.sh'%(simname, DDmin, DDmax), 'w+')
     for i in arange(DDmin, DDmax, split_n):
         min_DD = i
@@ -25,7 +27,7 @@ for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
         qf.write('#PBS -o ./outfiles/%s_pbs.out\n'%snapname)
         qf.write('#PBS -e ./outfiles/%s_pbs.err\n'%snapname)
         qf.write('#PBS -V\n')
-        qf.write('#PBS -W group_list=s1698\n\n\n\n')  
+        qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
         qf.write('python /u/rcsimons/scripts/foggie_local/track_satellites.py \
                  -simname %s -DDmin %i -DDmax %i > ./outfiles/%s_track_satellites.err > \
