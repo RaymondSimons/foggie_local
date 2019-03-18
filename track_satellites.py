@@ -6,6 +6,7 @@ import math
 from joblib import Parallel, delayed
 import os, sys, argparse
 import yt
+from joblib import Parallel, delayed
 
 def parse():
     '''
@@ -156,33 +157,25 @@ def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
                                   fits.Column(name = 'anchor_vzs_box ', array =  anchor_vzs_box, format = 'D'),
                                   fits.Column(name = 'ids_used_avg', array =  good, format = 'I'),
                                   ])
-
-
-            hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'SAT_%.2i'%sat_n))
-
-            #to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg]
-
-            #np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n),to_save)
         else:
-            cols1 = fits.ColDefs([fits.Column(name = 'anchor_xs_box_avg     ', array =  np.nan     , format = 'D'),
-                                  fits.Column(name = 'anchor_ys_box_avg     ', array =  np.nan    , format = 'D'),
-                                  fits.Column(name = 'anchor_zs_box_avg     ', array =  np.nan    , format = 'D'),
-                                  fits.Column(name = 'anchor_vxs_box_avg     ', array =  np.nan    , format = 'D'),
-                                  fits.Column(name = 'anchor_vys_box_avg     ', array =  np.nan    , format = 'D'),
-                                  fits.Column(name = 'anchor_vzs_box_avg     ', array =  np.nan    , format = 'D'),
-                                  fits.Column(name = 'anchor_mss     ', array =  np.nan, format = 'D'),
-                                  fits.Column(name = 'anchor_xs_box  ', array =  np.nan, format = 'D'),
-                                  fits.Column(name = 'anchor_ys_box  ', array =  np.nan, format = 'D'),
-                                  fits.Column(name = 'anchor_zs_box  ', array =  np.nan, format = 'D'),
-                                  fits.Column(name = 'anchor_vxs_box ', array =  np.nan, format = 'D'),
-                                  fits.Column(name = 'anchor_vys_box ', array =  np.nan, format = 'D'),
-                                  fits.Column(name = 'anchor_vzs_box ', array =  np.nan, format = 'D'),
-                                  fits.Column(name = 'ids_used_avg', array =  np.nan, format = 'D'),
+            print 'less than 10 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
+            cols1 = fits.ColDefs([fits.Column(name = 'anchor_xs_box_avg     ', array =  None   , format = '0D'),
+                                  fits.Column(name = 'anchor_ys_box_avg     ', array =  None  , format = '0D'),
+                                  fits.Column(name = 'anchor_zs_box_avg     ', array =  None  , format = '0D'),
+                                  fits.Column(name = 'anchor_vxs_box_avg     ', array = None   , format = '0D'),
+                                  fits.Column(name = 'anchor_vys_box_avg     ', array = None   , format = '0D'),
+                                  fits.Column(name = 'anchor_vzs_box_avg     ', array = None   , format = '0D'),
+                                  fits.Column(name = 'anchor_mss     ', array =  None, format = '0D'),
+                                  fits.Column(name = 'anchor_xs_box  ', array =  None, format = '0D'),
+                                  fits.Column(name = 'anchor_ys_box  ', array =  None, format = '0D'),
+                                  fits.Column(name = 'anchor_zs_box  ', array =  None, format = '0D'),
+                                  fits.Column(name = 'anchor_vxs_box ', array =  None, format = '0D'),
+                                  fits.Column(name = 'anchor_vys_box ', array =  None, format = '0D'),
+                                  fits.Column(name = 'anchor_vzs_box ', array =  None, format = '0D'),
+                                  fits.Column(name = 'ids_used_avg', array =  None, format = '0D'),
                                   ])
 
-            hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'SAT_%.2i'%sat_n))
-
-            print 'less than 10 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
+        hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'SAT_%.2i'%sat_n))
 
     hdus_fits = fits.HDUList(hdus)
     hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD), overwrite = True)
@@ -197,24 +190,20 @@ if __name__ == '__main__':
     max_DD = int(args['DDmax'])
     simdir = args['simdir']
     haloname = args['haloname']
-    #momentum_directory = '/nobackupp2/rcsimons/foggie_momentum/momentum_fits'    
-    #anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
-
-    #anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
     anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_anchors.npy'%simname)[()]
 
-    #Parallel(n_jobs = 1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, simname = simname, anchor_str = '1049', haloname = haloname, simdir = simdir, DD = DD) for DD in np.arange(min_DD, max_DD))
-    
-    for DD in np.arange(min_DD, max_DD):
+    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+    def run_tracker(DD, simdir, haloname, simname, anchor_fits):
         DDname = 'DD%.4i'%DD
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
         ad = ds.all_data()
-        def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
 
         yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
         ds.add_particle_filter('stars')
         make_savefile(anchor_fits = anchor_fits, simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
 
+    Parallel(n_jobs = -1, backend = 'threading')(delayed(run_tracker)(DD = DD, simdir = simdir, haloname = haloname, 
+                                                                      simname = simname, anchor_fits = anchor_fits) for DD in np.arange(min_DD, max_DD))
     
 
 

@@ -87,6 +87,7 @@ if __name__ == '__main__':
 
 
         cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
+        cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))
         cenx = cen_np[0]
         ceny = cen_np[1]
         cenz = cen_np[2]
