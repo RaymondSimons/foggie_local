@@ -3,7 +3,7 @@ from numpy import *
 split_n = 3
 
 DDmin = 44
-DDmax = 1450
+DDmax = 500
 
 #natural = nref11n_selfshield_z15
 
