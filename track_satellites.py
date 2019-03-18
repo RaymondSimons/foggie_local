@@ -103,50 +103,51 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
 
 
         gd_indices       = array(gd_indices)
-        print gd_indices
-        anchor_mss       = mss[gd_indices]
-        anchor_xs_box    =  xs_box[gd_indices]
-        anchor_ys_box    =  ys_box[gd_indices]
-        anchor_zs_box    =  zs_box[gd_indices]
-        anchor_vxs_box   = vxs_box[gd_indices]
-        anchor_vys_box   = vys_box[gd_indices]
-        anchor_vzs_box   = vzs_box[gd_indices]
+ 
+        if len(gd_indices) > 10:
+            anchor_mss       = mss[gd_indices]
+            anchor_xs_box    =  xs_box[gd_indices]
+            anchor_ys_box    =  ys_box[gd_indices]
+            anchor_zs_box    =  zs_box[gd_indices]
+            anchor_vxs_box   = vxs_box[gd_indices]
+            anchor_vys_box   = vys_box[gd_indices]
+            anchor_vzs_box   = vzs_box[gd_indices]
 
 
-        good = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5) & (abs(anchor_ys_box - median(anchor_ys_box)) < 5) & (abs(anchor_zs_box - median(anchor_zs_box)) < 5))          
+            good = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5) & (abs(anchor_ys_box - median(anchor_ys_box)) < 5) & (abs(anchor_zs_box - median(anchor_zs_box)) < 5))          
 
-        anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box,  weights = anchor_mss, good = good)
-        anchor_ys_box_avg, _  = weighted_avg_and_std(anchor_ys_box,  weights = anchor_mss, good = good)
-        anchor_zs_box_avg, _  = weighted_avg_and_std(anchor_zs_box,  weights = anchor_mss, good = good)
-        anchor_vxs_box_avg, _ = weighted_avg_and_std(anchor_vxs_box, weights = anchor_mss, good = good)
-        anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss, good = good)
-        anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss, good = good)
+            anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box,  weights = anchor_mss, good = good)
+            anchor_ys_box_avg, _  = weighted_avg_and_std(anchor_ys_box,  weights = anchor_mss, good = good)
+            anchor_zs_box_avg, _  = weighted_avg_and_std(anchor_zs_box,  weights = anchor_mss, good = good)
+            anchor_vxs_box_avg, _ = weighted_avg_and_std(anchor_vxs_box, weights = anchor_mss, good = good)
+            anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss, good = good)
+            anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss, good = good)
 
-        cols1 = fits.ColDefs([fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D'),
-                              fits.Column(name = 'anchor_xs_box  ', array =  anchor_xs_box , format = 'D'),
-                              fits.Column(name = 'anchor_ys_box  ', array =  anchor_ys_box , format = 'D'),
-                              fits.Column(name = 'anchor_zs_box  ', array =  anchor_zs_box , format = 'D'),
-                              fits.Column(name = 'anchor_vxs_box ', array =  anchor_vxs_box, format = 'D'),
-                              fits.Column(name = 'anchor_vys_box ', array =  anchor_vys_box, format = 'D'),
-                              fits.Column(name = 'anchor_vzs_box ', array =  anchor_vzs_box, format = 'D'),
-                              ])
-
-
-
-        hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'table_%.2i'%sat_n))
+            cols1 = fits.ColDefs([fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D'),
+                                  fits.Column(name = 'anchor_xs_box  ', array =  anchor_xs_box , format = 'D'),
+                                  fits.Column(name = 'anchor_ys_box  ', array =  anchor_ys_box , format = 'D'),
+                                  fits.Column(name = 'anchor_zs_box  ', array =  anchor_zs_box , format = 'D'),
+                                  fits.Column(name = 'anchor_vxs_box ', array =  anchor_vxs_box, format = 'D'),
+                                  fits.Column(name = 'anchor_vys_box ', array =  anchor_vys_box, format = 'D'),
+                                  fits.Column(name = 'anchor_vzs_box ', array =  anchor_vzs_box, format = 'D'),
+                                  ])
 
 
 
-
-
-        to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg]
+            hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'table_%.2i'%sat_n))
 
 
 
 
-        np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_%s_cen.npy'%(simname, DD, sat_n, anchor_str),to_save)
+
+            to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg]
 
 
+
+
+            np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_%s_cen.npy'%(simname, DD, sat_n, anchor_str),to_save)
+
+            
     hdus_fits = fits.HDUList(hdus)
     hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_%s_anchorprops.fits'%(simname, DD, anchor_str), overwrite = True)
 
