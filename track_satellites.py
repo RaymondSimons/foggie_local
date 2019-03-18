@@ -94,10 +94,14 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
     for sat_n in arange(shape(anchor_fits)[0]):
         #anchor_ids = anchor_fits['OLDSTARS_%.2i'%sat_n].data['ids']
         anchor_ids = anchor_fits[sat_n][0]
-        gd_indices = array([0 for i in arange(len(anchor_ids))])
+        #gd_indices = array([0 for i in arange(len(anchor_ids))])
+        gd_indices = []
+        for g in arange(len(anchor_ids)): 
+            match = where(id_s == anchor_ids[g])
+            if len(match) > 0:
+                gd_indices.append(int(match[0]))
 
-        for g in arange(len(anchor_ids)):
-            gd_indices[g] = int(where(id_s == anchor_ids[g])[0])
+
 
         anchor_mss      = mss[gd_indices]
         anchor_xs_box    =  xs_box[gd_indices]
