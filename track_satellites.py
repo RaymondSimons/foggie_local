@@ -110,29 +110,12 @@ def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
             anchor_vys_box   = vys_box[gd_indices]
             anchor_vzs_box   = vzs_box[gd_indices]
 
-
-            #good = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5) & 
-            #             (abs(anchor_ys_box - median(anchor_ys_box)) < 5) & 
-            #             (abs(anchor_zs_box - median(anchor_zs_box)) < 5))[0]
- 
-
             anchor_R = sqrt(anchor_xs_box**2. + anchor_ys_box**2. + anchor_zs_box**2.)
 
             hist_R, r_edges = np.histogram(anchor_R.value, weights = anchor_mss.value, bins = arange(min(anchor_R.value)-20,max(anchor_R.value)+20, 10))
 
             Rmid = np.mean([r_edges[argmax(hist_R)], r_edges[argmax(hist_R)+1]])
             good = where(abs(anchor_R.value - Rmid) < 5)[0]
-
-
-            print len(good)
-            #good = arange(len(anchor_xs_box))
-
-            #goodx = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5))[0]
-            #goody = where((abs(anchor_ys_box - median(anchor_ys_box)) < 5))[0]
-            #goodz = where((abs(anchor_zs_box - median(anchor_zs_box)) < 5))[0]
-
-
-            #print len(goodx), len(goody), len(goodz)          
 
 
             anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box,  weights = anchor_mss, good = good)
@@ -142,16 +125,14 @@ def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
             anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss, good = good)
             anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss, good = good)
 
-            box_avg = [('xs', anchor_xs_box_avg),
-                       ('ys', anchor_ys_box_avg),
-                       ('zs', anchor_zs_box_avg),
-                       ('vxs', anchor_vxs_box_avg),
-                       ('vys', anchor_vys_box_avg),
-                       ('vzs', anchor_vzs_box_avg)]
+            box_avg = [anchor_xs_box_avg,
+                       anchor_ys_box_avg,
+                       anchor_zs_box_avg,
+                        anchor_vxs_box_avg,
+                        anchor_vys_box_avg,
+                        anchor_vzs_box_avg]
 
-
-
-            cols1 = fits.ColDefs([fits.Column(name = 'box_avg     ', array =   box_avg  , format = 'D'),
+            cols1 = fits.ColDefs([fits.Column(name = 'box_avg', array =  box_avg    , format = 'D'),
                                   fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D'),
                                   fits.Column(name = 'anchor_xs_box  ', array =  anchor_xs_box , format = 'D'),
                                   fits.Column(name = 'anchor_ys_box  ', array =  anchor_ys_box , format = 'D'),
