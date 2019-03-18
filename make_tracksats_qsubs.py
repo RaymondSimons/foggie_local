@@ -10,7 +10,7 @@ for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
     for i in arange(DDmin, DDmax, split_n):
         min_DD = i
         max_DD = i + split_n
-        snapname = 'sats_%s_%i_%i'%(simname, min_DD, max_DD)
+        snapname = 'sats_%s_%.4i_%.4i'%(simname, min_DD, max_DD)
         qsub_fname = 'tracksats_%s_%.4i_%.4i.qsub'%(simname, min_DD, max_DD)
         
         qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/tracks/%s'%qsub_fname, 'w+')
