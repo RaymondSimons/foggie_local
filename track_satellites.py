@@ -7,7 +7,7 @@ from joblib import Parallel, delayed
 import os, sys, argparse
 import yt
 from joblib import Parallel, delayed
-
+from numpy import rec
 def parse():
     '''
     Parse command line arguments
@@ -142,12 +142,16 @@ def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
             anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss, good = good)
             anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss, good = good)
 
-            cols1 = fits.ColDefs([fits.Column(name = 'anchor_xs_box_avg     ', array =  anchor_xs_box_avg    , format = 'D'),
-                                  fits.Column(name = 'anchor_ys_box_avg     ', array =  anchor_ys_box_avg    , format = 'D'),
-                                  fits.Column(name = 'anchor_zs_box_avg     ', array =  anchor_zs_box_avg    , format = 'D'),
-                                  fits.Column(name = 'anchor_vxs_box_avg     ', array =  anchor_vxs_box_avg    , format = 'D'),
-                                  fits.Column(name = 'anchor_vys_box_avg     ', array =  anchor_vys_box_avg    , format = 'D'),
-                                  fits.Column(name = 'anchor_vzs_box_avg     ', array =  anchor_vzs_box_avg    , format = 'D'),
+            box_avg = [('xs', anchor_xs_box_avg),
+                       ('ys', anchor_ys_box_avg),
+                       ('zs', anchor_zs_box_avg),
+                       ('vxs', anchor_vxs_box_avg),
+                       ('vys', anchor_vys_box_avg),
+                       ('vzs', anchor_vzs_box_avg)]
+
+
+
+            cols1 = fits.ColDefs([fits.Column(name = 'box_avg     ', array =   box_avg  , format = 'D'),
                                   fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D'),
                                   fits.Column(name = 'anchor_xs_box  ', array =  anchor_xs_box , format = 'D'),
                                   fits.Column(name = 'anchor_ys_box  ', array =  anchor_ys_box , format = 'D'),
@@ -159,12 +163,7 @@ def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
                                   ])
         else:
             print 'less than 10 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
-            cols1 = fits.ColDefs([fits.Column(name = 'anchor_xs_box_avg     ', array =  None   , format = '0D'),
-                                  fits.Column(name = 'anchor_ys_box_avg     ', array =  None  , format = '0D'),
-                                  fits.Column(name = 'anchor_zs_box_avg     ', array =  None  , format = '0D'),
-                                  fits.Column(name = 'anchor_vxs_box_avg     ', array = None   , format = '0D'),
-                                  fits.Column(name = 'anchor_vys_box_avg     ', array = None   , format = '0D'),
-                                  fits.Column(name = 'anchor_vzs_box_avg     ', array = None   , format = '0D'),
+            cols1 = fits.ColDefs([fits.Column(name = 'box_avg     ', array =  None   , format = '0D'),
                                   fits.Column(name = 'anchor_mss     ', array =  None, format = '0D'),
                                   fits.Column(name = 'anchor_xs_box  ', array =  None, format = '0D'),
                                   fits.Column(name = 'anchor_ys_box  ', array =  None, format = '0D'),
@@ -202,7 +201,7 @@ if __name__ == '__main__':
         ds.add_particle_filter('stars')
         make_savefile(anchor_fits = anchor_fits, simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
 
-    Parallel(n_jobs = -1, backend = 'threading')(delayed(run_tracker)(DD = DD, simdir = simdir, haloname = haloname, 
+    Parallel(n_jobs = 1, backend = 'threading')(delayed(run_tracker)(DD = DD, simdir = simdir, haloname = haloname, 
                                                                       simname = simname, anchor_fits = anchor_fits) for DD in np.arange(min_DD, max_DD))
     
 
