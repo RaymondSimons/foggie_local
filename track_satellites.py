@@ -97,15 +97,13 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
         #gd_indices = array([0 for i in arange(len(anchor_ids))])
         gd_indices = []
         for anch_id in anchor_ids: 
-            print anch_id
             match = where(id_s == anch_id)[0]
             if len(match) > 0:
-                print match
                 gd_indices.append(int(match))
 
 
         gd_indices       = array(gd_indices)
-
+        print gd_indices
         anchor_mss       = mss[gd_indices]
         anchor_xs_box    =  xs_box[gd_indices]
         anchor_ys_box    =  ys_box[gd_indices]
