@@ -6,7 +6,7 @@ DDmin = 44
 DDmax = 1450
 
 for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_tracksats.sh'%(simname, DDmin, DDmax), 'w+')
+    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/tracks/submit_%s_%i_%i_tracksats.sh'%(simname, DDmin, DDmax), 'w+')
     for i in arange(DDmin, DDmax, split_n):
         min_DD = i
         max_DD = i + split_n
