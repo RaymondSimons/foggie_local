@@ -147,7 +147,8 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
 
 
             np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_%s_cen.npy'%(simname, DD, sat_n, anchor_str),to_save)
-
+        else:
+            print 'less than 10 anchor stars found for sat %i'%sat_n
 
     hdus_fits = fits.HDUList(hdus)
     hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_%s_anchorprops.fits'%(simname, DD, anchor_str), overwrite = True)
