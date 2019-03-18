@@ -92,16 +92,11 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
     hdus.append(prim_hdu)
 
     for sat_n in arange(shape(anchor_fits)[0]):
-        #anchor_ids = anchor_fits['OLDSTARS_%.2i'%sat_n].data['ids']
         anchor_ids = anchor_fits[sat_n][0]
-        #gd_indices = array([0 for i in arange(len(anchor_ids))])
         gd_indices = []
         for anch_id in anchor_ids: 
             match = where(id_s == anch_id)[0]
-            if len(match) > 0:
-                gd_indices.append(int(match))
-
-
+            if len(match) > 0: gd_indices.append(int(match))
         gd_indices       = array(gd_indices)
  
         if len(gd_indices) > 10:
@@ -122,7 +117,7 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
 
             anchor_R = sqrt(anchor_xs_box**2. + anchor_ys_box**2. + anchor_zs_box**2.)
 
-            hist_R, r_edges = np.histogram(anchor_R.value, weights = anchor_mss.value, bins = arange(min(anchor_R.value),max(anchor_R.value), 10))
+            hist_R, r_edges = np.histogram(anchor_R.value, weights = anchor_mss.value, bins = arange(min(anchor_R.value)-20,max(anchor_R.value)+20, 10))
 
             Rmid = np.mean([r_edges[argmax(hist_R)], r_edges[argmax(hist_R)+1]])
             good = where(abs(anchor_R.value - Rmid) < 5)[0]
