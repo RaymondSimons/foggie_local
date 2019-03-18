@@ -48,7 +48,7 @@ def weighted_avg_and_std(values, weights, good):
 
 
 
-def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad):
+def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
     
 
 
@@ -163,12 +163,12 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
 
 
 
-            np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_%s_cen.npy'%(simname, DD, sat_n, anchor_str),to_save)
+            np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n),to_save)
         else:
             print 'less than 10 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
 
     hdus_fits = fits.HDUList(hdus)
-    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_%s_anchorprops.fits'%(simname, DD, anchor_str), overwrite = True)
+    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD), overwrite = True)
 
 
 
@@ -184,7 +184,7 @@ if __name__ == '__main__':
     #anchor_ids = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors.npy'%simname)
 
     #anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_anchors_DD0250.fits'%simname)
-    anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_DD1049_anchors.npy'%simname)[()]
+    anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_anchors.npy'%simname)[()]
 
     #Parallel(n_jobs = 1, backend = 'threading')(delayed(make_savefile)(anchor_fits = anchor_fits, simname = simname, anchor_str = '1049', haloname = haloname, simdir = simdir, DD = DD) for DD in np.arange(min_DD, max_DD))
     
@@ -196,7 +196,7 @@ if __name__ == '__main__':
 
         yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
         ds.add_particle_filter('stars')
-        make_savefile(anchor_fits = anchor_fits, simname = simname, anchor_str = '1049', haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
+        make_savefile(anchor_fits = anchor_fits, simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
 
     
 
