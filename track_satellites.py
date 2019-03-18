@@ -182,7 +182,7 @@ if __name__ == '__main__':
         ds.add_particle_filter('stars')
         make_savefile(anchor_fits = anchor_fits, simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
 
-    Parallel(n_jobs = 1, backend = 'threading')(delayed(run_tracker)(DD = DD, simdir = simdir, haloname = haloname, 
+    Parallel(n_jobs = 3, backend = 'threading')(delayed(run_tracker)(DD = DD, simdir = simdir, haloname = haloname, 
                                                                       simname = simname, anchor_fits = anchor_fits) for DD in np.arange(min_DD, max_DD))
     
 
