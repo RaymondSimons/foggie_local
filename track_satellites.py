@@ -158,12 +158,30 @@ def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
                                   ])
 
 
-            hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'table_%.2i'%sat_n))
+            hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'SAT_%.2i'%sat_n))
 
             #to_save = [anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg]
 
             #np.save('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n),to_save)
         else:
+            cols1 = fits.ColDefs([fits.Column(name = 'anchor_xs_box_avg     ', array =  np.nan     , format = 'D'),
+                                  fits.Column(name = 'anchor_ys_box_avg     ', array =  np.nan    , format = 'D'),
+                                  fits.Column(name = 'anchor_zs_box_avg     ', array =  np.nan    , format = 'D'),
+                                  fits.Column(name = 'anchor_vxs_box_avg     ', array =  np.nan    , format = 'D'),
+                                  fits.Column(name = 'anchor_vys_box_avg     ', array =  np.nan    , format = 'D'),
+                                  fits.Column(name = 'anchor_vzs_box_avg     ', array =  np.nan    , format = 'D'),
+                                  fits.Column(name = 'anchor_mss     ', array =  np.nan, format = 'D'),
+                                  fits.Column(name = 'anchor_xs_box  ', array =  np.nan, format = 'D'),
+                                  fits.Column(name = 'anchor_ys_box  ', array =  np.nan, format = 'D'),
+                                  fits.Column(name = 'anchor_zs_box  ', array =  np.nan, format = 'D'),
+                                  fits.Column(name = 'anchor_vxs_box ', array =  np.nan, format = 'D'),
+                                  fits.Column(name = 'anchor_vys_box ', array =  np.nan, format = 'D'),
+                                  fits.Column(name = 'anchor_vzs_box ', array =  np.nan, format = 'D'),
+                                  fits.Column(name = 'ids_used_avg', array =  np.nan, format = 'D'),
+                                  ])
+
+            hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'SAT_%.2i'%sat_n))
+
             print 'less than 10 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
 
     hdus_fits = fits.HDUList(hdus)
