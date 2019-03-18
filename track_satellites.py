@@ -102,8 +102,9 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
                 gd_indices.append(int(match[0]))
 
 
+        gd_indices       = array(gd_indices)
 
-        anchor_mss      = mss[gd_indices]
+        anchor_mss       = mss[gd_indices]
         anchor_xs_box    =  xs_box[gd_indices]
         anchor_ys_box    =  ys_box[gd_indices]
         anchor_zs_box    =  zs_box[gd_indices]
