@@ -118,7 +118,18 @@ def make_savefile(anchor_fits, simname, anchor_str, haloname, simdir, DD, ds, ad
             #good = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5) & 
             #             (abs(anchor_ys_box - median(anchor_ys_box)) < 5) & 
             #             (abs(anchor_zs_box - median(anchor_zs_box)) < 5))[0]
-            good = arange(len(anchor_xs_box))
+ 
+
+            anchor_R = sqrt(anchor_xs_box**2. + anchor_ys_box**2. + anchor_zs_box**2.)
+
+            hist_R, r_edges = np.histogram(anchor_R.value, weights = anchor_mss.value, bins = arange(min(anchor_R.value),max(anchor_R.value), 10))
+
+            Rmid = np.mean([r_edges[argmax(hist_R)], r_edges[argmax(hist_R)+1]])
+            good = where(abs(anchor_R.value - Rmid) < 5)[0]
+
+
+            print len(good)
+            #good = arange(len(anchor_xs_box))
 
             #goodx = where((abs(anchor_xs_box - median(anchor_xs_box)) < 5))[0]
             #goody = where((abs(anchor_ys_box - median(anchor_ys_box)) < 5))[0]
