@@ -13,7 +13,7 @@ for simname in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
         snapname = 'sats_%s_%i_%i'%(simname, min_DD, max_DD)
         qsub_fname = 'tracksats_%s_%i_%i.qsub'%(simname, min_DD, max_DD)
         
-        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/%s'%qsub_fname, 'w+')
+        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/tracks/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=12:model=san\n')
