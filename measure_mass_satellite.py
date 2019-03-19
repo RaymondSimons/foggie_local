@@ -8,6 +8,7 @@ import os, sys, argparse
 import yt
 import matplotlib.pyplot as plt
 import trident
+import numpy
 
 def parse():
     '''
@@ -253,11 +254,6 @@ if __name__ == '__main__':
 
         master_hdulist.append(fits.ImageHDU(data =  array(quantiles         ), header = colhdr, name = 'quantiles'))
         master_hdulist.append(fits.ImageHDU(data =  array(wquant             ), header = colhdr, name = 'CGM_gasdens_quant'))
-
-
-
-
-
 
 
         thdulist = fits.HDUList(master_hdulist)
