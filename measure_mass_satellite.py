@@ -237,7 +237,7 @@ if __name__ == '__main__':
             R = sqrt(sum(cen_gal**2.))
 
             sp1 = ds.sphere(cen_gal, ds.arr(R.value + 2.5, 'kpc'))
-            sp2 = ds.sphere(cen_gal, ds.arr(R.value - 2.5, 'kpc'))
+            sp2 = ds.sphere(cen_gal, ds.arr(max(R.value - 2.5, 0.30), 'kpc'))
 
             shl = ds.intersection([sp1, sp2])
             shl_ad = shl.ds.all_data()  
