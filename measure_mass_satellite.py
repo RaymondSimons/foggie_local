@@ -105,7 +105,7 @@ if __name__ == '__main__':
         zf = central_xyz_fit['z']
 
 
-        r_arr = concatenate((arange(0.25, 3, 0.25), arange(3, 10, 0.5), arange(10, 20, 1.)))
+        r_arr = concatenate((arange(0.25, 2, 0.1), arange(2, 10, 0.25), arange(10, 20, 1.)))
 
         DM              = []
         gas_tot         = []
@@ -128,7 +128,7 @@ if __name__ == '__main__':
 
 
 
-
+        '''
         for rr, r in enumerate(r_arr):        
             print (rr, r)
             gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
@@ -192,7 +192,8 @@ if __name__ == '__main__':
         master_hdulist.append(fits.ImageHDU(data =  array(gas_SIII       ), header = colhdr, name = 'gas_SIII'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_SIV        ), header = colhdr, name = 'gas_SIV'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_NeVIII     ), header = colhdr, name = 'gas_NeVIII'))
-
+    
+        '''
 
 
         central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
@@ -211,10 +212,10 @@ if __name__ == '__main__':
         shl = ds.intersection([sp1, sp2])
         shl_ad = shl.ds.all_data()  
 
-        shl_dens = ['gas', 'density']
-        shl_volu = ['index', 'cell_volume']
+        shl_dens = ['gas', 'density'].to('g * cm**-3')
+        shl_volu = ['index', 'cell_volume'].to('kpc**3.')
 
-        H_dens, edges = np.histogram(np.log10(shl_dens), weights = shl_volu, bins = np.linspace(-32, -20, 200))
+        H_dens, edges = np.histogram(np.log10(shl_dens.value), weights = shl_volu.value, bins = np.linspace(-32, -20, 200))
 
         master_hdulist.append(fits.ImageHDU(data =  array(edges         ), header = colhdr, name = 'gasdens_bins'))
         master_hdulist.append(fits.ImageHDU(data =  array(H_dens             ), header = colhdr, name = 'CGM_gasdens_dist'))
