@@ -52,6 +52,7 @@ if __name__ == '__main__':
     def _darkmatter(pfilter, data):
         return data[(pfilter.filtered_type, "particle_type")] == 4
 
+
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     yt.add_particle_filter("youngstars",function=_youngstars, filtered_type='all',requires=["age"])
     yt.add_particle_filter("darkmatter",function=_darkmatter, filtered_type='all',requires=["particle_type"])
@@ -92,6 +93,16 @@ if __name__ == '__main__':
         ceny = cen_np[1]
         cenz = cen_np[2]
         cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
+
+
+
+
+
+        central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%simname)[()]
+
+        xf = cen_fits['x']
+        yf = cen_fits['y']
+        zf = cen_fits['z']
 
 
         r_arr = concatenate((arange(0.25, 3, 0.25), arange(3, 10, 0.5), arange(10, 20, 1.)))
@@ -144,8 +155,6 @@ if __name__ == '__main__':
 
 
 
-
-
         #mass = [gas_mass,gas_metal_mass, DM_mass, stars_mass, youngstars_mass]
 
         #np.save('/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i.npy'%(simname, DD, sat_n), mass)
@@ -184,6 +193,31 @@ if __name__ == '__main__':
         master_hdulist.append(fits.ImageHDU(data =  array(gas_SIV        ), header = colhdr, name = 'gas_SIV'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_NeVIII     ), header = colhdr, name = 'gas_NeVIII'))
 
+
+
+        central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
+        central_y = yf[0] * DD**4. + yf[1] * DD**3. + yf[2] * DD**2. + yf[3] * DD + yf[4]
+        central_z = zf[0] * DD**4. + zf[1] * DD**3. + zf[2] * DD**2. + zf[3] * DD + zf[4]
+
+
+        cen_gal = yt.YTArray([cenx - central_x, ceny - central_y, cenz - central_z], 'kpc')
+
+
+        R = sqrt(sum(cen_gal**2.))
+
+        sp1 = ds.sphere(cen_gal, ds.arr(R.value + 2.5, 'kpc'))
+        sp2 = ds.sphere(cen_gal, ds.arr(R.value - 2.5, 'kpc'))
+
+        shl = ds.intersection([sp1, sp2])
+        shl_ad = shl.ds.all_data()  
+
+        shl_dens = ['gas', 'density']
+        shl_volu = ['index', 'cell_volume']
+
+        H_dens, edges = np.histogram(np.log10(shl_dens), weights = shl_volu, bins = np.linspace(-32, -20, 200))
+
+        master_hdulist.append(fits.ImageHDU(data =  array(edges         ), header = colhdr, name = 'gasdens_bins'))
+        master_hdulist.append(fits.ImageHDU(data =  array(H_dens             ), header = colhdr, name = 'CGM_gasdens_dist'))
 
         thdulist = fits.HDUList(master_hdulist)
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i_1049.fits'%(simname, DD, sat_n)

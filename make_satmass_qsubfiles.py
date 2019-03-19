@@ -10,14 +10,14 @@ for sim_name in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
     DDmax = 1050
     N_split = 3
 
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
+    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
         snap_name = 'DD%.4i_DD%.4i'%(DD, DD + N_split)
         sim_snap_name = snap_name + '_' + sim_name+'_satmass'
 
         qsub_fname = '%s.qsub'%(sim_snap_name)
 
-        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/%s'%qsub_fname, 'w+')
+        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=has\n')
