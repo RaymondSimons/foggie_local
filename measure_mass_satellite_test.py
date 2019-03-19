@@ -139,7 +139,7 @@ if __name__ == '__main__':
 
                 r = 20
                 sph =  ds.sphere(cen, ds.arr(r,'kpc'))
-                dens = yt.ProfilePlot(sph, "radius", "cell_mass", weight_field=None)
+                dens = yt.ProfilePlot(sph, "radius", ["cell_mass", ("gas", species_dict['H'])] weight_field=None)
 
 
                 '''
