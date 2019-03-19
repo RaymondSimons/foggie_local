@@ -100,9 +100,9 @@ if __name__ == '__main__':
 
         central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%simname)[()]
 
-        xf = cen_fits['x']
-        yf = cen_fits['y']
-        zf = cen_fits['z']
+        xf = central_xyz_fit['x']
+        yf = central_xyz_fit['y']
+        zf = central_xyz_fit['z']
 
 
         r_arr = concatenate((arange(0.25, 3, 0.25), arange(3, 10, 0.5), arange(10, 20, 1.)))
