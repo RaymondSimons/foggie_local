@@ -158,7 +158,6 @@ if __name__ == '__main__':
 
 
 
-        '''
         for rr, r in enumerate(r_arr):        
             print (rr, r)
             gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
@@ -223,7 +222,7 @@ if __name__ == '__main__':
         master_hdulist.append(fits.ImageHDU(data =  array(gas_SIV        ), header = colhdr, name = 'gas_SIV'))
         master_hdulist.append(fits.ImageHDU(data =  array(gas_NeVIII     ), header = colhdr, name = 'gas_NeVIII'))
     
-        '''
+
 
 
         central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
