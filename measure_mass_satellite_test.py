@@ -140,7 +140,8 @@ if __name__ == '__main__':
                 r = 20
                 sph =  ds.sphere(cen, ds.arr(r,'kpc'))
                 dens = yt.ProfilePlot(sph, "radius", ["cell_mass", ("gas", species_dict['CIII'])], weight_field=None)
-
+                dens = yt.ProfilePlot(sph, "radius", [("deposit", "darkmatter_cic")], accumulation = True)
+                DM = dens.profiles[0]
 
                 '''
                 r_arr = concatenate((arange(0.25, 2, 0.1), arange(2, 10, 0.25), arange(10, 20, 1.)))

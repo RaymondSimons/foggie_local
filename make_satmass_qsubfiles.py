@@ -6,9 +6,9 @@ from numpy import *
 
 for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 
-    DDmin = 1350
+    DDmin = 500
     DDmax = 1455
-    N_split = 3
+    N_split = 10
 
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
@@ -21,7 +21,7 @@ for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=has\n')
-        qf.write('#PBS -l walltime=04:00:00\n')
+        qf.write('#PBS -l walltime=15:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%sim_snap_name)
         qf.write('#PBS -M rsimons@jhu.edu\n')
