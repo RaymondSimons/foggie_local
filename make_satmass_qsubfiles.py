@@ -4,7 +4,7 @@
 import numpy
 from numpy import *
 
-for sim_name in ['nref11n_selfshield_z15', 'nref11n_nref10f_selfshield_z6']:
+for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 
     DDmin = 44
     DDmax = 500
