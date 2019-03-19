@@ -87,11 +87,11 @@ if __name__ == '__main__':
         #cen = yt.YTArray([anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg], 'kpc')
 
 
-        cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
-        cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))
-        cenx = cen_np[0]
-        ceny = cen_np[1]
-        cenz = cen_np[2]
+        #cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
+        cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n))
+        cenx = cen_fits[1].data['box_avg'][0]
+        ceny = cen_fits[1].data['box_avg'][1]
+        cenz = cen_fits[1].data['box_avg'][2]
         cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 
