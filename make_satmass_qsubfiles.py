@@ -6,8 +6,8 @@ from numpy import *
 
 for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 
-    DDmin = 44
-    DDmax = 500
+    DDmin = 500
+    DDmax = 900
     N_split = 3
 
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
