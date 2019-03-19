@@ -137,7 +137,12 @@ if __name__ == '__main__':
                 yf = central_xyz_fit['y']
                 zf = central_xyz_fit['z']
 
+                r = 20
+                sph =  ds.sphere(cen, ds.arr(r,'kpc'))
+                dens = yt.ProfilePlot(sph, "radius", "cell_mass", weight_field=None)
 
+
+                '''
                 r_arr = concatenate((arange(0.25, 2, 0.1), arange(2, 10, 0.25), arange(10, 20, 1.)))
 
                 DM              = []
@@ -185,7 +190,6 @@ if __name__ == '__main__':
                     gas_SIV.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiIV'])]).to('Msun'))
                     gas_NeVIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['NeVIII'])]).to('Msun'))
 
-                
 
                 #mass = [gas_mass,gas_metal_mass, DM_mass, stars_mass, youngstars_mass]
 
@@ -262,6 +266,7 @@ if __name__ == '__main__':
                 print '\tSaving to ' + fits_name
                 thdulist.writeto(fits_name, overwrite = True)
 
+                '''
 
 
 
