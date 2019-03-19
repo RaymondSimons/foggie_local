@@ -30,7 +30,36 @@ def parse():
 
 
 
+def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False, old_style=False):
+    """ Very close to numpy.percentile, but supports weights.
+    NOTE: quantiles should be in [0, 1]!
+    :param values: numpy.array with data
+    :param quantiles: array-like with many quantiles needed
+    :param sample_weight: array-like of the same length as `array`
+    :param values_sorted: bool, if True, then will avoid sorting of initial array
+    :param old_style: if True, will correct output to be consistent with numpy.percentile.
+    :return: numpy.array with computed quantiles.
+    """
+    values = numpy.array(values)
+    quantiles = numpy.array(quantiles)
+    if sample_weight is None:
+        sample_weight = numpy.ones(len(values))
+    sample_weight = numpy.array(sample_weight)
+    assert numpy.all(quantiles >= 0) and numpy.all(quantiles <= 1), 'quantiles should be in [0, 1]'
 
+    if not values_sorted:
+        sorter = numpy.argsort(values)
+        values = values[sorter]
+        sample_weight = sample_weight[sorter]
+
+    weighted_quantiles = numpy.cumsum(sample_weight) - 0.5 * sample_weight
+    if old_style:
+        # To be convenient with numpy.percentile
+        weighted_quantiles -= weighted_quantiles[0]
+        weighted_quantiles /= weighted_quantiles[-1]
+    else:
+        weighted_quantiles /= numpy.sum(sample_weight)
+    return numpy.interp(quantiles, weighted_quantiles, values)
 
 
 if __name__ == '__main__':
@@ -212,13 +241,24 @@ if __name__ == '__main__':
         shl = ds.intersection([sp1, sp2])
         shl_ad = shl.ds.all_data()  
 
-        shl_dens = ['gas', 'density'].to('g * cm**-3')
-        shl_volu = ['index', 'cell_volume'].to('kpc**3.')
+        shl_dens = shl_ad['gas', 'density'].to('g * cm**-3')
+        shl_volu = shl_ad['index', 'cell_volume'].to('kpc**3.')
 
         H_dens, edges = np.histogram(np.log10(shl_dens.value), weights = shl_volu.value, bins = np.linspace(-32, -20, 200))
 
-        master_hdulist.append(fits.ImageHDU(data =  array(edges         ), header = colhdr, name = 'gasdens_bins'))
+        quantiles = [0.05, 0.16, 0.50, 0.84, 0.95]
+        wquant = weighted_quantile(np.log10(shl_dens.value), quantiles, sample_weight = shl_volu.value)
+        master_hdulist.append(fits.ImageHDU(data =  array(edges         ), header = colhdr, name = 'bins'))
         master_hdulist.append(fits.ImageHDU(data =  array(H_dens             ), header = colhdr, name = 'CGM_gasdens_dist'))
+
+        master_hdulist.append(fits.ImageHDU(data =  array(quantiles         ), header = colhdr, name = 'quantiles'))
+        master_hdulist.append(fits.ImageHDU(data =  array(wquant             ), header = colhdr, name = 'CGM_gasdens_quant'))
+
+
+
+
+
+
 
         thdulist = fits.HDUList(master_hdulist)
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i.fits'%(simname, DD, sat_n)
