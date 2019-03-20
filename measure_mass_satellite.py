@@ -164,8 +164,6 @@ if __name__ == '__main__':
                 for rr, r in enumerate(r_arr):        
                     print (rr, r)
                     gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
-
-
                     DM.append(gc_sphere.quantities.total_quantity([("darkmatter", "particle_mass")]).to('Msun'))
                     gas_tot.append(gc_sphere.quantities.total_quantity([("gas", "cell_mass")]).to('Msun'))
                     gas_metals.append(gc_sphere.quantities.total_quantity([("gas", "metal_mass")]).to('Msun'))
