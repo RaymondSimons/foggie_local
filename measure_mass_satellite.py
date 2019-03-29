@@ -66,7 +66,7 @@ def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False
 
 if __name__ == '__main__':
     args = parse()
-    simname = args['simname']
+    simname = args['simname'] 
     DD = int(args['DD'])
     haloname = args['haloname']
     DDname = 'DD%.4i'%DD
@@ -133,9 +133,10 @@ if __name__ == '__main__':
 
 
 
+                if 'selfshield_z15' in simname: center_simname = 'natural'
+                else: center_simname = simname
 
-
-                central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%simname)[()]
+                central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%center_simname)[()]
 
                 xf = central_xyz_fit['x']
                 yf = central_xyz_fit['y']
