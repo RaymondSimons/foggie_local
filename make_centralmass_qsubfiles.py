@@ -6,9 +6,9 @@ from numpy import *
 
 #for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 #for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
-for sim_name in ['nref11n_selfshield_z15', 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15']:
+for sim_name in ['nref11n_nref10f_selfshield_z6']:#'nref11n_selfshield_z15', 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15']:
     DDmin = 44
-    DDmax = 1455
+    DDmax = 1000
     N_split = 20
 
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/submit_%s_%i_%i_cenmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
@@ -22,7 +22,7 @@ for sim_name in ['nref11n_selfshield_z15', 'nref11n_v2_selfshield_z15', 'nref11n
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=has\n')
-        qf.write('#PBS -l walltime=2:00:00\n')
+        qf.write('#PBS -l walltime=4:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%sim_snap_name)
         qf.write('#PBS -M rsimons@jhu.edu\n')
