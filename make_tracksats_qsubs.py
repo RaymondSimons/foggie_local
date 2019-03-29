@@ -1,9 +1,9 @@
 import numpy as np
 from numpy import *
-split_n = 5
+split_n = 10
 
-DDmin = 0
-DDmax = 50
+DDmin = 40
+DDmax = 800
 
 #natural = nref11n_selfshield_z15
 
