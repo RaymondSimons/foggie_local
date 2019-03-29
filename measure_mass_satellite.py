@@ -23,6 +23,7 @@ def parse():
     parser.add_argument('-DD', '--DD', default=None, help='DD to use')
 
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
+    parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
 
     parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
 
@@ -68,9 +69,9 @@ if __name__ == '__main__':
     simname = args['simname']
     DD = int(args['DD'])
     haloname = args['haloname']
-    snapname = 'DD%.4i'%DD
-    #ds = yt.load('/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
-    ds = yt.load('/nobackupp2/rcsimons/foggie_momentum/snapshots/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
+    DDname = 'DD%.4i'%DD
+    simdir = args['simdir']
+    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
 
 
 
@@ -197,7 +198,7 @@ if __name__ == '__main__':
                 prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
                 prihdr['simname'] = simname
                 prihdr['DDname'] = DD
-                prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname)
+                prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
 
                 prihdu = fits.PrimaryHDU(header=prihdr)    
                 master_hdulist.append(prihdu)
