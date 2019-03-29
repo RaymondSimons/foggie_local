@@ -58,6 +58,7 @@ def parse():
 def make_figure(sat_n, figname, figdir, wd, wdd, ds):
 
         try:
+            if simname == 'nref11n_selfshield_z15': dirname = 'natural'
             if simname == 'nref11n_v2_selfshield_z15': dirname = 'natural_v2'
             if simname == 'nref11n_v3_selfshield_z15': dirname = 'natural_v3'
 
@@ -174,119 +175,6 @@ if __name__ == '__main__':
         make_figure(sat_n, figname, figdir, wd, wdd, ds)
         plt.close('all')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-
-
-
-
-
-#Ls = [Lx, Ly, Lz]
-Ls = [0, 0, 1]
-ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname, snapname, snapname))
-
-if True:
-    cenx = float(args['cenx'])
-    ceny = float(args['ceny'])
-    cenz = float(args['cenz'])    
-else:
-    #Read center from galprops
-    galaxy_props_file = galprops_outdir + '/'  + simname + '_' + snapname + '_galprops.npy'
-    gp = np.load(galaxy_props_file)[()]
-    cenx = float(gp['stars_center'][0])
-    ceny = float(gp['stars_center'][1])
-    cenz = float(gp['stars_center'][2])
-
-
-
-
-
-
-
-cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
-
-density_proj_min = 5e-2  # msun / pc^2
-density_proj_max = 1e4
-
-metal_min = 1.e-4
-metal_max = 10.
-
-
-
-print Ls
-
-#p = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
-#M = yt.off_axis_projection(ds, cen, Ls, W, N, ('gas', 'metallicity'), weight = ('gas', 'density'), north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
-
-
-p = yt.ProjectionPlot(ds, fields = 'density', center = cen, width =  W)#, zmin = density_proj_min, zmax = density_proj_max)
-M = yt.ProjectionPlot(ds, fields = 'metallicity', center = cen, width =  W, weight = 'density', north_vector =  north_vector)#, zmin = density_proj_min, zmax = density_proj_max)
-
-density_color_map = sns.blend_palette(("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
-metal_color_map = sns.blend_palette(("black", "#4575b4", "#984ea3", "#984ea3", "#d73027", "darkorange", "#ffe34d"), as_cmap=True)
-
-p = p.in_units('Msun * pc**-2')
-M = M.in_units('Zsun')
-
-
-if not add_cbar:
-    fig, axes = plt.subplots(1,2, figsize = (20,10))
-    fig.subplots_adjust(left = 0.0, right = 1.0, top =1.0, bottom = 0.0, hspace = 0.0, wspace = 0.0)
-
-else:
-    fig, axes = plt.subplots(1,1, figsize = (10,9))
-    fig.subplots_adjust(left = 0.0, right = 0.92, top =1.0, bottom = 0.0, hspace = 0.0, wspace = 0.0)
-
-
-
-im1 = axes[0].imshow(np.log10(p), vmin = log10(density_proj_min), vmax = log10(density_proj_max), cmap = density_color_map)
-im2 = axes[1].imshow(np.log10(M), vmin = log10(metal_min),        vmax = log10(metal_max), cmap = metal_color_map)
-
-for ax in axes:
-    ax.axis('off')
-
-if add_cbar:
-    cax = fig.add_axes([0.915, 0.0, 0.02, 1.0])
-    cbr = fig.colorbar(im1, cax=cax, orientation="vertical", cmap = density_color_map)
-    cbr.set_label(r'log projected gas density (M$_{\odot}$ kpc$^{-2}$)', fontsize = 15)
-
-fig.savefig("%s/%s_%.4i.png"%(figdir, simname, DD), dpi = 300)
-
-'''
 
 
 

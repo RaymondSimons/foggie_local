@@ -33,7 +33,7 @@ sat_ns_arr = [(0, 0), (1, 1),
               (6, 3), (7, 2), 
               (10,8), (11,7)]
 
-sat_ns_arr = [(0, 0, 0), (1,1, 1), (2,2, 2), (3,3, 3), (4,4, 4), (5,5, 5), ]
+sat_ns_arr = [(0, 0, 0)]#, (1,1, 1), (2,2, 2), (3,3, 3), (4,4, 4), (5,5, 5), ]
 
 
 for s, sat_ns in enumerate(sat_ns_arr):
@@ -79,9 +79,9 @@ for s, sat_ns in enumerate(sat_ns_arr):
                     #gms_arr.append(f4(f(0.9)))
 
 
-                    sfr_arr.append(data['STARS_YOUNGMASS'].data[30])
-                    sms_arr.append(data['STARS_MASS'].data[30])
-                    gms_arr.append(data['GAS_TOT'].data[30])
+                    sfr_arr.append(data['STARS_YOUNGMASS'].data[20])
+                    sms_arr.append(data['STARS_MASS'].data[20])
+                    gms_arr.append(data['GAS_TOT'].data[20])
 
 
 
