@@ -97,7 +97,6 @@ if __name__ == '__main__':
     print ('adding trident fields...')
     trident.add_ion_fields(ds, ions=['O VI', 'O VII', 'Mg II', 'Si II', 'C II', 'C III', 'C IV',  'Si III', 'Si IV', 'Ne VIII'])
     
-    #Parallel(n_jobs = -1, backend = 'threading')(delayed(measure_mass)(simname = simname, DD = DD, sat_n = sat_n, ds = ds) for sat_n in np.arange(5))
     species_dict = {'H'   : 'H_mass',
                     'H0'   : 'H_p0_mass',
                     'H1'   : 'H_p1_mass',
@@ -115,7 +114,7 @@ if __name__ == '__main__':
                     'FeXIV': 'Fe_p13_mass'}
 
 
-    fits_name = '/nobackupp2/rcsimons/foggie_momentum/%s_DD%.4i_mass.fits'%(simname, DD, sat_n)
+    fits_name = '/nobackupp2/rcsimons/foggie_momentum/%s_DD%.4i_mass.fits'%(simname, DD)
 
     central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_natural.npy'%center_simname)[()]
 
@@ -175,10 +174,6 @@ if __name__ == '__main__':
         gas_NeVIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['NeVIII'])]).to('Msun'))
 
     
-
-    #mass = [gas_mass,gas_metal_mass, DM_mass, stars_mass, youngstars_mass]
-
-    #np.save('/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i.npy'%(simname, DD, sat_n), mass)
 
     master_hdulist = []
     prihdr = fits.Header()
