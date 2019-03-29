@@ -62,7 +62,7 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds):
             if simname == 'nref11n_v3_selfshield_z15': dirname = 'natural_v3'
 
             fits_name = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(dirname, simname, DD)
-            cen_np = fits.open(fits_name)
+            cen_fits = fits.open(fits_name)
         except:
             print 'something bad happened with ', fits_name
             return
