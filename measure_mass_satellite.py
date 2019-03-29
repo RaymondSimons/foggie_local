@@ -114,7 +114,13 @@ if __name__ == '__main__':
                     'NeVIII': 'Ne_p7_mass',
                     'FeXIV': 'Fe_p13_mass'}
 
-    cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD))
+
+    if 'v2' in simname: cen_name = 'natural_v2'
+    if 'v3' in simname: cen_name = 'natural_v3'
+    if 'v4' in simname: cen_name = 'natural_v4'
+
+
+    cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
     for sat_n in np.arange(len(cen_fits) - 1):
         #cen_file =  np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_cen.npy'%(simname, DD, sat_n))[()]
 
