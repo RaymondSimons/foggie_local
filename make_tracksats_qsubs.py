@@ -6,8 +6,9 @@ DDmin = 0
 DDmax = 50
 
 #natural = nref11n_selfshield_z15
-'''
-for simname in ['natural', 'nref11n_nref10f_selfshield_z6']:
+
+#for simname in ['natural', 'nref11n_nref10f_selfshield_z6']:
+for simname in ['nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15']:
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/tracks/submit_%s_%.4i_%.4i_tracksats.sh'%(simname, DDmin, DDmax), 'w+')
     for i in arange(DDmin, DDmax, split_n):
         min_DD = i
@@ -39,13 +40,14 @@ for simname in ['natural', 'nref11n_nref10f_selfshield_z6']:
         sf.write('qsub %s\n'%qsub_fname)
 
     sf.close()
-'''
 
 
 
 
 ### just doing every other 5
+'''
 for simname in ['natural']:
+
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/tracks/submit_%s_%.4i_tracksats.sh'%(simname, DDmin), 'w+')
     for i in arange(DDmin, DDmax, split_n):
         min_DD = i
@@ -70,13 +72,17 @@ for simname in ['natural']:
                  -simname %s -DDmin %i -DDmax %i --simdir /nobackupp2/rcsimons/foggie_momentum/snapshots > ./outfiles/%s_track_satellites.err > \
                  ./outfiles/%s_track_satellites.out\n'%(simname, min_DD, min_DD + 1, snapname, snapname))
 
+
+
+
+
         qf.close()
 
 
         sf.write('qsub %s\n'%qsub_fname)
 
     sf.close()
-
+'''
 
 
 

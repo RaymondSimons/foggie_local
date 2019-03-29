@@ -4,14 +4,15 @@
 import numpy
 from numpy import *
 
-for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
-
+#for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
+#for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
+for sim_name in ['nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15']:
     DDmin = 500
     DDmax = 1455
     N_split = 10
 
-    DDmin = 0
-    DDmax = 50
+    DDmin = 400
+    DDmax = 600
     N_split = 5
 
 
@@ -37,9 +38,8 @@ for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
         qf.write('#PBS -V\n')
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
-        #for DDi in arange(DD, DD + N_split):
-        for DDi in arange(DD, DD + 1):
-
+        for DDi in arange(DD, DD + N_split):
+        #for DDi in arange(DD, DD + 1):
             qf.write('python /u/rcsimons/scripts/foggie_local/measure_mass_satellite.py --DD %i --simname  %s  > ./outfiles/%s.err > ./outfiles/%s.out\n'%(DDi, sim_name, sim_snap_name, sim_snap_name))
 
 
