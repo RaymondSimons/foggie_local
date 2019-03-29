@@ -58,7 +58,10 @@ def parse():
 def make_figure(sat_n, figname, figdir, wd, wdd, ds):
 
         try:
-            fits_name = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD)
+            if simname == 'nref11n_v2_selfshield_z15': dirname = 'natural_v2'
+            if simname == 'nref11n_v3_selfshield_z15': dirname = 'natural_v3'
+
+            fits_name = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(dirname, simname, DD)
             cen_np = fits.open(fits_name)
         except:
             print 'something bad happened with ', fits_name
