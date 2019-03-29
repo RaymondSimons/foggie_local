@@ -58,12 +58,15 @@ def parse():
 def make_figure(sat_n, figname, figdir, wd, wdd, ds):
 
         try:
-            cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
+            fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i.fits'%(simname, DD, sat_n)
+            cen_np = fits.open(fits_name)
         except:
             return
-        cenx = cen_np[0]
-        ceny = cen_np[1]
-        cenz = cen_np[2]
+
+
+        cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
+        ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
+        cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
         cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
 

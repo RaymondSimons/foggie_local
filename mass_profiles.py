@@ -2,6 +2,7 @@ import astropy
 from astropy.io import fits
 from numpy import *
 from matplotlib.pyplot import *
+import os
 import matplotlib.pyplot as plt
 plt.rcParams['text.usetex'] = True
 plt.rcParams['xtick.labelsize'] = 15
@@ -29,15 +30,17 @@ fits_dir = '/Users/rsimons/Dropbox/rcs_foggie/satellite_masses/all'
 
 
 
-for s, simname in enumerate(['natural', 'nref11n_nref10f_selfshield_z6']):#, 'nref11n_selfshield_z15']):
+#for s, simname in enumerate(['natural', 'nref11n_nref10f_selfshield_z6']):#, 'nref11n_selfshield_z15']):
+for s, simname in enumerate(['nref11n_v2_selfshield_z15']):#, 'nref11n_selfshield_z15']):
     DDmin = 44
-    DDmax = 500
+    DDmax = 800
     #if s == 1 : DDmax = 1050
     #else:       DDmax = 900
     #if s == 0: stn = 4
     #elif s == 1: stn = 3
     if simname == 'natural': nsats = 12
     else: nsats = 11
+    nsats = 1
     for sat_n in arange(nsats):
         if sat_n !=9:
 
@@ -59,9 +62,10 @@ for s, simname in enumerate(['natural', 'nref11n_nref10f_selfshield_z6']):#, 'nr
 
                 data_p_fl = fits_dir + '/%s_DD%.4i_mass_sat%.2i.fits'%(simname, DD-1, sat_n)
                 data_fl = fits_dir + '/%s_DD%.4i_mass_sat%.2i.fits'%(simname, DD, sat_n)
+                #if os.path.isfile(data_p_fl) & os.path.isfile(data_fl):
+                if os.path.isfile(data_fl):
 
-                if os.path.isfile(data_p_fl) & os.path.isfile(data_fl):
-                    data_p = fits.open(data_p_fl)
+                    #data_p = fits.open(data_p_fl)
                     data   = fits.open(data_fl)
 
 
@@ -69,14 +73,14 @@ for s, simname in enumerate(['natural', 'nref11n_nref10f_selfshield_z6']):#, 'nr
                     V_she = 4/3. * pi * (data['distance'].data[1:]**3. - data['distance'].data[:-1]**3.)
 
                     sM_den = (data['STARS_MASS'].data[1:] - data['STARS_MASS'].data[:-1])/V_she
-                    sM_den_p = (data_p['STARS_MASS'].data[1:] - data_p['STARS_MASS'].data[:-1])/V_she
+                    #sM_den_p = (data_p['STARS_MASS'].data[1:] - data_p['STARS_MASS'].data[:-1])/V_she
 
                     ysM_den = (data['STARS_YOUNGMASS'].data[1:] - data['STARS_YOUNGMASS'].data[:-1])/V_she
-                    ysM_den_p = (data_p['STARS_YOUNGMASS'].data[1:] - data_p['STARS_YOUNGMASS'].data[:-1])/V_she
+                    #ysM_den_p = (data_p['STARS_YOUNGMASS'].data[1:] - data_p['STARS_YOUNGMASS'].data[:-1])/V_she
 
 
                     gM_den = (data['GAS_TOT'].data[1:] - data['GAS_TOT'].data[:-1])/V_she
-                    gM_den_p = (data_p['GAS_TOT'].data[1:] - data_p['GAS_TOT'].data[:-1])/V_she
+                    #gM_den_p = (data_p['GAS_TOT'].data[1:] - data_p['GAS_TOT'].data[:-1])/V_she
                     
                     if d == 0:
                         axes.plot(r_cen, sM_den, color = 'red')

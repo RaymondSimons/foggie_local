@@ -9,12 +9,12 @@ import yt
 anchor_dir = '/Users/rsimons/Dropbox/rcs_foggie/anchor_files'
 
 
-simnames = ['natural', 'nref11n_nref10f_selfshield_z6']
+simnames = ['natural', 'nref11n_v2_selfshield_z15', 'nref11n_nref10f_selfshield_z6']
 
 DD_arr = arange(44, 1100)
 tracks_file = '/Users/rsimons/Dropbox/rcs_foggie/catalogs/satellite_tracks.npy'
 dist_from_center_file = '/Users/rsimons/Dropbox/rcs_foggie/catalogs/satellite_dist_from_center.npy'
-if False:
+if True:
     tracks = nan * zeros((2, len(DD_arr), 12, 3))
 
 
@@ -33,7 +33,7 @@ if False:
                 print 'no track file', DD
     np.save(tracks_file, tracks)
     
-if True:
+if False:
     tracks = np.load(tracks_file)
     mn_dists = nan * zeros((12, 12))
     mx_dists = nan * zeros((12, 12))

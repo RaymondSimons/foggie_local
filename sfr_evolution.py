@@ -5,7 +5,7 @@ from glob import glob
 import scipy
 import os
 from scipy import interpolate
-plt.rcParams['text.usetex'] = True
+#plt.rcParams['text.usetex'] = True
 plt.ioff()
 plt.close('all')
 
@@ -20,7 +20,7 @@ dist_from_center_file = '/Users/rsimons/Dropbox/rcs_foggie/catalogs/satellite_di
 dist_from_center = np.load(dist_from_center_file)[()]
 
 DD_to_t = np.load('/Users/rsimons/Dropbox/rcs_foggie/outputs/DD_time.npy')[()]
-clrs = ['blue', 'red']
+clrs = ['blue', 'darkblue', 'red']
 prev = 0
 #sat_ns_arr = [(0, 0), (4, 2), (3, 4)]
 sat_ns_arr = [(4, 2)]
@@ -33,6 +33,8 @@ sat_ns_arr = [(0, 0), (1, 1),
               (6, 3), (7, 2), 
               (10,8), (11,7)]
 
+sat_ns_arr = [(0, 0, 0), (1,1, 1), (2,2, 2), (3,3, 3), (4,4, 4), (5,5, 5), ]
+
 
 for s, sat_ns in enumerate(sat_ns_arr):
     fig1, ax1 = plt.subplots(1,1, figsize = (6,6))
@@ -41,7 +43,9 @@ for s, sat_ns in enumerate(sat_ns_arr):
     fig4, ax4 =  plt.subplots(1,1, figsize = (6,6))
 
 
-    for sm, simname in enumerate(['natural', 'nref11n_nref10f_selfshield_z6']):
+    #for sm, simname in enumerate(['natural', 'nref11n_nref10f_selfshield_z6']):
+    for sm, simname in enumerate(['natural', 'nref11n_v2_selfshield_z15', 'nref11n_nref10f_selfshield_z6']):
+
         sat_n = sat_ns[sm]
         DD_arr_all = arange(44, 500)
         tt_arr_all = array([DD_to_t[2][where(DD_to_t[0] == Dnum)[0][0]] for Dnum in DD_arr_all])
@@ -55,7 +59,7 @@ for s, sat_ns in enumerate(sat_ns_arr):
         R_90 = []
 
         R_c = []
-        R_cen = dist_from_center[sm, :, sat_n]
+        R_cen = dist_from_center[max(sm-1, 0), :, sat_n]
         for d, DD in enumerate(DD_arr_all):
             #fits_fl = '%s_DD%.4i_mass_sat%.2i_%i.fits'%(simname, DD, sat_n, selection_DD)
             fits_fl = '%s_DD%.4i_mass_sat%.2i.fits'%(simname, DD, sat_n)
@@ -70,9 +74,17 @@ for s, sat_ns in enumerate(sat_ns_arr):
                     f4 = interpolate.interp1d(data['DISTANCE'].data, data['GAS_TOT'].data)
 
                     R_90.append(f(0.9))
-                    sfr_arr.append(f2(f(0.9)))
-                    sms_arr.append(f3(f(0.9)))
-                    gms_arr.append(f4(f(0.9)))
+                    #sfr_arr.append(f2(f(0.9)))
+                    #sms_arr.append(f3(f(0.9)))
+                    #gms_arr.append(f4(f(0.9)))
+
+
+                    sfr_arr.append(data['STARS_YOUNGMASS'].data[30])
+                    sms_arr.append(data['STARS_MASS'].data[30])
+                    gms_arr.append(data['GAS_TOT'].data[30])
+
+
+
                     tt_arr.append(tt_arr_all[d])
                     zz_arr.append(zz_arr_all[d])
 
@@ -81,7 +93,13 @@ for s, sat_ns in enumerate(sat_ns_arr):
 
 
         if simname == 'natural': lbl = 'natural'
+        if simname == 'nref11n_v2_selfshield_z15': lbl = 'natural_v2'
         elif simname == 'nref11n_nref10f_selfshield_z6': lbl = 'forced'
+
+
+
+
+
 
         minr = 20
         maxr = 750
