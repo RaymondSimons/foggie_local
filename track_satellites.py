@@ -170,7 +170,10 @@ if __name__ == '__main__':
     max_DD = int(args['DDmax'])
     simdir = args['simdir']
     haloname = args['haloname']
-    anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_anchors.npy'%simname)[()]
+    if 'selfshield_z15' in simname: anchor_simname = 'natural'
+    else: anchor_simname = simname
+
+    anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_anchors.npy'%anchor_simname)[()]
 
     def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
     def run_tracker(DD, simdir, haloname, simname, anchor_fits):
