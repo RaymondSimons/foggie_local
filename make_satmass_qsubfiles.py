@@ -11,9 +11,9 @@ for sim_name in ['nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref
     DDmax = 1455
     N_split = 10
 
-    DDmin = 400
-    DDmax = 600
-    N_split = 5
+    DDmin = 40
+    DDmax = 800
+    N_split = 3
 
 
 
