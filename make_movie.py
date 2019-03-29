@@ -61,6 +61,7 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds):
             fits_name = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD)
             cen_np = fits.open(fits_name)
         except:
+            print 'something bad happened with ', fits_name
             return
 
 
