@@ -169,7 +169,7 @@ if __name__ == '__main__':
 
 
 
-    for s, sat_n in enumerate(1):
+    for s, sat_n in enumerate(arange(1)):
 
         make_figure(sat_n, figname, figdir, wd, wdd, ds)
         plt.close('all')
