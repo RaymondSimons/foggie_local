@@ -60,6 +60,8 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds):
         if simname == 'natural': dirname = 'natural'
         if simname == 'nref11n_v2_selfshield_z15': dirname = 'natural_v2'
         if simname == 'nref11n_v3_selfshield_z15': dirname = 'natural_v3'
+        if simname == 'nref11n_v4_selfshield_z15': dirname = 'natural_v4'
+
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(dirname, simname, DD)
         try:
             cen_fits = fits.open(fits_name)
