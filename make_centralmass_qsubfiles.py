@@ -11,10 +11,10 @@ for sim_name in ['nref11n_selfshield_z15', 'nref11n_v2_selfshield_z15', 'nref11n
     DDmax = 1455
     N_split = 20
 
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
+    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/submit_%s_%i_%i_cenmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
         snap_name = 'DD%.4i_DD%.4i'%(DD, DD + N_split)
-        sim_snap_name = snap_name + '_' + sim_name+'_satmass'
+        sim_snap_name = snap_name + '_' + sim_name+'_cenmass'
 
         qsub_fname = '%s.qsub'%(sim_snap_name)
 
