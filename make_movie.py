@@ -58,7 +58,7 @@ def parse():
 def make_figure(sat_n, figname, figdir, wd, wdd, ds):
 
         try:
-            fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i.fits'%(simname, DD, sat_n)
+            fits_name = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD)
             cen_np = fits.open(fits_name)
         except:
             return
