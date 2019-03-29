@@ -57,11 +57,11 @@ def parse():
 
 def make_figure(sat_n, figname, figdir, wd, wdd, ds):
 
+        fits_name = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(dirname, simname, DD)
         try:
             if simname == 'nref11n_selfshield_z15': dirname = 'natural'
             if simname == 'nref11n_v2_selfshield_z15': dirname = 'natural_v2'
             if simname == 'nref11n_v3_selfshield_z15': dirname = 'natural_v3'
-            fits_name = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(dirname, simname, DD)
             cen_fits = fits.open(fits_name)
         except:
             print 'something bad happened with ', fits_name
@@ -169,7 +169,7 @@ if __name__ == '__main__':
 
 
 
-    for s, sat_n in enumerate(arange(5)):
+    for s, sat_n in enumerate(1):
 
         make_figure(sat_n, figname, figdir, wd, wdd, ds)
         plt.close('all')
