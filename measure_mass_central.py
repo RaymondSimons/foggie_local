@@ -116,7 +116,7 @@ if __name__ == '__main__':
 
     fits_name = '/nobackupp2/rcsimons/foggie_momentum/%s_DD%.4i_mass.fits'%(simname, DD)
 
-    if simname == 'nref11n_nref10f_selfshield_z6': center_simname = 'nref11n_nref10f_selfshield_z6'
+    if simname == 'nref11n_nref10f': center_simname = 'nref11n_nref10f_selfshield_z6'
     else: center_simname = 'natural'   
     central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%center_simname)[()]
 
