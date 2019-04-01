@@ -43,7 +43,7 @@ fs = 12
 axes[0,0].set_ylabel('M$_*$ (M$_{\odot}$)', fontsize = fs)
 axes[0,1].set_ylabel('M$_{DM}$ (M$_{\odot}$)', fontsize = fs)
 axes[1,0].set_ylabel('M$_{g}$ (M$_{\odot}$)', fontsize = fs)
-axes[1,1].set_ylabel('star-formation rate (M$_{\odot}$ yr$^{-1}$)', fontsize = fs)
+axes[1,1].set_ylabel('star formation rate (M$_{\odot}$ yr$^{-1}$)', fontsize = fs)
 
 
 
