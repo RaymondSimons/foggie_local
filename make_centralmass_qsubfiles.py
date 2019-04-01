@@ -22,8 +22,8 @@ for sim_name in ['natural']:#'nref11n_selfshield_z15', 'nref11n_v2_selfshield_z1
         qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
-        qf.write('#PBS -l select=1:ncpus=16:model=ivy\n')
-        qf.write('#PBS -l walltime=5:00:00\n')
+        qf.write('#PBS -l select=1:ncpus=16:model=san\n')
+        qf.write('#PBS -l walltime=2:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%sim_snap_name)
         qf.write('#PBS -M rsimons@jhu.edu\n')
