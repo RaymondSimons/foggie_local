@@ -177,12 +177,20 @@ if __name__ == '__main__':
                 #for rr, r in enumerate(r_arr):        
                 #    print (rr, r)
                 r = 10
+                r_arr = array([10])
+                print 'Calculating mass inside %i kpc sphere'%r
                 gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
+                print 'Dark Matter'
                 DM.append(gc_sphere.quantities.total_quantity([("darkmatter", "particle_mass")]).to('Msun'))
+                print 'gas_tot'
                 gas_tot.append(gc_sphere.quantities.total_quantity([("gas", "cell_mass")]).to('Msun'))
+                print 'gas_metals'
                 gas_metals.append(gc_sphere.quantities.total_quantity([("gas", "metal_mass")]).to('Msun'))
+                print 'stars_mass'
                 stars_mass.append(gc_sphere.quantities.total_quantity([("stars", "particle_mass")]).to('Msun'))
+                print 'stars_youngmass'
                 stars_youngmass.append(gc_sphere.quantities.total_quantity([("youngstars", "particle_mass")]).to('Msun'))
+                print 'gas_H'
                 gas_H.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H'])]).to('Msun'))
                 gas_H0.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H0'])]).to('Msun'))
                 gas_H1.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H1'])]).to('Msun'))
