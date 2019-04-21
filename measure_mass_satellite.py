@@ -98,21 +98,25 @@ if __name__ == '__main__':
     trident.add_ion_fields(ds, ions=['O VI', 'O VII', 'Mg II', 'Si II', 'C II', 'C III', 'C IV',  'Si III', 'Si IV', 'Ne VIII'])
     
     #Parallel(n_jobs = -1, backend = 'threading')(delayed(measure_mass)(simname = simname, DD = DD, sat_n = sat_n, ds = ds) for sat_n in np.arange(5))
-    species_dict = {'H'   : 'H_mass',
-                    'H0'   : 'H_p0_mass',
-                    'H1'   : 'H_p1_mass',
-                    'CII': 'C_p1_mass',
-                    'CIII': 'C_p2_mass',
-                    'CIV': 'C_p3_mass',
-                    'HI': 'H_p0_mass',
-                    'MgII': 'Mg_p1_mass',
-                    'OVI': 'O_p5_mass',
-                    'OVII': 'O_p6_mass',
-                    'SiII': "Si_p1_mass",
-                    'SiIII': "Si_p2_mass",
-                    'SiIV': "Si_p3_mass",
-                    'NeVIII': 'Ne_p7_mass',
-                    'FeXIV': 'Fe_p13_mass'}
+    species_dict = {
+
+
+
+                    'H'     : ("gas", 'H_mass'),
+                    'H0'    : ("gas", 'H_p0_mass'),
+                    'H1'    : ("gas", 'H_p1_mass'),
+                    'CII'   : ("gas", 'C_p1_mass'),
+                    'CIII'  : ("gas", 'C_p2_mass'),
+                    'CIV'   : ("gas", 'C_p3_mass'),
+                    'HI'    : ("gas", 'H_p0_mass'),
+                    'MgII'  : ("gas", 'Mg_p1_mass'),
+                    'OVI'   : ("gas", 'O_p5_mass'),
+                    'OVII'  : ("gas", 'O_p6_mass'),
+                    'SiII'  : ("gas", "Si_p1_mass"),
+                    'SiIII' : ("gas", "Si_p2_mass"),
+                    'SiIV'  : ("gas", "Si_p3_mass"),
+                    'NeVIII': ("gas", 'Ne_p7_mass'),
+                    'FeXIV' : ("gas", 'Fe_p13_mass')}
 
 
     if 'v2' in simname: cen_name = 'natural_v2'
@@ -149,6 +153,10 @@ if __name__ == '__main__':
                 zf = central_xyz_fit['z']
 
 
+                #masses = {}
+                #fields = 
+
+
 
 
 
@@ -180,6 +188,7 @@ if __name__ == '__main__':
                 r_arr = array([10])
                 print 'Calculating mass inside %i kpc sphere'%r
                 gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
+                '''
                 print 'Dark Matter'
                 DM.append(gc_sphere.quantities.total_quantity([("darkmatter", "particle_mass")]).to('Msun'))
                 print 'gas_tot'
@@ -190,21 +199,27 @@ if __name__ == '__main__':
                 stars_mass.append(gc_sphere.quantities.total_quantity([("stars", "particle_mass")]).to('Msun'))
                 print 'stars_youngmass'
                 stars_youngmass.append(gc_sphere.quantities.total_quantity([("youngstars", "particle_mass")]).to('Msun'))
+                '''
                 print 'gas_H'
-                gas_H.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H'])]).to('Msun'))
+                gas_H.append(gc_sphere.quantities.total_quantity([species_dict['H']]).to('Msun'))
+                '''
                 gas_H0.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H0'])]).to('Msun'))
                 gas_H1.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H1'])]).to('Msun'))
+                print 'gas_CII'
                 gas_CII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['CII'])]).to('Msun'))
                 gas_CIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['CIII'])]).to('Msun'))
                 gas_CIV.append(gc_sphere.quantities.total_quantity([("gas", species_dict['CIV'])]).to('Msun'))
                 gas_OVI.append(gc_sphere.quantities.total_quantity([("gas", species_dict['OVI'])]).to('Msun'))
+                print 'gas_OVII'
                 gas_OVII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['OVII'])]).to('Msun'))
                 gas_MgII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['MgII'])]).to('Msun'))
                 gas_SII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiII'])]).to('Msun'))
                 gas_SIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiIII'])]).to('Msun'))
+                print 'gas_SIV'
                 gas_SIV.append(gc_sphere.quantities.total_quantity([("gas", species_dict['SiIV'])]).to('Msun'))
+                print 'gas_NeVIII'
                 gas_NeVIII.append(gc_sphere.quantities.total_quantity([("gas", species_dict['NeVIII'])]).to('Msun'))
-
+                '''
             
 
                 #mass = [gas_mass,gas_metal_mass, DM_mass, stars_mass, youngstars_mass]
@@ -224,7 +239,6 @@ if __name__ == '__main__':
                 colhdr = fits.Header()
 
          
-
                 master_hdulist.append(fits.ImageHDU(data =  array(r_arr         ), header = colhdr, name = 'distance'))
                 master_hdulist.append(fits.ImageHDU(data =  array(DM             ), header = colhdr, name = 'dark_matter'))
                 master_hdulist.append(fits.ImageHDU(data =  array(gas_tot        ), header = colhdr, name = 'gas_tot'))
@@ -247,7 +261,7 @@ if __name__ == '__main__':
             
 
 
-
+                print 'making new sphere'
                 central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
                 central_y = yf[0] * DD**4. + yf[1] * DD**3. + yf[2] * DD**2. + yf[3] * DD + yf[4]
                 central_z = zf[0] * DD**4. + zf[1] * DD**3. + zf[2] * DD**2. + zf[3] * DD + zf[4]
@@ -270,6 +284,8 @@ if __name__ == '__main__':
                 H_dens, edges = np.histogram(np.log10(shl_dens.value), weights = shl_volu.value, bins = np.linspace(-32, -20, 200))
 
                 quantiles = [0.05, 0.16, 0.50, 0.84, 0.95]
+                print 'doing this stuff'
+
                 wquant = weighted_quantile(np.log10(shl_dens.value), quantiles, sample_weight = shl_volu.value)
                 master_hdulist.append(fits.ImageHDU(data =  array(edges         ), header = colhdr, name = 'bins'))
                 master_hdulist.append(fits.ImageHDU(data =  array(H_dens             ), header = colhdr, name = 'CGM_gasdens_dist'))
