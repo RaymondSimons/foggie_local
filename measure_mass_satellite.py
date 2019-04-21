@@ -98,26 +98,25 @@ if __name__ == '__main__':
     trident.add_ion_fields(ds, ions=['O VI', 'O VII', 'Mg II', 'Si II', 'C II', 'C III', 'C IV',  'Si III', 'Si IV', 'Ne VIII'])
     
     #Parallel(n_jobs = -1, backend = 'threading')(delayed(measure_mass)(simname = simname, DD = DD, sat_n = sat_n, ds = ds) for sat_n in np.arange(5))
-    species_dict = {
-
-
-
-                    'H'     : ("gas", 'H_mass'),
-                    'H0'    : ("gas", 'H_p0_mass'),
-                    'H1'    : ("gas", 'H_p1_mass'),
-                    'CII'   : ("gas", 'C_p1_mass'),
-                    'CIII'  : ("gas", 'C_p2_mass'),
-                    'CIV'   : ("gas", 'C_p3_mass'),
-                    'HI'    : ("gas", 'H_p0_mass'),
-                    'MgII'  : ("gas", 'Mg_p1_mass'),
-                    'OVI'   : ("gas", 'O_p5_mass'),
-                    'OVII'  : ("gas", 'O_p6_mass'),
-                    'SiII'  : ("gas", "Si_p1_mass"),
-                    'SiIII' : ("gas", "Si_p2_mass"),
-                    'SiIV'  : ("gas", "Si_p3_mass"),
-                    'NeVIII': ("gas", 'Ne_p7_mass'),
-                    'FeXIV' : ("gas", 'Fe_p13_mass')}
-
+    species_dict = {'dark_matter'    : ("darkmatter", "particle_mass"),
+                    'gas_tot'        : ("gas", "cell_mass"),
+                    'gas_metals'     : ("gas", "metal_mass"),
+                    'stars_mass'     : ("stars", "particle_mass")                    
+                    'stars_youngmass': ("youngstars", "particle_mass"),
+                    'gas_H'      : ("gas", 'H_mass'),
+                    'gas_H0'     : ("gas", 'H_p0_mass'),
+                    'gas_H1'     : ("gas", 'H_p1_mass'),
+                    'gas_CII'    : ("gas", 'C_p1_mass'),
+                    'gas_CIII'   : ("gas", 'C_p2_mass'),
+                    'gas_CIV'    : ("gas", 'C_p3_mass'),
+                    'gas_OVI'    : ("gas", 'O_p5_mass'),
+                    'gas_OVII'   : ("gas", 'O_p6_mass'),
+                    'gas_MgII'   : ("gas", 'Mg_p1_mass'),
+                    'gas_SII'    : ("gas", "Si_p1_mass"),
+                    'gas_SIII'   : ("gas", "Si_p2_mass"),
+                    'gas_SIV'    : ("gas", "Si_p3_mass"),
+                    'gas_NeVIII' : ("gas", 'Ne_p7_mass')}
+    species_keys = species_dict.keys()
 
     if 'v2' in simname: cen_name = 'natural_v2'
     if 'v3' in simname: cen_name = 'natural_v3'
@@ -153,41 +152,104 @@ if __name__ == '__main__':
                 zf = central_xyz_fit['z']
 
 
-                #masses = {}
-                #fields = 
-
-
-
-
-
-                DM              = []
-                gas_tot         = []
-                gas_metals      = []
-                stars_mass      = []
-                stars_youngmass = []
-                gas_H           = []
-                gas_H0          = []
-                gas_H1          = []
-                gas_CII         = []
-                gas_CIII        = []
-                gas_CIV         = []
-                gas_OVI         = []
-                gas_OVII        = []
-                gas_MgII        = []
-                gas_SII         = []
-                gas_SIII        = []
-                gas_SIV         = []
-                gas_NeVIII      = []
+                masses = {}
 
 
                 #r_arr = concatenate((arange(0.25, 2, 0.1), arange(2, 10, 0.25), arange(10, 20, 1.)))
-
-                #for rr, r in enumerate(r_arr):        
-                #    print (rr, r)
-                r = 10
                 r_arr = array([10])
-                print 'Calculating mass inside %i kpc sphere'%r
-                gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
+
+                for key in species_keys: masses[key] = []
+                for rr, r in enumerate(r_arr):        
+                    print (rr, r)
+                    print 'Calculating mass inside %i kpc sphere'%r
+                    gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
+                    for key in species_keys: 
+                        print key
+                        masses[key].append(gc_sphere.quantities.total_quantity([species_dict[key]]).to('Msun'))
+
+
+                master_hdulist = []
+                prihdr = fits.Header()
+                prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
+                prihdr['simname'] = simname
+                prihdr['DDname'] = DD
+                prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
+
+                prihdu = fits.PrimaryHDU(header=prihdr)    
+                master_hdulist.append(prihdu)
+
+                colhdr = fits.Header()
+
+                master_hdulist.append(fits.ImageHDU(data =  array(r_arr         ), header = colhdr, name = 'distance'))
+                for key in species_keys:
+                    master_hdulist.append(fits.ImageHDU(data =  array(masses[key]), header = colhdr, name = key))
+                '''
+
+                master_hdulist.append(fits.ImageHDU(data =  array(r_arr         ), header = colhdr, name = 'distance'))
+                master_hdulist.append(fits.ImageHDU(data =  array(DM             ), header = colhdr, name = 'dark_matter'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_tot        ), header = colhdr, name = 'gas_tot'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_metals     ), header = colhdr, name = 'gas_metals'))
+                master_hdulist.append(fits.ImageHDU(data =  array(stars_mass     ), header = colhdr, name = 'stars_mass'))
+                master_hdulist.append(fits.ImageHDU(data =  array(stars_youngmass), header = colhdr, name = 'stars_youngmass'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_H          ), header = colhdr, name = 'gas_H'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_H0         ), header = colhdr, name = 'gas_H0'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_H1         ), header = colhdr, name = 'gas_H1'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_CII        ), header = colhdr, name = 'gas_CII'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_CIII       ), header = colhdr, name = 'gas_CIII'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_CIV        ), header = colhdr, name = 'gas_CIV'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_OVI        ), header = colhdr, name = 'gas_OVI'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_OVII       ), header = colhdr, name = 'gas_OVII'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_MgII       ), header = colhdr, name = 'gas_MgII'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_SII        ), header = colhdr, name = 'gas_SII'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_SIII       ), header = colhdr, name = 'gas_SIII'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_SIV        ), header = colhdr, name = 'gas_SIV'))
+                master_hdulist.append(fits.ImageHDU(data =  array(gas_NeVIII     ), header = colhdr, name = 'gas_NeVIII'))
+            
+                '''
+
+                print 'making new sphere'
+                '''
+                central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
+                central_y = yf[0] * DD**4. + yf[1] * DD**3. + yf[2] * DD**2. + yf[3] * DD + yf[4]
+                central_z = zf[0] * DD**4. + zf[1] * DD**3. + zf[2] * DD**2. + zf[3] * DD + zf[4]
+
+
+                cen_gal = yt.YTArray([cenx - central_x, ceny - central_y, cenz - central_z], 'kpc')
+
+
+                R = sqrt(sum(cen_gal**2.))
+
+                sp1 = ds.sphere(cen_gal, ds.arr(R.value + 2.5, 'kpc'))
+                sp2 = ds.sphere(cen_gal, ds.arr(max(R.value - 2.5, 0.30), 'kpc'))
+
+                shl = ds.intersection([sp1, sp2])
+                shl_ad = shl.ds.all_data()  
+
+                shl_dens = shl_ad['gas', 'density'].to('g * cm**-3')
+                shl_volu = shl_ad['index', 'cell_volume'].to('kpc**3.')
+
+                H_dens, edges = np.histogram(np.log10(shl_dens.value), weights = shl_volu.value, bins = np.linspace(-32, -20, 200))
+
+                quantiles = [0.05, 0.16, 0.50, 0.84, 0.95]
+
+                wquant = weighted_quantile(np.log10(shl_dens.value), quantiles, sample_weight = shl_volu.value)
+                master_hdulist.append(fits.ImageHDU(data =  array(edges         ), header = colhdr, name = 'bins'))
+                master_hdulist.append(fits.ImageHDU(data =  array(H_dens             ), header = colhdr, name = 'CGM_gasdens_dist'))
+
+                master_hdulist.append(fits.ImageHDU(data =  array(quantiles         ), header = colhdr, name = 'quantiles'))
+                master_hdulist.append(fits.ImageHDU(data =  array(wquant             ), header = colhdr, name = 'CGM_gasdens_quant'))
+                '''
+                print 'doing this stuff'
+
+                thdulist = fits.HDUList(master_hdulist)
+                print '\tSaving to ' + fits_name
+                thdulist.writeto(fits_name, overwrite = True)
+
+
+
+
+
+
                 '''
                 print 'Dark Matter'
                 DM.append(gc_sphere.quantities.total_quantity([("darkmatter", "particle_mass")]).to('Msun'))
@@ -200,8 +262,8 @@ if __name__ == '__main__':
                 print 'stars_youngmass'
                 stars_youngmass.append(gc_sphere.quantities.total_quantity([("youngstars", "particle_mass")]).to('Msun'))
                 '''
-                print 'gas_H'
-                gas_H.append(gc_sphere.quantities.total_quantity([species_dict['H']]).to('Msun'))
+                #print 'gas_H'
+                #gas_H.append(gc_sphere.quantities.total_quantity([species_dict['H']]).to('Msun'))
                 '''
                 gas_H0.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H0'])]).to('Msun'))
                 gas_H1.append(gc_sphere.quantities.total_quantity([("gas", species_dict['H1'])]).to('Msun'))
@@ -225,83 +287,6 @@ if __name__ == '__main__':
                 #mass = [gas_mass,gas_metal_mass, DM_mass, stars_mass, youngstars_mass]
 
                 #np.save('/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i.npy'%(simname, DD, sat_n), mass)
-
-                master_hdulist = []
-                prihdr = fits.Header()
-                prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
-                prihdr['simname'] = simname
-                prihdr['DDname'] = DD
-                prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
-
-                prihdu = fits.PrimaryHDU(header=prihdr)    
-                master_hdulist.append(prihdu)
-
-                colhdr = fits.Header()
-
-         
-                master_hdulist.append(fits.ImageHDU(data =  array(r_arr         ), header = colhdr, name = 'distance'))
-                master_hdulist.append(fits.ImageHDU(data =  array(DM             ), header = colhdr, name = 'dark_matter'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_tot        ), header = colhdr, name = 'gas_tot'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_metals     ), header = colhdr, name = 'gas_metals'))
-                master_hdulist.append(fits.ImageHDU(data =  array(stars_mass     ), header = colhdr, name = 'stars_mass'))
-                master_hdulist.append(fits.ImageHDU(data =  array(stars_youngmass), header = colhdr, name = 'stars_youngmass'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_H          ), header = colhdr, name = 'gas_H'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_H0         ), header = colhdr, name = 'gas_H0'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_H1         ), header = colhdr, name = 'gas_H1'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_CII        ), header = colhdr, name = 'gas_CII'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_CIII       ), header = colhdr, name = 'gas_CIII'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_CIV        ), header = colhdr, name = 'gas_CIV'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_OVI        ), header = colhdr, name = 'gas_OVI'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_OVII       ), header = colhdr, name = 'gas_OVII'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_MgII       ), header = colhdr, name = 'gas_MgII'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_SII        ), header = colhdr, name = 'gas_SII'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_SIII       ), header = colhdr, name = 'gas_SIII'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_SIV        ), header = colhdr, name = 'gas_SIV'))
-                master_hdulist.append(fits.ImageHDU(data =  array(gas_NeVIII     ), header = colhdr, name = 'gas_NeVIII'))
-            
-
-
-                print 'making new sphere'
-                central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
-                central_y = yf[0] * DD**4. + yf[1] * DD**3. + yf[2] * DD**2. + yf[3] * DD + yf[4]
-                central_z = zf[0] * DD**4. + zf[1] * DD**3. + zf[2] * DD**2. + zf[3] * DD + zf[4]
-
-
-                cen_gal = yt.YTArray([cenx - central_x, ceny - central_y, cenz - central_z], 'kpc')
-
-
-                R = sqrt(sum(cen_gal**2.))
-
-                sp1 = ds.sphere(cen_gal, ds.arr(R.value + 2.5, 'kpc'))
-                sp2 = ds.sphere(cen_gal, ds.arr(max(R.value - 2.5, 0.30), 'kpc'))
-
-                shl = ds.intersection([sp1, sp2])
-                shl_ad = shl.ds.all_data()  
-
-                shl_dens = shl_ad['gas', 'density'].to('g * cm**-3')
-                shl_volu = shl_ad['index', 'cell_volume'].to('kpc**3.')
-
-                H_dens, edges = np.histogram(np.log10(shl_dens.value), weights = shl_volu.value, bins = np.linspace(-32, -20, 200))
-
-                quantiles = [0.05, 0.16, 0.50, 0.84, 0.95]
-                print 'doing this stuff'
-
-                wquant = weighted_quantile(np.log10(shl_dens.value), quantiles, sample_weight = shl_volu.value)
-                master_hdulist.append(fits.ImageHDU(data =  array(edges         ), header = colhdr, name = 'bins'))
-                master_hdulist.append(fits.ImageHDU(data =  array(H_dens             ), header = colhdr, name = 'CGM_gasdens_dist'))
-
-                master_hdulist.append(fits.ImageHDU(data =  array(quantiles         ), header = colhdr, name = 'quantiles'))
-                master_hdulist.append(fits.ImageHDU(data =  array(wquant             ), header = colhdr, name = 'CGM_gasdens_quant'))
-
-
-                thdulist = fits.HDUList(master_hdulist)
-                print '\tSaving to ' + fits_name
-                thdulist.writeto(fits_name, overwrite = True)
-
-
-
-
-
 
 
 
