@@ -12,8 +12,8 @@ for sim_name in ['nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref
     N_split = 10
 
     DDmin = 40
-    DDmax = 800
-    N_split = 3
+    DDmax = 1455
+    N_split = 15
 
 
 
@@ -28,7 +28,7 @@ for sim_name in ['nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=ivy\n')
-        qf.write('#PBS -l walltime=0:15:00\n')
+        qf.write('#PBS -l walltime=2:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%sim_snap_name)
         qf.write('#PBS -M rsimons@jhu.edu\n')
@@ -46,9 +46,6 @@ for sim_name in ['nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref
 
 
         qf.close()
-
-
-
 
 
         sf.write('qsub %s\n'%qsub_fname)
