@@ -33,7 +33,7 @@ for sim_name in ['nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref
         qf.write('#PBS -V\n')
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
-        for DDi in arange(DD, DD + N_split):
+        for DDi in arange(DD, min(DD + N_split, DDmax)):
         #for DDi in arange(DD, DD + 1):
             qf.write('python /u/rcsimons/scripts/foggie_local/measure_mass_satellite.py --DD %i --simname  %s > ./outfiles/%s.err > ./outfiles/%s.out\n'%(DDi, sim_name, sim_snap_name, sim_snap_name))
 
