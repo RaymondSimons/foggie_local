@@ -101,7 +101,7 @@ if __name__ == '__main__':
     species_dict = {'dark_matter'    : ("darkmatter", "particle_mass"),
                     'gas_tot'        : ("gas", "cell_mass"),
                     'gas_metals'     : ("gas", "metal_mass"),
-                    'stars_mass'     : ("stars", "particle_mass")                    
+                    'stars_mass'     : ("stars", "particle_mass"),                    
                     'stars_youngmass': ("youngstars", "particle_mass"),
                     'gas_H'      : ("gas", 'H_mass'),
                     'gas_H0'     : ("gas", 'H_p0_mass'),
