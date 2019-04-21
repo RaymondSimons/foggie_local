@@ -116,7 +116,29 @@ if __name__ == '__main__':
                     'gas_SIII'   : ("gas", "Si_p2_mass"),
                     'gas_SIV'    : ("gas", "Si_p3_mass"),
                     'gas_NeVIII' : ("gas", 'Ne_p7_mass')}
-    species_keys = species_dict.keys()
+    # can do the same thing with species_dict.keys(), but it randomizes the order
+    species_keys = ['dark_matter',
+                    'gas_tot',        
+                    'gas_metals',     
+                    'stars_mass',     
+                    'stars_youngmass',
+                    'gas_H',      
+                    'gas_H0',     
+                    'gas_H1',     
+                    'gas_CII',    
+                    'gas_CIII',   
+                    'gas_CIV',    
+                    'gas_OVI',    
+                    'gas_OVII',   
+                    'gas_MgII',   
+                    'gas_SII',    
+                    'gas_SIII',   
+                    'gas_SIV',    
+                    'gas_NeVIII']
+
+
+
+
 
     if 'v2' in simname: cen_name = 'natural_v2'
     if 'v3' in simname: cen_name = 'natural_v3'
