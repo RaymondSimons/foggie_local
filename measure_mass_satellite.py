@@ -116,7 +116,7 @@ if __name__ == '__main__':
                     'gas_SIII'   : ("gas", "Si_p2_mass"),
                     'gas_SIV'    : ("gas", "Si_p3_mass"),
                     'gas_NeVIII' : ("gas", 'Ne_p7_mass')}
-    # can do the same thing with species_dict.keys(), but it randomizes the order
+    # can do the same thing with species_dict.keys(), but it essentially randomizes the order
     species_keys = ['dark_matter',
                     'gas_tot',        
                     'gas_metals',     
