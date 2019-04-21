@@ -127,7 +127,7 @@ if __name__ == '__main__':
         #anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg, anchor_xs_avg, anchor_ys_avg, anchor_zs_avg, anchor_vxs_avg, anchor_vys_avg, anchor_vzs_avg = cen_file
         #cen = yt.YTArray([anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg], 'kpc')
 
-        fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s_DD%.4i_mass_sat%.2i.fits'%(simname, DD, sat_n)
+        fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s/%s_DD%.4i_mass_sat%.2i.fits'%(cen_name, simname, DD, sat_n)
 
         #cen_np = np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_sat%.2i_1049_cen.npy'%(simname, DD, sat_n))[()]
         if (len(cen_fits['SAT_%.2i'%sat_n].data) > 0):
