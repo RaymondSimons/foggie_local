@@ -7,13 +7,10 @@ from numpy import *
 #for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 #for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 for sim_name in ['nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15']:
-    DDmin = 500
-    DDmax = 1455
-    N_split = 10
 
-    DDmin = 40
-    DDmax = 1455
-    N_split = 15
+    DDmin = 49
+    DDmax = 800
+    N_split = 20
 
 
 
