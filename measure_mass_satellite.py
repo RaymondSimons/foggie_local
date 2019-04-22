@@ -67,6 +67,7 @@ def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False
 
 def write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr):
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s/%s_DD%.4i_mass_sat%.2i.fits'%(cen_name, simname, DD, sat_n)
+        if os.path.exists(fits_name): return
         if (len(cen_fits['SAT_%.2i'%sat_n].data) > 0):
             if not os.path.isfile(fits_name):
                 cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
