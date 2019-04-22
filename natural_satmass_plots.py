@@ -11,7 +11,7 @@ DD_to_t = np.load('/Users/rsimons/Dropbox/rcs_foggie/outputs/DD_time.npy')[()]
 
 #DDs = arange(44, 800)
 DDs = arange(44, 800)
-sat_ns = arange(6, 12)
+sat_ns = arange(0, 12)
 
 clrs = ['blue', 'navy', 'darkblue', 'royalblue', 'red']
 
@@ -20,10 +20,10 @@ lw = [2,2,2,2,2]
 alp = [0.8, 0.8, 0.8, 0.8, 0.8]
 #for s, sim in enumerate(array(['forced', 'natural(v1)', 'natural(v2)', 'natural(v3)', 'natural(v4)'])):
 for sat_n in sat_ns:
+    print sat_n
     fig, axes = plt.subplots(2,2, figsize = (10, 10))
     fig2, ax2 = plt.subplots(1,1, figsize = (12, 6))
     for s, sim in enumerate(array(['natural(v1)', 'natural(v2)', 'natural(v3)', 'natural(v4)'])):
-        print sim
         ts = []
         ms = []
         mg = []
@@ -96,6 +96,8 @@ for sat_n in sat_ns:
     ax2.set_ylabel('star formation rate (M$_{\odot}$ yr$^{-1}$)', fontsize = fs)
 
 
+    for ax in axes.ravel(): ax.set_xlim(0, 5.5)
+    ax2.set_xlim(0, 5.5)
 
     axes[1,1].axis('off')
 

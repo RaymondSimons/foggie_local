@@ -78,11 +78,10 @@ def write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys
                 if 'selfshield_z15' in simname: center_simname = 'natural'
                 else: center_simname = simname
 
-                central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%center_simname)[()]
-
-                xf = central_xyz_fit['x']
-                yf = central_xyz_fit['y']
-                zf = central_xyz_fit['z']
+                #central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%center_simname)[()]
+                #xf = central_xyz_fit['x']
+                #yf = central_xyz_fit['y']
+                #zf = central_xyz_fit['z']
 
                 masses = {}
                 for key in species_keys: masses[key] = []
@@ -185,7 +184,7 @@ if __name__ == '__main__':
                     'gas_SIII',   
                     'gas_SIV',    
                     'gas_NeVIII']
-
+    if simname == 'natural': cen_name = 'natural'
     if 'v2' in simname: cen_name = 'natural_v2'
     if 'v3' in simname: cen_name = 'natural_v3'
     if 'v4' in simname: cen_name = 'natural_v4'
