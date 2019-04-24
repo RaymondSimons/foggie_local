@@ -82,7 +82,7 @@ def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
 
 
 
-                fig = plt.figure(1, figsize = (20,20))
+                fig = plt.figure(sat_n, figsize = (20,20))
 
                 grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
                                 nrows_ncols = (1, 2),
@@ -158,14 +158,14 @@ if __name__ == '__main__':
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     ds.add_particle_filter('stars')
 
-    #Parallel(n_jobs = 5, backend = 'threading')(delayed(make_figure)(sat_n, figname, figdir, wd, wdd, ds, figs_list[s], grid_list[s]) for s, sat_n in enumerate(arange(5)))
+    Parallel(n_jobs = 3, backend = 'threading')(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for s, sat_n in enumerate(arange(5)))
 
 
-
+    '''
     for s, sat_n in enumerate(arange(1)):
         make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name)
         plt.close('all')
-
+    '''
 
 
 
