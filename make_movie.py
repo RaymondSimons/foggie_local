@@ -53,6 +53,7 @@ def parse():
 
 
 
+'''
 def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
        if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
             '''
@@ -124,7 +125,25 @@ def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
                 figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
                 fig.savefig('%s/%s'%(figdir,figname))
 
+'''
+def do_plot(number):
+    fig = plt.figure(number)
+
+    a = random.sample(1000)
+    b = random.sample(1000)
+
+    # generate random data
+    plt.scatter(a, b)
+
+    plt.savefig("%03d.jpg" % (number,))
+    plt.close()
+
+    print("Done ", number)
+
+
 if __name__ == '__main__':
+    Parallel(n_jobs = 3)(delayed(do_plot)(x) for x in range(4))
+    '''
     args = parse()
     simname = args['simname']
     DD = int(args['DD'])
@@ -158,7 +177,7 @@ if __name__ == '__main__':
     ds.add_particle_filter('stars')
 
     Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
-
+    '''
 
     '''
     for s, sat_n in enumerate(arange(1)):
