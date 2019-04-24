@@ -55,13 +55,14 @@ def parse():
 
 def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
        if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
-
+            '''
             cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
             ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
             cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
             cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
-
+            '''
             for axis in ['x', 'y', 'z']:
+                '''
                 if axis == 'x':
                     box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0] + 0.5 * yt.YTArray(wdd, 'kpc'), \
                                cen_g[1] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(5*wd,  'kpc'), \
@@ -75,13 +76,13 @@ def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
                     box = ds.r[cen_g[0] - 0.5 * yt.YTArray(5*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(5*wd, 'kpc'), \
                                cen_g[1] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(5*wd,  'kpc'), \
                                cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
-
+                '''
 
 
 
 
                 fig = plt.figure(sat_n, figsize = (20,20))
-
+                '''
                 grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
                                 nrows_ncols = (1, 2),
                                 axes_pad = 0.0, label_mode = "1",
@@ -119,6 +120,7 @@ def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
                 p._setup_plots()
 
                 fig.set_size_inches(12, 6)
+                '''
                 figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
                 fig.savefig('%s/%s'%(figdir,figname))
 
