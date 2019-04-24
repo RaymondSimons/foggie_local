@@ -83,9 +83,6 @@ def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname)
                                cen_g[1] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(5*wd,  'kpc'), \
                                cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
 
-
-
-
                 fig = plt.figure(sat_n, figsize = (20,20))
                 
                 grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
@@ -93,8 +90,6 @@ def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname)
                                 axes_pad = 0.0, label_mode = "1",
                                 share_all = False, cbar_mode=None,
                                 aspect = False)        
-
-
 
                 W = yt.YTArray([wd, wd, wd], 'kpc')
                 p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
@@ -157,7 +152,7 @@ if __name__ == '__main__':
         for sat_n in arange(12):
             lst.append((DD, sat_n))
 
-    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname) for (DD, sat_n) in lst)
+    Parallel(n_jobs = 6)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname) for (DD, sat_n) in lst)
 
 
 
