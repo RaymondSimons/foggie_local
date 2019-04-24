@@ -124,7 +124,7 @@ def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname)
                 figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
                 fig.savefig('%s/%s'%(figdir,figname))
                 plt.close(fig)
-
+                ds.index.clear_all_data()
 if __name__ == '__main__':
 
     args = parse()
