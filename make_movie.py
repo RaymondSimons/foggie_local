@@ -55,8 +55,9 @@ def parse():
 
 
 
-def make_figure(sat_n, figname, figdir, wd, wdd, ds):
+def make_figure(sat_n, figdir, wd, wdd, ds, DD, cenname):
        if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
+
             cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
             ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
             cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
@@ -120,7 +121,8 @@ def make_figure(sat_n, figname, figdir, wd, wdd, ds):
                 p._setup_plots()
 
                 fig.set_size_inches(12, 6)
-                fig.savefig('%s/satn%i_%s-axis_%s'%(figdir, sat_n, axis, figname))
+                figname = '%s_%.4i_%.2i_%s.png'%(cenname, DD, sat_n, axis)
+                fig.savefig('%s/%s'%(figdir,figname))
                 plt.close('all')
 
 if __name__ == '__main__':
@@ -133,8 +135,6 @@ if __name__ == '__main__':
     wdd    = float(args['wdd'])
     axis = args['axis']
     simdir = args['simdir']
-    #figdir = args['figdir']
-    #figname = args['figname']
     if simname == 'natural': cen_name = 'natural'
     if 'v2' in simname: cen_name = 'natural_v2'
     if 'v3' in simname: cen_name = 'natural_v3'
@@ -163,7 +163,7 @@ if __name__ == '__main__':
 
 
     for s, sat_n in enumerate(arange(1)):
-        make_figure(sat_n, figname, figdir, wd, wdd, ds, cen_fits)
+        make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cenname)
         plt.close('all')
 
 
