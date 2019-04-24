@@ -123,7 +123,6 @@ def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
                 fig.set_size_inches(12, 6)
                 figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
                 fig.savefig('%s/%s'%(figdir,figname))
-                plt.close('all')
 
 if __name__ == '__main__':
     args = parse()
@@ -158,7 +157,7 @@ if __name__ == '__main__':
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     ds.add_particle_filter('stars')
 
-    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for s, sat_n in enumerate(arange(5)))
+    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(5))
 
 
     '''
