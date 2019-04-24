@@ -52,7 +52,6 @@ def parse():
 
 def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
        if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
-
             cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
             ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
             cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
@@ -170,7 +169,7 @@ if __name__ == '__main__':
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     ds.add_particle_filter('stars')
 
-    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds.copy(), cen_fits, DD, cen_name) for sat_n in arange(3))
+    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
 
 
     '''
