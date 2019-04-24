@@ -56,87 +56,72 @@ def parse():
 
 
 def make_figure(sat_n, figname, figdir, wd, wdd, ds):
+       if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
+            cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
+            ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
+            cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
+            cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
-        if simname == 'natural': dirname = 'natural'
-        if simname == 'nref11n_v2_selfshield_z15': dirname = 'natural_v2'
-        if simname == 'nref11n_v3_selfshield_z15': dirname = 'natural_v3'
-        if simname == 'nref11n_v4_selfshield_z15': dirname = 'natural'
+            for axis in ['x', 'y', 'z']:
+                if axis == 'x':
+                    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0] + 0.5 * yt.YTArray(wdd, 'kpc'), \
+                               cen_g[1] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(5*wd,  'kpc'), \
+                               cen_g[2] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wd,  'kpc')]
 
-        fits_name = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(dirname, dirname, DD)
-        try:
-            cen_fits = fits.open(fits_name)
-        except:
-            print 'something bad happened with ', fits_name
-            return
-
-
-        cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
-        ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
-        cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
-        cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
-
-
-
-        for axis in ['x', 'y', 'z']:
-            if axis == 'x':
-                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0] + 0.5 * yt.YTArray(wdd, 'kpc'), \
-                           cen_g[1] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(5*wd,  'kpc'), \
-                           cen_g[2] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wd,  'kpc')]
-
-            elif axis == 'y':
-                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(5*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(5*wd, 'kpc'), \
-                           cen_g[1] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(wdd,  'kpc'), \
-                           cen_g[2] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[2]  + 0.5 * yt.YTArray(5*wd,  'kpc')]
-            elif axis == 'z':
-                box = ds.r[cen_g[0] - 0.5 * yt.YTArray(5*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(5*wd, 'kpc'), \
-                           cen_g[1] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(5*wd,  'kpc'), \
-                           cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
+                elif axis == 'y':
+                    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(5*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(5*wd, 'kpc'), \
+                               cen_g[1] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(wdd,  'kpc'), \
+                               cen_g[2] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[2]  + 0.5 * yt.YTArray(5*wd,  'kpc')]
+                elif axis == 'z':
+                    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(5*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(5*wd, 'kpc'), \
+                               cen_g[1] - 0.5 * yt.YTArray(5*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(5*wd,  'kpc'), \
+                               cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
 
 
 
 
 
-            fig = plt.figure(1, figsize = (20,20))
+                fig = plt.figure(1, figsize = (20,20))
 
-            grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                            nrows_ncols = (1, 2),
-                            axes_pad = 0.0, label_mode = "1",
-                            share_all = False, cbar_mode=None,
-                            aspect = False)        
-
-
-
-            W = yt.YTArray([wd, wd, wd], 'kpc')
-            p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
-            p.set_unit(('gas','density'), 'Msun/pc**2')
-            p.set_zlim(('gas', 'density'), zmin = density_proj_min * 0.1, zmax =  density_proj_max)
-            p.set_cmap(('gas', 'density'), density_color_map)
-            p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-            p.hide_axes()
-            p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-            p.annotate_scale(size_bar_args={'color':'white'})
-            plot = p.plots[("gas","density")]
-            plot.figure = fig
-            plot.axes = grid[0].axes
-            p._setup_plots()
+                grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                                nrows_ncols = (1, 2),
+                                axes_pad = 0.0, label_mode = "1",
+                                share_all = False, cbar_mode=None,
+                                aspect = False)        
 
 
-            p = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_g, data_source=box, width = W)   
-            cmp = plt.cm.Greys_r
-            cmp.set_bad('k')
-            p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
-            p.hide_axes()
-            p.annotate_scale(size_bar_args={'color':'white'})
 
-            p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
-            plot = p.plots[('stars','particle_mass')]
-            plot.figure = fig
-            plot.axes = grid[1].axes
-            p._setup_plots()
+                W = yt.YTArray([wd, wd, wd], 'kpc')
+                p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
+                p.set_unit(('gas','density'), 'Msun/pc**2')
+                p.set_zlim(('gas', 'density'), zmin = density_proj_min * 0.1, zmax =  density_proj_max)
+                p.set_cmap(('gas', 'density'), density_color_map)
+                p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+                p.hide_axes()
+                p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+                p.annotate_scale(size_bar_args={'color':'white'})
+                plot = p.plots[("gas","density")]
+                plot.figure = fig
+                plot.axes = grid[0].axes
+                p._setup_plots()
 
-            fig.set_size_inches(12, 6)
-            fig.savefig('%s/satn%i_%s-axis_%s'%(figdir, sat_n, axis, figname))
-            plt.close('all')
+
+                p = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_g, data_source=box, width = W)   
+                cmp = plt.cm.Greys_r
+                cmp.set_bad('k')
+                p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
+                p.hide_axes()
+                p.annotate_scale(size_bar_args={'color':'white'})
+
+                p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
+                plot = p.plots[('stars','particle_mass')]
+                plot.figure = fig
+                plot.axes = grid[1].axes
+                p._setup_plots()
+
+                fig.set_size_inches(12, 6)
+                fig.savefig('%s/satn%i_%s-axis_%s'%(figdir, sat_n, axis, figname))
+                plt.close('all')
 
 if __name__ == '__main__':
     args = parse()
@@ -148,10 +133,16 @@ if __name__ == '__main__':
     wdd    = float(args['wdd'])
     axis = args['axis']
     simdir = args['simdir']
-    figdir = args['figdir']
-    figname = args['figname']
+    #figdir = args['figdir']
+    #figname = args['figname']
+    if simname == 'natural': cen_name = 'natural'
+    if 'v2' in simname: cen_name = 'natural_v2'
+    if 'v3' in simname: cen_name = 'natural_v3'
+    if 'v4' in simname: cen_name = 'natural_v4'
 
-
+    figdir = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s'%cen_name
+    if not os.path.exists(figdir): os.system('mkdir %s'%figdir)
+    cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
 
     figs_list = []
     grid_list = []
@@ -172,8 +163,7 @@ if __name__ == '__main__':
 
 
     for s, sat_n in enumerate(arange(1)):
-
-        make_figure(sat_n, figname, figdir, wd, wdd, ds)
+        make_figure(sat_n, figname, figdir, wd, wdd, ds, cen_fits)
         plt.close('all')
 
 

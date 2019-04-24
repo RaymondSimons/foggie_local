@@ -21,7 +21,6 @@ for sim_name in ['natural']:
         qsub_fname = '%s.qsub'%(sim_snap_name)
 
         qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/%s'%qsub_fname, 'w+')
-        
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=ivy\n')
         qf.write('#PBS -l walltime=1:00:00\n')
@@ -35,10 +34,8 @@ for sim_name in ['natural']:
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
         for DDi in arange(DD, min(DD + N_split, DDmax)):
-        #for DDi in arange(DD, DD + 1):
-            qf.write('python /u/rcsimons/scripts/foggie_local/make_satellite_figure.py --DD %i --simname  %s > ./outfiles/%s.err > ./outfiles/%s.out\n'%(DDi, sim_name, sim_snap_name, sim_snap_name))
-
-
+            out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(simname, DDi, simname, DDi)
+            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 30 -wdd 6\n'%(DDi, simname, simname, DDi, out_string))
 
 
         qf.close()
