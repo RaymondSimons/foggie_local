@@ -1,5 +1,6 @@
 import matplotlib
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import astropy
 from astropy.io import fits
 import numpy as np
@@ -10,11 +11,10 @@ from joblib import Parallel, delayed
 import os, sys, argparse
 import yt
 from consistency import *
-import matplotlib.pyplot as plt
 import yt
 import numpy as np
 from yt.units import kpc
-import matplotlib.pyplot as plt
+
 from consistency import *
 import seaborn as sns
 from mpl_toolkits.axes_grid1 import AxesGrid
@@ -157,7 +157,7 @@ if __name__ == '__main__':
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     ds.add_particle_filter('stars')
 
-    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(5))
+    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
 
 
     '''
