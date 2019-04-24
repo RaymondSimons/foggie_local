@@ -51,13 +51,18 @@ def parse():
 
 
 
-def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
+def make_figure(sat_n, figdir, wd, wdd, cen_fits, DD, cen_name, simdir, haloname, simname,  DDname,):
        if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
+
+            ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+            def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+            yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+            ds.add_particle_filter('stars')
+
             cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
             ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
             cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
             cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
-            print 'hi'
             '''
             for axis in ['x', 'y', 'z']:
 
@@ -162,15 +167,16 @@ if __name__ == '__main__':
     DDname = 'DD%.4i'%DD
     num_procs = 4
 
-    for sat_n in yt.parallel_objects(arange(3), num_procs):
-        ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
-        def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
-        yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
-        ds.add_particle_filter('stars')
-        make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name)
+    #for sat_n in yt.parallel_objects(arange(3), num_procs):
+    #    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+    #    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+    #    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+    #    ds.add_particle_filter('stars')
+    #    make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name)
 
 
-    #Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
+
+    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name, simdir, haloname, simname,  DDname) for sat_n in arange(3))
 
 
     '''
