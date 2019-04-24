@@ -158,19 +158,18 @@ if __name__ == '__main__':
 
     figs_list = []
     grid_list = []
-
-
-
-
     DDname = 'DD%.4i'%DD
-    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+    num_procs = 4
 
-    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+    for sat_n in yt.parallel_objects(arange(3), num_procs):
+        ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+        def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+        yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+        ds.add_particle_filter('stars')
+        make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name)
 
-    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
-    ds.add_particle_filter('stars')
 
-    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
+    #Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
 
 
     '''
