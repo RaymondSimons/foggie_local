@@ -96,6 +96,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                     cen_central[2] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[2] + 0.5 * yt.YTArray(3*wd2,  'kpc')]
 
 
+                        p_1 = cen_g[1] - cen_central[1] 
+                        p_2 = cen_g[2] - cen_central[2]
 
                     elif axis == 'y':
                         box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
@@ -106,6 +108,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                     cen_central[1] - 0.5 * yt.YTArray(wdd2,  'kpc') : cen_central[1]  + 0.5 * yt.YTArray(wdd2,  'kpc'), \
                                     cen_central[2] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[2]  + 0.5 * yt.YTArray(3*wd2,  'kpc')]
 
+                        p_1 = cen_g[0] - cen_central[0] 
+                        p_2 = cen_g[2] - cen_central[2]
 
                     elif axis == 'z':
                         box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
@@ -116,6 +120,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                     cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1]  + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
                                     cen_central[2] - 0.5 * yt.YTArray(wdd2,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd2,  'kpc')]
 
+                        p_1 = cen_g[0] - cen_central[0] 
+                        p_2 = cen_g[1] - cen_central[1]
 
 
                     fig = plt.figure(sat_n)
@@ -168,8 +174,6 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                     axes_pad = 0.0, label_mode = "1",
                                     share_all = False, cbar_mode=None,
                                     aspect = False)        
-                    p_1 = cen_g[1] - cen_central[1] 
-                    p_2 = cen_g[2] - cen_central[2]
 
                     p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box2, width=W2)
                     p.set_unit(('gas','density'), 'Msun/pc**2')
