@@ -11,7 +11,7 @@ for sim_name in ['natural']:
 
     DDmin = 49
     DDmax = 800
-    N_split = 5
+    N_split = 10
 
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
@@ -33,9 +33,9 @@ for sim_name in ['natural']:
         qf.write('#PBS -V\n')
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
-        for DDi in arange(DD, min(DD + N_split, DDmax)):
-            out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(sim_name, DDi, sim_name, DDi)
-            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 30 -wdd 6 %s\n'%(DDi, sim_name, out_string))
+        #for DDi in arange(DD, min(DD + N_split, DDmax)):
+        out_string =' > ./outfiles/%s_%.4i_%.4i_movie.err > ./outfiles/%s_%.4i_%.4i_movie.out'%(sim_name, DDi,min(DD + N_split, DDmax), sim_name, DDi,min(DD + N_split, DDmax))
+        qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DDmin %i -DDmax %i -simname %s -wd 30 -wdd 6 %s\n'%(DDi, min(DD + N_split, DDmax), sim_name, out_string))
 
 
         qf.close()

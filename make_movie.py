@@ -27,6 +27,8 @@ def parse():
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
     parser.add_argument('-DD', '--DD', default=600, help='DD to use')
+    parser.add_argument('-DDmin', '--DDmin', default=600, help='min DD to use')
+    parser.add_argument('-DDmax', '--DDmax', default=600, help='max DD to use')
 
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
 
@@ -51,7 +53,9 @@ def parse():
 
 
 
-def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname,  DDname):
+def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname):
+        DDname = 'DD%.4i'%DD
+
         cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
         if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
             ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
@@ -125,26 +129,15 @@ def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname,
                 figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
                 fig.savefig('%s/%s'%(figdir,figname))
 
-def do_plot(number):
-    fig = plt.figure(number)
-
-    a = random.sample(1000)
-    b = random.sample(1000)
-
-    # generate random data
-    plt.scatter(a, b)
-
-    plt.savefig("%03d.jpg" % (number,))
-    plt.close()
-
-    print("Done ", number)
-
 
 if __name__ == '__main__':
 
     args = parse()
     simname = args['simname']
-    DD = int(args['DD'])
+    #DD = int(args['DD'])
+    DDmin = int(args['DDmin'])
+    DDmax = int(args['DDmax'])
+
     haloname = args['haloname']
     snapname = 'DD%.4i'%DD
     wd    = float(args['wd'])
@@ -159,25 +152,15 @@ if __name__ == '__main__':
     figdir = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s'%cen_name
     if not os.path.exists(figdir): os.system('mkdir %s'%figdir)
 
-    DDname = 'DD%.4i'%DD
 
-    #for sat_n in yt.parallel_objects(arange(3), num_procs):
-    #    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
-    #    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
-    #    yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
-    #    ds.add_particle_filter('stars')
-    #    make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name)
+    lst = []
 
+    for DD in arange(DDmin, DDmax):
+        for sat_n in arange(12):
+            lst.append((DD, sat_n))
 
+    Parallel(n_jobs = -1)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname) for (DD, sat_n) in lst)
 
-    Parallel(n_jobs = -1)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname, DDname) for sat_n in arange(12))
-
-
-    '''
-    for s, sat_n in enumerate(arange(1)):
-        make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name)
-        plt.close('all')
-    '''
 
 
 
