@@ -10,13 +10,10 @@ import seaborn as sns
 from joblib import Parallel, delayed
 import os, sys, argparse
 import yt
-from consistency import *
-import yt
-import numpy as np
 from yt.units import kpc
 from consistency import *
 import seaborn as sns
-#from mpl_toolkits.axes_grid1 import AxesGrid
+from mpl_toolkits.axes_grid1 import AxesGrid
 
 def parse():
     '''
@@ -142,7 +139,7 @@ def do_plot(number):
 if __name__ == '__main__':
     Parallel(n_jobs = 3)(delayed(do_plot)(x) for x in range(4))
 
-    '''
+
     args = parse()
     simname = args['simname']
     DD = int(args['DD'])
@@ -175,8 +172,8 @@ if __name__ == '__main__':
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     ds.add_particle_filter('stars')
 
-    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
-    '''
+    #Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
+
 
     '''
     for s, sat_n in enumerate(arange(1)):
