@@ -55,7 +55,7 @@ def parse():
 
 
 
-def make_figure(sat_n, figdir, wd, wdd, ds, DD, cenname):
+def make_figure(sat_n, figdir, wd, wdd, ds, DD, cen_name):
        if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
 
             cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
@@ -163,7 +163,7 @@ if __name__ == '__main__':
 
 
     for s, sat_n in enumerate(arange(1)):
-        make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cenname)
+        make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name)
         plt.close('all')
 
 
