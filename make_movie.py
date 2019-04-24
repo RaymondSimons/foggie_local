@@ -123,7 +123,7 @@ def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname)
                 
                 figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
                 fig.savefig('%s/%s'%(figdir,figname))
-
+                plt.close(fig)
 
 if __name__ == '__main__':
 
@@ -152,7 +152,7 @@ if __name__ == '__main__':
         for sat_n in arange(12):
             lst.append((DD, sat_n))
 
-    Parallel(n_jobs = 6)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname) for (DD, sat_n) in lst)
+    Parallel(n_jobs = -1)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname) for (DD, sat_n) in lst)
 
 
 
