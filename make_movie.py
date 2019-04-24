@@ -2,6 +2,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import astropy
+yt.enable_parallelism()
 from astropy.io import fits
 import numpy as np
 from numpy import *
