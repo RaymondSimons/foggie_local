@@ -34,7 +34,7 @@ for sim_name in ['natural']:
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
         for DDi in arange(DD, min(DD + N_split, DDmax)):
-            out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(simname, DDi, simname, DDi)
+            out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(sim_name, DDi, sim_name, DDi)
             qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 30 -wdd 6\n'%(DDi, sim_name, sim_name, DDi, out_string))
 
 
