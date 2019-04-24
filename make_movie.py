@@ -53,7 +53,7 @@ def parse():
 
 
 
-def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname):
+def make_figure(figdir, wd, wdd, DD, cen_name, simdir, haloname, simname):
         DDname = 'DD%.4i'%DD
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
         def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
