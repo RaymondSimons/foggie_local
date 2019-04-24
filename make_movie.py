@@ -121,7 +121,7 @@ def make_figure(sat_n, figdir, wd, wdd, ds, DD, cen_name):
                 p._setup_plots()
 
                 fig.set_size_inches(12, 6)
-                figname = '%s_%.4i_%.2i_%s.png'%(cenname, DD, sat_n, axis)
+                figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
                 fig.savefig('%s/%s'%(figdir,figname))
                 plt.close('all')
 
