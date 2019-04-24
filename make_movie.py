@@ -63,7 +63,6 @@ def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname,
             ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
             cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
             cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
-            '''
             for axis in ['x', 'y', 'z']:
 
                 if axis == 'x':
@@ -125,7 +124,6 @@ def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname,
                 
                 figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
                 fig.savefig('%s/%s'%(figdir,figname))
-            '''
 
 def do_plot(number):
     fig = plt.figure(number)
@@ -161,10 +159,7 @@ if __name__ == '__main__':
     figdir = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s'%cen_name
     if not os.path.exists(figdir): os.system('mkdir %s'%figdir)
 
-    figs_list = []
-    grid_list = []
     DDname = 'DD%.4i'%DD
-    num_procs = 4
 
     #for sat_n in yt.parallel_objects(arange(3), num_procs):
     #    ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
