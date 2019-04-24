@@ -152,7 +152,7 @@ if __name__ == '__main__':
         for sat_n in arange(12):
             lst.append((DD, sat_n))
 
-    Parallel(n_jobs = -1)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname) for (DD, sat_n) in lst)
+    Parallel(n_jobs = 6)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname) for (DD, sat_n) in lst)
 
 
 
