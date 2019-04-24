@@ -61,7 +61,7 @@ def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
             cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
             ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
             cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
-            cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
+            cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
             for axis in ['x', 'y', 'z']:
                 if axis == 'x':
