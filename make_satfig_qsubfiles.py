@@ -35,7 +35,7 @@ for sim_name in ['natural']:
 
         for DDi in arange(DD, min(DD + N_split, DDmax)):
             out_string =' > ./outfiles/%s_%.4i_movie.err > ./outfiles/%s_%.4i_movie.out'%(sim_name, DDi, sim_name, DDi)
-            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 30 -wdd 6\n'%(DDi, sim_name, sim_name, DDi, out_string))
+            qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DD %i -simname %s -wd 30 -wdd 6 %s\n'%(DDi, sim_name, out_string))
 
 
         qf.close()
