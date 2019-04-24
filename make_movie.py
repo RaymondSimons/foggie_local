@@ -57,7 +57,7 @@ def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
             ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
             cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
             cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
-
+            '''
             for axis in ['x', 'y', 'z']:
 
                 if axis == 'x':
@@ -119,7 +119,7 @@ def make_figure(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name):
                 
                 figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
                 fig.savefig('%s/%s'%(figdir,figname))
-
+            '''
 
 def do_plot(number):
     fig = plt.figure(number)
@@ -137,8 +137,6 @@ def do_plot(number):
 
 
 if __name__ == '__main__':
-    Parallel(n_jobs = 3)(delayed(do_plot)(x) for x in range(4))
-
 
     args = parse()
     simname = args['simname']
@@ -172,7 +170,7 @@ if __name__ == '__main__':
     yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
     ds.add_particle_filter('stars')
 
-    #Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
+    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, ds, cen_fits, DD, cen_name) for sat_n in arange(3))
 
 
     '''
