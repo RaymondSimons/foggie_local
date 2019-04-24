@@ -51,7 +51,7 @@ def parse():
 
 
 
-def make_figure(sat_n, figdir, wd, wdd, cen_fits, DD, cen_name, simdir, haloname, simname,  DDname):
+def make_figure(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname,  DDname):
         cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
         if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
             ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
