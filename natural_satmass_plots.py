@@ -96,8 +96,8 @@ for sat_n in sat_ns:
     ax2.set_ylabel('star formation rate (M$_{\odot}$ yr$^{-1}$)', fontsize = fs)
 
 
-    for ax in axes.ravel(): ax.set_xlim(0, 5.5)
-    ax2.set_xlim(0, 5.5)
+    for ax in axes.ravel(): ax.set_xlim(1, 5.5)
+    ax2.set_xlim(1, 5.5)
 
     axes[1,1].axis('off')
 

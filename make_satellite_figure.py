@@ -41,19 +41,23 @@ if __name__ == '__main__':
 
     ds = yt.load('/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, snapname, snapname))
 
-    cen_file =  np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_cen.npy'%(simname, DD))[()]
+    #cen_file =  np.load('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_cen.npy'%(simname, DD))[()]
+
+    if simname == 'natural': cen_name = 'natural'
+    if 'v2' in simname: cen_name = 'natural_v2'
+    if 'v3' in simname: cen_name = 'natural_v3'
+    if 'v4' in simname: cen_name = 'natural_v4'
+
+    cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
 
 
-    anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg = cen_file
+    #anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg, anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg = cen_file
+    cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
+    ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
+    cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
+    cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
-
-
-
-
-    cen = yt.YTArray([anchor_xs_box_avg, anchor_ys_box_avg, anchor_zs_box_avg], 'kpc')
-
-
-    vel_vec = array([anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg])
+    #vel_vec = array([anchor_vxs_box_avg, anchor_vys_box_avg, anchor_vzs_box_avg])
     #L = vel_vec/np.linalg.norm(vel_vec)
 
 
@@ -76,7 +80,6 @@ if __name__ == '__main__':
         L = Ls[i]
         image1 = yt.off_axis_projection(ds, cen, L, W1, N, ('gas', 'density'), north_vector =  north_vector)
         image2 = yt.off_axis_projection(ds, cen, L, W2, N, ('gas', 'density'), north_vector =  north_vector)
-
 
         image1 = image1.in_units('Msun * kpc**-2')
         image2 = image2.in_units('Msun * kpc**-2')
