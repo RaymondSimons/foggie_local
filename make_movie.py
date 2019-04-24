@@ -52,7 +52,8 @@ def parse():
 
 
 def make_figure(sat_n, figdir, wd, wdd, cen_fits, DD, cen_name, simdir, haloname, simname,  DDname):
-       if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
+        cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
+        if len(cen_fits['SAT_%.2i'%sat_n].data['box_avg']) > 0:
             ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
             def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
             yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
@@ -159,7 +160,6 @@ if __name__ == '__main__':
 
     figdir = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s'%cen_name
     if not os.path.exists(figdir): os.system('mkdir %s'%figdir)
-    cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
 
     figs_list = []
     grid_list = []
@@ -175,7 +175,7 @@ if __name__ == '__main__':
 
 
 
-    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, cen_fits, DD, cen_name, simdir, haloname, simname, DDname) for sat_n in arange(3))
+    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname, DDname) for sat_n in arange(3))
 
 
     '''
