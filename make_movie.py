@@ -137,9 +137,7 @@ if __name__ == '__main__':
     #DD = int(args['DD'])
     DDmin = int(args['DDmin'])
     DDmax = int(args['DDmax'])
-
     haloname = args['haloname']
-    snapname = 'DD%.4i'%DD
     wd    = float(args['wd'])
     wdd    = float(args['wdd'])
     axis = args['axis']
