@@ -170,7 +170,7 @@ if __name__ == '__main__':
 
 
 
-    Parallel(n_jobs = 3)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname, DDname) for sat_n in arange(3))
+    Parallel(n_jobs = -1)(delayed(make_figure)(sat_n, figdir, wd, wdd, DD, cen_name, simdir, haloname, simname, DDname) for sat_n in arange(12))
 
 
     '''
