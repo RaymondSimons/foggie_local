@@ -237,12 +237,13 @@ if __name__ == '__main__':
 
     lst = []
 
+    #for DD in arange(DDmin, DDmax):
+    #    for sat_n in arange(12):
+    #        lst.append((DD, sat_n))
+
+    #Parallel(n_jobs = 1)(delayed(make_figure)(figdir, DD, cen_name, simdir, haloname, simname) for DD in arange(DDmin, DDmax))
     for DD in arange(DDmin, DDmax):
-        for sat_n in arange(12):
-            lst.append((DD, sat_n))
-
-    Parallel(n_jobs = 1)(delayed(make_figure)(figdir, DD, cen_name, simdir, haloname, simname) for DD in arange(DDmin, DDmax))
-
+        make_figure(figdir, DD, cen_name, simdir, haloname, simname)        
 
 
 
