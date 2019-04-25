@@ -53,7 +53,7 @@ def parse():
 
 
 
-def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd = 10, wd2 = 200, wdd2 = 100):
+def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd = 30, wd2 = 300, wdd2 = 300):
         DDname = 'DD%.4i'%DD
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
         def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
@@ -210,22 +210,6 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     figname = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
                     fig.savefig('%s/%s'%(figdir,figname))
                     plt.close(fig)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             ds.index.clear_all_data()        
 if __name__ == '__main__':
