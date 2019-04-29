@@ -128,9 +128,9 @@ def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
             box_avg = [anchor_xs_box_avg,
                        anchor_ys_box_avg,
                        anchor_zs_box_avg,
-                        anchor_vxs_box_avg,
-                        anchor_vys_box_avg,
-                        anchor_vzs_box_avg]
+                       anchor_vxs_box_avg,
+                       anchor_vys_box_avg,
+                       anchor_vzs_box_avg]
 
             cols1 = fits.ColDefs([fits.Column(name = 'box_avg', array =  box_avg    , format = 'D'),
                                   fits.Column(name = 'anchor_mss     ', array =  anchor_mss    , format = 'D'),

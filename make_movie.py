@@ -86,9 +86,9 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                 cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
                 cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
                 for axis in ['x', 'y', 'z']:
-                    figname = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
-                    if not os.path.exists('%s/%s'%(figdir,figname)):
-
+                    figname_zoomin  = '%s_%.4i_%.2i_%s_zoomin.png'%(cen_name, DD, sat_n, axis)
+                    figname_zoomout = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
+                    if not os.path.exists('%s/%s'%(figdir,figname_zoomin)):
                         if axis == 'x':
                             box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0] + 0.5 * yt.YTArray(wdd, 'kpc'), \
                                        cen_g[1] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(3*wd,  'kpc'), \
@@ -163,11 +163,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                         p._setup_plots()
 
                         fig.set_size_inches(12, 6)
-                        
-                        figname = '%s_%.4i_%.2i_%s.png'%(cen_name, DD, sat_n, axis)
-                        fig.savefig('%s/%s'%(figdir,figname))
+                        fig.savefig('%s/%s'%(figdir,figname_zoomin))
                         plt.close(fig)
-
 
 
                         fig = plt.figure(sat_n)
@@ -190,7 +187,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                         plot.figure = fig
                         plot.axes = grid[0].axes
                         p._setup_plots()
-                        plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                        if (abs(p_1) < W2/2.) & (abs(p_2) < W2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
 
                         p = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box2, width = W2)   
@@ -205,12 +202,9 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                         plot.figure = fig
                         plot.axes = grid[1].axes
                         p._setup_plots()
-                        plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
-
-
-
+                        if (abs(p_1) < W2/2.) & (abs(p_2) < W2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
                         fig.set_size_inches(12, 6)                    
-                        fig.savefig('%s/%s'%(figdir,figname))
+                        fig.savefig('%s/%s'%(figdir,figname_zoomout))
                         plt.close(fig)
 
             ds.index.clear_all_data()        
