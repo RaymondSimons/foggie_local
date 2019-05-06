@@ -17,7 +17,7 @@ for simname in ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nr
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=20:model=ivy\n')
-        qf.write('#PBS -l walltime=0:30:00\n')
+        qf.write('#PBS -l walltime=1:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%snapname)
         qf.write('#PBS -M rsimons@jhu.edu\n')
