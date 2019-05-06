@@ -28,8 +28,8 @@ for simname in ['natural']:
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
         qf.write('python /u/rcsimons/scripts/foggie_local/write_particles.py \
-                 -simname %s -DDmin %i -DDmax %i > ./outfiles/%s_particles.err > \
-                 ./outfiles/%s_particles.out\n'%(simname, min_DD, max_DD, snapname, snapname))
+                 -simname %s -DDmin %i -DDmax %i > ./out/%s.err > \
+                 ./out/%s.out\n'%(simname, min_DD, max_DD, snapname, snapname))
 
         qf.close()
 
