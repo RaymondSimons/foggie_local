@@ -140,7 +140,8 @@ if __name__ == '__main__':
         yt.add_particle_filter("darkmatter",function=_darkmatter, filtered_type='all',requires=["particle_type"])
         ds.add_particle_filter('stars')
         ds.add_particle_filter('darkmatter')
-        make_savefile(simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
+        if not os.path.exists('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s_DD%.4i_particles.fits'%(simname, simname, DD)):
+          make_savefile(simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
 
     Parallel(n_jobs = 5)(delayed(run_writer)(DD = DD, simdir = simdir, haloname = haloname, 
                                                                       simname = simname) for DD in np.arange(min_DD, max_DD))
