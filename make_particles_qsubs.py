@@ -1,9 +1,9 @@
 import numpy as np
 from numpy import *
-split_n = 10
+split_n = 20
 
 DDmin = 40
-DDmax = 100
+DDmax = 1000
 
 for simname in ['natural']:
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/particles/submit_%s_%.4i_%.4i_particles.sh'%(simname, DDmin, DDmax), 'w+')
