@@ -105,8 +105,8 @@ def make_savefile(simname,  haloname, simdir, DD, ds, ad):
 
 
 
-    hdus.append(fits.BinTableHDU.from_columns(colss, name = 'stars'%sat_n))
-    hdus.append(fits.BinTableHDU.from_columns(colsd, name = 'dark'%sat_n))
+    hdus.append(fits.BinTableHDU.from_columns(colss, name = 'stars'))
+    hdus.append(fits.BinTableHDU.from_columns(colsd, name = 'dark'))
 
 
     hdus_fits = fits.HDUList(hdus)
