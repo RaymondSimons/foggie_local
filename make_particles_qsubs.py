@@ -11,7 +11,7 @@ for simname in ['natural']:
         min_DD = i
         max_DD = i + split_n
         snapname = '%s_%.4i_%.4i_particles'%(simname, min_DD, max_DD)
-        qsub_fname = '_particles_%s_%.4i_%.4i.qsub'%(simname, min_DD, max_DD)
+        qsub_fname = '%s_%.4i_%.4i_particles.qsub'%(simname, min_DD, max_DD)
         
         qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/particles/%s'%qsub_fname, 'w+')
         
