@@ -122,11 +122,12 @@ if __name__ == '__main__':
     max_DD = int(args['DDmax'])
     simdir = args['simdir']
     haloname = args['haloname']
+
     if simname == 'natural':      enzo_simname = 'natural'
     elif simname == 'natural_v2': enzo_simname = 'nref11n_v2_selfshield_z15'
     elif simname == 'natural_v3': enzo_simname = 'nref11n_v3_selfshield_z15'
     elif simname == 'natural_v4': enzo_simname = 'nref11n_v4_selfshield_z15'
-
+    elif simname == 'nref11n_nref10f': enzo_simname = 'nref11n_nref10f'
 
     def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
     def _darkmatter(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 4
@@ -143,7 +144,7 @@ if __name__ == '__main__':
         if not os.path.exists('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s_DD%.4i_particles.fits'%(simname, simname, DD)):
           make_savefile(simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
 
-    Parallel(n_jobs = 5)(delayed(run_writer)(DD = DD, simdir = simdir, haloname = haloname, 
+    Parallel(n_jobs = 1)(delayed(run_writer)(DD = DD, simdir = simdir, haloname = haloname, 
                                                                       simname = simname) for DD in np.arange(min_DD, max_DD))
     
 
