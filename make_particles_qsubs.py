@@ -22,8 +22,8 @@ for simname in ['natural']:
         qf.write('#PBS -N %s\n'%snapname)
         qf.write('#PBS -M rsimons@jhu.edu\n')
         qf.write('#PBS -m abe\n')
-        qf.write('#PBS -o ./outfiles/%s_pbs.out\n'%snapname)
-        qf.write('#PBS -e ./outfiles/%s_pbs.err\n'%snapname)
+        qf.write('#PBS -o ./out/%s_pbs.out\n'%snapname)
+        qf.write('#PBS -e ./out/%s_pbs.err\n'%snapname)
         qf.write('#PBS -V\n')
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
