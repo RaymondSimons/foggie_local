@@ -90,7 +90,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     figname_zoomout = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
                     if not os.path.exists('%s/%s'%(figdir,figname_zoomin)):
                         if axis == 'x':
-                            box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0] + 0.5 * yt.YTArray(wdd, 'kpc'), \
+                            box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(wdd, 'kpc'), \
                                        cen_g[1] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(3*wd,  'kpc'), \
                                        cen_g[2] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(3*wd,  'kpc')]
 
@@ -104,7 +104,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
                         elif axis == 'y':
                             box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
-                                       cen_g[1] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(wdd,  'kpc'), \
+                                       cen_g[1] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[1]   + 0.5 * yt.YTArray(wdd,  'kpc'), \
                                        cen_g[2] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[2]  + 0.5 * yt.YTArray(3*wd,  'kpc')]
 
                             box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd2, 'kpc') : cen_central[0]  + 0.5 * yt.YTArray(3*wd2, 'kpc'), \
