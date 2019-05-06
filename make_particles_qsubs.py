@@ -6,7 +6,7 @@ DDmin = 40
 DDmax = 100
 
 for simname in ['natural']:
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/particles/submit_%s_%.4i_%.4i_tracksats.sh'%(simname, DDmin, DDmax), 'w+')
+    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/particles/submit_%s_%.4i_%.4i.sh'%(simname, DDmin, DDmax), 'w+')
     for i in arange(DDmin, DDmax, split_n):
         min_DD = i
         max_DD = i + split_n
