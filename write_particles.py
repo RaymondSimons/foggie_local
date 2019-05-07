@@ -84,8 +84,8 @@ def make_savefile(simname,  haloname, simdir, DD, ds, ad):
     colss = fits.ColDefs([fits.Column(name = 'id'       , array =  ids, format = 'I'),
                           fits.Column(name = 'mass'    ,  array =  mss    , format = 'D'),
                           fits.Column(name = 'x_box  ' ,  array =  xs_box , format = 'D'),
-                          fits.Column(name = 'y_box  ' ,  array =  xs_box , format = 'D'),
-                          fits.Column(name = 'z_box  ' ,  array =  xs_box , format = 'D'),
+                          fits.Column(name = 'y_box  ' ,  array =  ys_box , format = 'D'),
+                          fits.Column(name = 'z_box  ' ,  array =  zs_box , format = 'D'),
                           fits.Column(name = 'vx_box '  , array =  vxs_box, format = 'D'),
                           fits.Column(name = 'vy_box '  , array =  vys_box, format = 'D'),
                           fits.Column(name = 'vz_box '  , array =  vzs_box, format = 'D'),
@@ -95,8 +95,8 @@ def make_savefile(simname,  haloname, simdir, DD, ds, ad):
     colsd = fits.ColDefs([fits.Column(name = 'id'       , array =  idd, format = 'I'),
                           fits.Column(name = 'mass'    ,  array =  msd    , format = 'D'),
                           fits.Column(name = 'x_box  ' ,  array =  xd_box , format = 'D'),
-                          fits.Column(name = 'y_box  ' ,  array =  xd_box , format = 'D'),
-                          fits.Column(name = 'z_box  ' ,  array =  xd_box , format = 'D'),
+                          fits.Column(name = 'y_box  ' ,  array =  yd_box , format = 'D'),
+                          fits.Column(name = 'z_box  ' ,  array =  zd_box , format = 'D'),
                           fits.Column(name = 'vx_box '  , array =  vxd_box, format = 'D'),
                           fits.Column(name = 'vy_box '  , array =  vyd_box, format = 'D'),
                           fits.Column(name = 'vz_box '  , array =  vzd_box, format = 'D'),
@@ -141,8 +141,8 @@ if __name__ == '__main__':
         yt.add_particle_filter("darkmatter",function=_darkmatter, filtered_type='all',requires=["particle_type"])
         ds.add_particle_filter('stars')
         ds.add_particle_filter('darkmatter')
-        if not os.path.exists('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s_DD%.4i_particles.fits'%(simname, simname, DD)):
-          make_savefile(simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
+        #if not os.path.exists('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s_DD%.4i_particles.fits'%(simname, simname, DD)):
+        make_savefile(simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
 
     Parallel(n_jobs = 1)(delayed(run_writer)(DD = DD, simdir = simdir, haloname = haloname, 
                                                                       simname = simname) for DD in np.arange(min_DD, max_DD))
