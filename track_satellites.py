@@ -71,7 +71,8 @@ def run_tracker(simname, haloname, DD):
     hdus.append(prim_hdu)
 
     for sat_n in arange(6):
-        np.rand.seed(1)
+        print DDname, sat_n
+        np.random.seed(1)
         anchor_ids = anchor_fits['SAT%.2i'%sat_n].data['id']
         anchor_ids_rand = np.random.choice(anchor_ids, 1000)
         gd_indices = []
@@ -159,7 +160,7 @@ if __name__ == '__main__':
     delt_DD = int(args['delt_DD'])
     haloname = args['haloname']
 
-    Parallel(n_jobs = 2)(delayed(run_tracker)(simname = simname, haloname = haloname, DD = DD) for DD in np.arange(min_DD, max_DD, delt_DD))
+    Parallel(n_jobs = 1)(delayed(run_tracker)(simname = simname, haloname = haloname, DD = DD) for DD in np.arange(min_DD, max_DD, delt_DD))
     
 
 
