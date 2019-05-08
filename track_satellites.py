@@ -65,6 +65,8 @@ def run_tracker(simname, haloname, DD):
     vzs_box = pfits['STARS'].data['vz_box']
     id_s    = pfits['STARS'].data['id']
 
+    anchorprops_filename = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(haloname, simname, simname, DD)
+    if os.path.isfile(anchorprops_filename): return
 
     hdus = []
     prim_hdu = fits.PrimaryHDU()
@@ -133,7 +135,7 @@ def run_tracker(simname, haloname, DD):
         hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'SAT_%.2i'%sat_n))
 
     hdus_fits = fits.HDUList(hdus)
-    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(haloname, simname, simname, DD), overwrite = True)
+    hdus_fits.writeto(anchorprops_filename, overwrite = True)
 
 
 if __name__ == '__main__':
