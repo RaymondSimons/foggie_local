@@ -55,7 +55,7 @@ def make_savefile(simname,  haloname, simdir, DD, ds, ad):
     mss = ad['stars', 'particle_mass'].in_units('Msun')
     msd = ad['darkmatter', 'particle_mass'].in_units('Msun')
 
-    ags =  ad['darkmatter', 'age'].in_units('Gyr')
+    ags =  ad['stars', 'age'].in_units('Gyr')
     agd =  ad['darkmatter', 'age'].in_units('Gyr')
 
     xs_box = ad['stars', 'particle_position_x'].in_units('kpc')
@@ -81,7 +81,7 @@ def make_savefile(simname,  haloname, simdir, DD, ds, ad):
     prim_hdu = fits.PrimaryHDU()
     hdus.append(prim_hdu)
 
-    colss = fits.ColDefs([fits.Column(name = 'id'       , array =  ids, format = 'I'),
+    colss = fits.ColDefs([fits.Column(name = 'id'       , array =  ids, format = 'D'),
                           fits.Column(name = 'mass'    ,  array =  mss    , format = 'D'),
                           fits.Column(name = 'x_box  ' ,  array =  xs_box , format = 'D'),
                           fits.Column(name = 'y_box  ' ,  array =  ys_box , format = 'D'),
@@ -92,7 +92,7 @@ def make_savefile(simname,  haloname, simdir, DD, ds, ad):
                           fits.Column(name = 'age'      , array =  ags, format = 'D'),
                           ])
 
-    colsd = fits.ColDefs([fits.Column(name = 'id'       , array =  idd, format = 'I'),
+    colsd = fits.ColDefs([fits.Column(name = 'id'       , array =  idd, format = 'D'),
                           fits.Column(name = 'mass'    ,  array =  msd    , format = 'D'),
                           fits.Column(name = 'x_box  ' ,  array =  xd_box , format = 'D'),
                           fits.Column(name = 'y_box  ' ,  array =  yd_box , format = 'D'),

@@ -1,13 +1,26 @@
 from astropy.io import fits
 plt.ioff()
-simnames = ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f']
+#simnames = ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f']
+simnames = ['natural']
 anchor_dir = '/Users/rsimons/Dropbox/rcs_foggie/anchor_files'
 part_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs/particles'
-DDs = arange(50, 310, 20)
+DDs = arange(50, 310, 200)
+
+
+anchor_natural = fits.open('/Users/rsimons/Dropbox/rcs_foggie/figures/select_sats/anchors_natural_DD0150.fits')
 
 for s, simname in enumerate(simnames):
+    np.random.seed(1)
+    dis = anchor_natural['SAT01'].data['id']
+    dis_rand = np.random.choice(dis[dis > 0], 1000)
     for d, DD in enumerate(DDs):
+        print simname
         data = fits.open(part_dir + '/%s_DD%.4i_particles.fits'%(simname, DD))
+        dis = np.random.choice(anchor_natural['SAT01'].data['id'], 1000)
+        gd = array([where(data['STARS'].data['id'] == ii)[0] for ii in dis])
+
+
+
 
 
 '''
