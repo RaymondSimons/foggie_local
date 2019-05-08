@@ -76,7 +76,7 @@ def run_tracker(simname, haloname, DD):
         print DDname, sat_n
         np.random.seed(1)
         anchor_ids = anchor_fits['SAT%.2i'%sat_n].data['id']
-        anchor_ids_rand = np.random.choice(anchor_ids, 1000)
+        anchor_ids_rand = np.random.choice(anchor_ids, 200)
         gd_indices = []
         for anch_id in anchor_ids_rand: 
             match = where(id_s == anch_id)[0]
