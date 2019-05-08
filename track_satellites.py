@@ -84,6 +84,7 @@ def run_tracker(simname, haloname, DD):
  
         if len(gd_indices) > 5:
             print 'more than 5 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
+            ids_used         = id_s[gd_indices]
             anchor_mss       = mss[gd_indices]
             anchor_xs_box    = xs_box[gd_indices]
             anchor_ys_box    = ys_box[gd_indices]
@@ -91,7 +92,7 @@ def run_tracker(simname, haloname, DD):
             anchor_vxs_box   = vxs_box[gd_indices]
             anchor_vys_box   = vys_box[gd_indices]
             anchor_vzs_box   = vzs_box[gd_indices]
-            
+
             anchor_xs_box_avg  = median(anchor_xs_box)
             anchor_ys_box_avg  = median(anchor_ys_box)
             anchor_zs_box_avg  = median(anchor_zs_box)
@@ -114,7 +115,7 @@ def run_tracker(simname, haloname, DD):
                                   fits.Column(name = 'anchor_vxs_box ', array =  anchor_vxs_box, format = 'D'),
                                   fits.Column(name = 'anchor_vys_box ', array =  anchor_vys_box, format = 'D'),
                                   fits.Column(name = 'anchor_vzs_box ', array =  anchor_vzs_box, format = 'D'),
-                                  fits.Column(name = 'ids_used_avg', array =  good, format = 'I'),
+                                  fits.Column(name = 'anchor_ids'   ,   array =  ids_used,       format = 'D'),
                                   ])
         else:
             print 'less than 5 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
