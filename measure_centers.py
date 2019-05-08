@@ -1,26 +1,62 @@
 from astropy.io import fits
 plt.ioff()
-#simnames = ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f']
-simnames = ['natural']
+simnames = ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f']
+#simnames = ['natural']
 anchor_dir = '/Users/rsimons/Dropbox/rcs_foggie/anchor_files'
 part_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs/particles'
-DDs = arange(50, 310, 200)
+DDs = arange(50, 190, 20)
 
 
-anchor_natural = fits.open('/Users/rsimons/Dropbox/rcs_foggie/figures/select_sats/anchors_natural_DD0150.fits')
+
+fig, axes = plt.subplots(5,3, figsize = (15,25))
 
 for s, simname in enumerate(simnames):
     np.random.seed(1)
-    dis = anchor_natural['SAT01'].data['id']
-    dis_rand = np.random.choice(dis[dis > 0], 1000)
+    anchors = fits.open('/Users/rsimons/Dropbox/rcs_foggie/figures/select_sats/anchors_%s_DD0150.fits'%simname)
+
+    dis = anchors['SAT02'].data['id']
+    dis_rand = np.random.choice(dis[dis > 0], min(100, len(dis)))
     for d, DD in enumerate(DDs):
-        print simname
         data = fits.open(part_dir + '/%s_DD%.4i_particles.fits'%(simname, DD))
-        dis = np.random.choice(anchor_natural['SAT01'].data['id'], 1000)
-        gd = array([where(data['STARS'].data['id'] == ii)[0] for ii in dis])
+        gd = []
+        for ii in dis_rand:
+            gd_ii = where(data['STARS'].data['id'] == ii)[0]
+            if len(gd_ii) > 0:
+                gd.append(gd_ii[0])
+        gd = array(gd)
+        
+        print simname, DD, len(gd)
+
+        if len(gd) > 0:
+            xs_anchor = data['STARS'].data['x_box'][gd]
+            ys_anchor = data['STARS'].data['y_box'][gd]
+            zs_anchor = data['STARS'].data['z_box'][gd]
+            
+            ms_anchor = data['STARS'].data['mass'][gd]
+            
 
 
 
+            #xbins = arange(13000, 19000, 2)
+            axes[s, 0].hist(xs_anchor, weights = ms_anchor, histtype = 'step', color = clrs[s], bins = 200)#xbins)#arange(12450, 12650, 2))
+            axes[s, 1].hist(ys_anchor, weights = ms_anchor, histtype = 'step', color = clrs[s], bins = 200)#arange(12450, 12650, 2))
+            axes[s, 2].hist(zs_anchor, weights = ms_anchor, histtype = 'step', color = clrs[s], bins = 200)#arange(12500, 12900, 2))
+
+
+            x = median(xs_anchor)
+            y = median(ys_anchor)
+            z = median(zs_anchor)
+
+            axes[s, 0].axvline(x, color = clrs[s], linestyle = '--')
+            axes[s, 1].axvline(y, color = clrs[s], linestyle = '--')
+            axes[s, 2].axvline(z, color = clrs[s], linestyle = '--')
+
+
+
+for ax in axes.ravel():
+    ax.set_xlim(13825, 19000)
+
+fig.savefig('/Users/rsimons/Dropbox/rcs_foggie/figures/select_sats/moving_centers.png', dpi = 300)
 
 
 '''

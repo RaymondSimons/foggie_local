@@ -18,9 +18,8 @@ def parse():
                                 of the data for some of these cameras. Then export the data within
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
-    parser.add_argument('-DDmax', '--DDmax', default=50, help='max DD')
-    parser.add_argument('-DDmin', '--DDmin', default=1010, help='min DD')
-    parser.add_argument('-delt_DD', '--delt_DD', default=20, help='min DD')
+    parser.add_argument('-DDmax', '--DDmax', default=None, help='max DD')
+    parser.add_argument('-DDmin', '--DDmin', default=None, help='min DD')
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
     parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/central_gal', help='figures output directory')
@@ -50,43 +49,63 @@ def weighted_avg_and_std(values, weights, good):
 
 
 
-def run_tracker(simname, haloname, DD):
+def make_savefile(anchor_fits, simname,  haloname, simdir, DD, ds, ad):
     
-    DDname         = 'DD%.4i'%DD
-    pfits   = fits.open('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s/%s_DD%.4i'%(haloname, simname, simname, DD))
-    anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/anchor_fits/anchors_%s_DD0150.fits'%(haloname,simname))
 
-    mss     = pfits['STARS'].data['mass']
-    xs_box  = pfits['STARS'].data['x_box']
-    ys_box  = pfits['STARS'].data['y_box']
-    zs_box  = pfits['STARS'].data['z_box']
-    vxs_box = pfits['STARS'].data['vx_box']
-    vys_box = pfits['STARS'].data['vy_box']
-    vzs_box = pfits['STARS'].data['vz_box']
-    id_s    = pfits['STARS'].data['id']
+
+    #a = fits.open(fits_name)
+
+
+    '''
+    mss = a['STAR_MASS'].data
+    id_s = a['STARS_ID'].data
+    xs, ys, zs = a['STARS_GAL_POSITION'].data
+    vxs, vys, vzs = a['STARS_GAL_VELOCITY'].data
+    ep_s = a['STARS_EPSILON_FIXED'].data
+    xs_box, ys_box, zs_box = a['STARS_BOX_POSITION'].data
+    vxs_box, vys_box, vzs_box = a['STARS_BOX_VELOCITY'].data
+    '''
+    DDname = 'DD%.4i'%DD
+    #ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+    #ad = ds.all_data()
+    #def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+
+    #yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+    #ds.add_particle_filter('stars')
+
+
+
+    mss = ad['stars', 'particle_mass'].in_units('Msun')
+    xs_box = ad['stars', 'particle_position_x'].in_units('kpc')
+    ys_box = ad['stars', 'particle_position_y'].in_units('kpc')
+    zs_box = ad['stars', 'particle_position_z'].in_units('kpc')  
+
+    vxs_box = ad['stars', 'particle_velocity_x'].in_units('km/s')
+    vys_box = ad['stars', 'particle_velocity_y'].in_units('km/s')
+    vzs_box = ad['stars', 'particle_velocity_z'].in_units('km/s')
+
+    id_s = ad['stars', 'particle_index']
+
 
 
     hdus = []
     prim_hdu = fits.PrimaryHDU()
     hdus.append(prim_hdu)
 
-    for sat_n in arange(6):
-        np.rand.seed(1)
-        anchor_ids = anchor_fits['SAT%.2i'%sat_n].data['id']
-        anchor_ids_rand = np.random.choice(anchor_ids, 1000)
+    for sat_n in arange(shape(anchor_fits)[0]):
+        anchor_ids = anchor_fits[sat_n]
         gd_indices = []
-        for anch_id in anchor_ids_rand: 
+        for anch_id in anchor_ids: 
             match = where(id_s == anch_id)[0]
             if len(match) > 0: gd_indices.append(int(match))
-
         gd_indices       = array(gd_indices)
  
         if len(gd_indices) > 10:
             print 'more than 10 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
             anchor_mss       = mss[gd_indices]
-            anchor_xs_box    = xs_box[gd_indices]
-            anchor_ys_box    = ys_box[gd_indices]
-            anchor_zs_box    = zs_box[gd_indices]
+            anchor_xs_box    =  xs_box[gd_indices]
+            anchor_ys_box    =  ys_box[gd_indices]
+            anchor_zs_box    =  zs_box[gd_indices]
             anchor_vxs_box   = vxs_box[gd_indices]
             anchor_vys_box   = vys_box[gd_indices]
             anchor_vzs_box   = vzs_box[gd_indices]
@@ -105,15 +124,6 @@ def run_tracker(simname, haloname, DD):
             anchor_vxs_box_avg, _ = weighted_avg_and_std(anchor_vxs_box, weights = anchor_mss, good = good)
             anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss, good = good)
             anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss, good = good)
-
-
-
-            anchor_xs_box_avg  = median(anchor_xs_box)
-            anchor_ys_box_avg  = median(anchor_ys_box)
-            anchor_zs_box_avg  = median(anchor_zs_box)
-            anchor_vxs_box_avg = median(anchor_vxs_box)
-            anchor_vys_box_avg = median(anchor_vys_box)
-            anchor_vzs_box_avg = median(anchor_vzs_box)
 
             box_avg = [anchor_xs_box_avg,
                        anchor_ys_box_avg,
@@ -148,18 +158,35 @@ def run_tracker(simname, haloname, DD):
         hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'SAT_%.2i'%sat_n))
 
     hdus_fits = fits.HDUList(hdus)
-    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(haloname, simname, simname, DD), overwrite = True)
+    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s_DD%.4i_anchorprops.fits'%(simname, DD), overwrite = True)
+
+
 
 
 if __name__ == '__main__':
     args = parse()
     simname = args['simname']
-    min_DD  = int(args['DDmin'])
-    max_DD  = int(args['DDmax'])
-    delt_DD = int(args['delt_DD'])
+    min_DD = int(args['DDmin'])
+    max_DD = int(args['DDmax'])
+    simdir = args['simdir']
     haloname = args['haloname']
+    if 'selfshield_z15' in simname: anchor_simname = 'natural'
+    else: anchor_simname = simname
 
-    Parallel(n_jobs = -1)(delayed(run_tracker)(simname = simname, haloname = haloname, DD = DD) for DD in np.arange(min_DD, max_D, delt_DD))
+    anchor_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_anchors.npy'%anchor_simname)[()]
+
+    def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
+    def run_tracker(DD, simdir, haloname, simname, anchor_fits):
+        DDname = 'DD%.4i'%DD
+        ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
+        ad = ds.all_data()
+
+        yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
+        ds.add_particle_filter('stars')
+        make_savefile(anchor_fits = anchor_fits, simname = simname, haloname = haloname, simdir = simdir, DD = DD, ds = ds, ad = ad) 
+
+    Parallel(n_jobs = 5)(delayed(run_tracker)(DD = DD, simdir = simdir, haloname = haloname, 
+                                                                      simname = simname, anchor_fits = anchor_fits) for DD in np.arange(min_DD, max_DD))
     
 
 

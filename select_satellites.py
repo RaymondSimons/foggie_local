@@ -46,9 +46,9 @@ for s, simname in enumerate(simnames):
             mn_peak = mean([xedges[peak], xedges[peak+1]])
             axes[s,0].axvspan(xmin = mn_peak - 2, xmax = mn_peak + 2, color = 'black', alpha = 0.3)
 
-            gd = where((xs > mn_peak-2) & (xs < mn_peak+2))[0]
+            gd = where((data['STARS'].data['x_box'] > mn_peak-2) & (data['STARS'].data['x_box'] < mn_peak+2))[0]
 
-            colss = fits.ColDefs([fits.Column(name = 'id'       , array =  data['STARS'].data['id'][gd], format = 'I'),
+            colss = fits.ColDefs([fits.Column(name = 'id'       , array =  data['STARS'].data['id'][gd], format = 'D'),
                                   fits.Column(name = 'mass_DD%.4i'%DDmin    ,  array =  data['STARS'].data['mass'][gd], format = 'D'),
                                   fits.Column(name = 'x_box_DD%.4i'%DDmin ,  array =  data['STARS'].data['x_box'][gd], format = 'D'),
                                   fits.Column(name = 'y_box_DD%.4i'%DDmin ,  array =  data['STARS'].data['y_box'][gd], format = 'D'),
@@ -66,9 +66,9 @@ for s, simname in enumerate(simnames):
             mn_peak = mean([xedges[peak], xedges[peak+1]])
             axes[s,0].axvspan(xmin = mn_peak - 2, xmax = mn_peak + 2, color = 'black', alpha = 0.3)
 
-            gd = where((xs > mn_peak-2) & (xs < mn_peak+2))[0]
+            gd = where((data['STARS'].data['x_box'] > mn_peak-2) & (data['STARS'].data['x_box'] < mn_peak+2))[0]
 
-            colss = fits.ColDefs([fits.Column(name = 'id'       , array =  data['STARS'].data['id'][gd], format = 'I'),
+            colss = fits.ColDefs([fits.Column(name = 'id'       , array =  data['STARS'].data['id'][gd], format = 'D'),
                                   fits.Column(name = 'mass_DD%.4i'%DDmin    ,  array =  data['STARS'].data['mass'][gd], format = 'D'),
                                   fits.Column(name = 'x_box_DD%.4i'%DDmin ,  array =  data['STARS'].data['x_box'][gd], format = 'D'),
                                   fits.Column(name = 'y_box_DD%.4i'%DDmin ,  array =  data['STARS'].data['y_box'][gd], format = 'D'),
@@ -78,6 +78,9 @@ for s, simname in enumerate(simnames):
                                   fits.Column(name = 'vz_box_DD%.4i'%DDmin  , array =  data['STARS'].data['vz_box'][gd], format = 'D'),
                                   fits.Column(name = 'age_DD%.4i'%DDmin      , array =  data['STARS'].data['age'][gd], format = 'D'),
                                   ])
+
+            print data['STARS'].data['x_box'][gd]
+
 
             if p < 4: hdus.append(fits.BinTableHDU.from_columns(colss, name = 'sat%.2i'%p))
             if p > 4: hdus.append(fits.BinTableHDU.from_columns(colss, name = 'sat%.2i'%(p-1)))
