@@ -52,6 +52,7 @@ def weighted_avg_and_std(values, weights, good):
 
 def run_tracker(simname, haloname, DD):
     DDname         = 'DD%.4i'%DD
+    print DDname
     pfits   = fits.open('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s/%s_DD%.4i_particles.fits'%(haloname, simname, simname, DD))
     anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/anchor_fits/anchors_%s_DD0150.fits'%(haloname,simname))
 
