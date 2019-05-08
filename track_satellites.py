@@ -18,8 +18,8 @@ def parse():
                                 of the data for some of these cameras. Then export the data within
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
-    parser.add_argument('-DDmax', '--DDmax', default=50, help='max DD')
-    parser.add_argument('-DDmin', '--DDmin', default=1010, help='min DD')
+    parser.add_argument('-DDmax', '--DDmax', default=1010, help='max DD')
+    parser.add_argument('-DDmin', '--DDmin', default=50, help='min DD')
     parser.add_argument('-delt_DD', '--delt_DD', default=20, help='min DD')
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
@@ -51,7 +51,6 @@ def weighted_avg_and_std(values, weights, good):
 
 
 def run_tracker(simname, haloname, DD):
-    
     DDname         = 'DD%.4i'%DD
     pfits   = fits.open('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s/%s_DD%.4i'%(haloname, simname, simname, DD))
     anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/anchor_fits/anchors_%s_DD0150.fits'%(haloname,simname))
