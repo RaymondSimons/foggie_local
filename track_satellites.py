@@ -82,8 +82,8 @@ def run_tracker(simname, haloname, DD):
 
         gd_indices       = array(gd_indices)
  
-        if len(gd_indices) > 10:
-            print 'more than 10 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
+        if len(gd_indices) > 5:
+            print 'more than 5 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
             anchor_mss       = mss[gd_indices]
             anchor_xs_box    = xs_box[gd_indices]
             anchor_ys_box    = ys_box[gd_indices]
@@ -91,24 +91,7 @@ def run_tracker(simname, haloname, DD):
             anchor_vxs_box   = vxs_box[gd_indices]
             anchor_vys_box   = vys_box[gd_indices]
             anchor_vzs_box   = vzs_box[gd_indices]
-
-            anchor_R = sqrt(anchor_xs_box**2. + anchor_ys_box**2. + anchor_zs_box**2.)
-
-            hist_R, r_edges = np.histogram(anchor_R.value, weights = anchor_mss.value, bins = arange(min(anchor_R.value)-20,max(anchor_R.value)+20, 10))
-
-            Rmid = np.mean([r_edges[argmax(hist_R)], r_edges[argmax(hist_R)+1]])
-            good = where(abs(anchor_R.value - Rmid) < 5)[0]
-
-
-            anchor_xs_box_avg, _  = weighted_avg_and_std(anchor_xs_box,  weights = anchor_mss, good = good)
-            anchor_ys_box_avg, _  = weighted_avg_and_std(anchor_ys_box,  weights = anchor_mss, good = good)
-            anchor_zs_box_avg, _  = weighted_avg_and_std(anchor_zs_box,  weights = anchor_mss, good = good)
-            anchor_vxs_box_avg, _ = weighted_avg_and_std(anchor_vxs_box, weights = anchor_mss, good = good)
-            anchor_vys_box_avg, _ = weighted_avg_and_std(anchor_vys_box, weights = anchor_mss, good = good)
-            anchor_vzs_box_avg, _ = weighted_avg_and_std(anchor_vzs_box, weights = anchor_mss, good = good)
-
-
-
+            
             anchor_xs_box_avg  = median(anchor_xs_box)
             anchor_ys_box_avg  = median(anchor_ys_box)
             anchor_zs_box_avg  = median(anchor_zs_box)
@@ -134,7 +117,7 @@ def run_tracker(simname, haloname, DD):
                                   fits.Column(name = 'ids_used_avg', array =  good, format = 'I'),
                                   ])
         else:
-            print 'less than 10 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
+            print 'less than 5 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
             cols1 = fits.ColDefs([fits.Column(name = 'box_avg     ', array =  None   , format = '0D'),
                                   fits.Column(name = 'anchor_mss     ', array =  None, format = '0D'),
                                   fits.Column(name = 'anchor_xs_box  ', array =  None, format = '0D'),
