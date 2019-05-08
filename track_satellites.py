@@ -158,7 +158,7 @@ if __name__ == '__main__':
     delt_DD = int(args['delt_DD'])
     haloname = args['haloname']
 
-    Parallel(n_jobs = -1)(delayed(run_tracker)(simname = simname, haloname = haloname, DD = DD) for DD in np.arange(min_DD, max_DD, delt_DD))
+    Parallel(n_jobs = 2)(delayed(run_tracker)(simname = simname, haloname = haloname, DD = DD) for DD in np.arange(min_DD, max_DD, delt_DD))
     
 
 
