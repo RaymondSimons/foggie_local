@@ -135,8 +135,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
 
 
-                    p_1 = cen_g[0] - cen_central[0] 
-                    p_2 = cen_g[2] - cen_central[2]
+                    p_1 = cen_g[2] - cen_central[2] 
+                    p_2 = cen_g[0] - cen_central[0]
 
                 elif axis == 'z':
                     box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
@@ -148,7 +148,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                 cen_central[2] - 0.5 * yt.YTArray(wdd2,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd2,  'kpc')]
 
 
-                    box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd3, 'kpc'):  cen_central[0]   + 0.5 * yt.YTArray(3*wd3, 'kpc'), \
+                    box3 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd3, 'kpc'):  cen_central[0]   + 0.5 * yt.YTArray(3*wd3, 'kpc'), \
                                 cen_central[1] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[1]  + 0.5 * yt.YTArray(3*wd3,  'kpc'), \
                                 cen_central[2] - 0.5 * yt.YTArray(wdd3,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd3,  'kpc')]
 
