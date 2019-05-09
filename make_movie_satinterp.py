@@ -187,7 +187,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     plot.axes = grid[0].axes
                     p._setup_plots()
                     print (abs(p_1), abs(p_2), W2)
-                    if (abs(p_1) < W2/2.) & (abs(p_2) < W2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                    if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
 
                     p = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box2, width = W2)   
@@ -202,7 +202,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     plot.figure = fig
                     plot.axes = grid[1].axes
                     p._setup_plots()
-                    if (abs(p_1) < W2/2.) & (abs(p_2) < W2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                    if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
                     fig.set_size_inches(12, 6)                    
                     fig.savefig('%s/%s'%(figdir,figname_zoomout))
                     plt.close(fig)
