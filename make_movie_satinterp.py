@@ -94,7 +94,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
             print ('satellite center: ', cen_g)
             print ('central center: ', cen_central)
            #for axis in ['x', 'y', 'z']:
-            for axis in ['z']:
+            for axis in ['x']:
 
                 figname_zoomin  = '%s_%.4i_%.2i_%s_zoomin.png'%(cen_name, DD, sat_n, axis)
                 figname_zoomout = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
