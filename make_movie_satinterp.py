@@ -176,7 +176,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
                 p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
                 p.set_unit(('gas','density'), 'Msun/pc**2')
-                p.set_zlim(('gas', 'density'), zmin = density_proj_min * 0.1, zmax =  density_proj_max)
+                p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
                 p.set_cmap(('gas', 'density'), density_color_map)
                 p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
                 p.hide_axes()
@@ -216,7 +216,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
                 p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box2, width=W2)
                 p.set_unit(('gas','density'), 'Msun/pc**2')
-                p.set_zlim(('gas', 'density'), zmin = density_proj_min * 0.1, zmax =  density_proj_max)
+                p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
                 p.set_cmap(('gas', 'density'), density_color_map)
                 p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
                 p.hide_axes()
@@ -261,7 +261,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
                 p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box3, width=W3)
                 p.set_unit(('gas','density'), 'Msun/pc**2')
-                p.set_zlim(('gas', 'density'), zmin = density_proj_min * 0.1, zmax =  density_proj_max)
+                p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
                 p.set_cmap(('gas', 'density'), density_color_map)
                 p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
                 p.hide_axes()
