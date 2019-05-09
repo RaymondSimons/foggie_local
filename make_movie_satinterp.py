@@ -16,7 +16,8 @@ from yt.units import kpc
 from consistency import *
 import seaborn as sns
 from mpl_toolkits.axes_grid1 import AxesGrid
-
+import warnings
+warnings.filterwarnings("ignore")
 def parse():
     '''
     Parse command line arguments
