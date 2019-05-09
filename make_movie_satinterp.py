@@ -82,8 +82,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
         for sat_n in arange(6):
             cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-            ceny = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-            cenz = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
+            ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
+            cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
             cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
             print ('satellite center: ', cen_g)
             print ('central center: ', cen_central)
