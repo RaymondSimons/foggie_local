@@ -65,9 +65,9 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
         #encoding='latin1' is needed for loading python 2 pickles in python 3
         central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_natural.npy', allow_pickle=True, encoding='latin1')[()]
-        xf = central_xyz_fit['x']/1000.
-        yf = central_xyz_fit['y']/1000.
-        zf = central_xyz_fit['z']/1000.
+        xf = central_xyz_fit['x']
+        yf = central_xyz_fit['y']
+        zf = central_xyz_fit['z']
 
         central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
         central_y = yf[0] * DD**4. + yf[1] * DD**3. + yf[2] * DD**2. + yf[3] * DD + yf[4]
@@ -81,9 +81,9 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
 
         for sat_n in arange(6):
-            cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-            ceny = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-            cenz = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
+            cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)/1000.
+            ceny = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)/1000.
+            cenz = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)/1000.
             cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
             print (cen_g)
             for axis in ['x', 'y', 'z']:
