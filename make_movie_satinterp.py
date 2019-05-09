@@ -85,7 +85,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
             ceny = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)/1000.
             cenz = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)/1000.
             cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
-            print (cen_g)
+            print ('satellite center: ', cen_g)
+            print ('central center: ', cen_central)
             for axis in ['x', 'y', 'z']:
                 figname_zoomin  = '%s_%.4i_%.2i_%s_zoomin.png'%(cen_name, DD, sat_n, axis)
                 figname_zoomout = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
