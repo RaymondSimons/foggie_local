@@ -80,9 +80,9 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
 
         for sat_n in arange(6):
-            cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)[0]
-            ceny = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)[0]
-            cenz = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)[0]
+            cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
+            ceny = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
+            cenz = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
             cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
             print (cen_g)
             for axis in ['x', 'y', 'z']:
@@ -97,7 +97,6 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                         box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd2, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd2, 'kpc'), \
                                     cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1] + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
                                     cen_central[2] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[2] + 0.5 * yt.YTArray(3*wd2,  'kpc')]
-
 
                         p_1 = cen_g[1] - cen_central[1] 
                         p_2 = cen_g[2] - cen_central[2]
@@ -187,6 +186,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     plot.figure = fig
                     plot.axes = grid[0].axes
                     p._setup_plots()
+                    print (abs(p_1), abs(p_2), W2)
                     if (abs(p_1) < W2/2.) & (abs(p_2) < W2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
 
