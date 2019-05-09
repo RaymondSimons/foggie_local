@@ -101,7 +101,7 @@ for s, simname in enumerate(simnames):
 
 
 
-    np.save('/Users/rsimons/Dropbox/rcs_foggie/outputs/sat_interps/%s_interpolations_DD0150.npy'%simname, coord_datas_all)
+    np.save('/Users/rsimons/Dropbox/rcs_foggie/outputs/sat_interps/%s_interpolations_DD0150.npy'%simname, coord_datas_all, allow_pickle = True)
 
     #with open('/Users/rsimons/Dropbox/rcs_foggie/outputs/sat_interps/%s_satinterps_DD0150.pkl'%simname, 'wb') as f:
     #    pickle.dump(fx, f)

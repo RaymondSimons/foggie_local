@@ -215,8 +215,6 @@ if __name__ == '__main__':
     DDmin = int(args['DDmin'])
     DDmax = int(args['DDmax'])
     haloname = args['haloname']
-    wd    = float(args['wd'])
-    wdd    = float(args['wdd'])
     axis = args['axis']
     simdir = args['simdir']
     if simname == 'natural': cen_name = 'natural'
