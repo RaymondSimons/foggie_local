@@ -3,6 +3,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import astropy
 from astropy.io import fits
+from scipy.interpolate import interp1d
+from scipy import *
 import numpy as np
 from numpy import *
 import math
