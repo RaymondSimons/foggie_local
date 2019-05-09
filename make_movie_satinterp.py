@@ -56,7 +56,7 @@ def parse():
 
 
 
-def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd = 30, wd2 = 300, wdd2 = 300):
+def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd = 30, wd2 = 300, wdd2 = 300, wd3 = 1000, wdd3 = 1000):
         DDname = 'DD%.4i'%DD
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
         def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
@@ -83,6 +83,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
         W = yt.YTArray([wd, wd, wd], 'kpc')
         W2 = yt.YTArray([wd2, wd2, wd2], 'kpc')
+        W3 = yt.YTArray([wd3, wd3, wd3], 'kpc')
 
 
         for sat_n in arange(6):
@@ -95,6 +96,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
             for axis in ['x', 'y', 'z']:
                 figname_zoomin  = '%s_%.4i_%.2i_%s_zoomin.png'%(cen_name, DD, sat_n, axis)
                 figname_zoomout = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
+                figname_zoomoutfar = '%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, sat_n, axis)
+
                 #if not os.path.exists('%s/%s'%(figdir,figname_zoomin)):
                 if axis == 'x':
                     box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(wdd, 'kpc'), \
@@ -104,6 +107,14 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd2, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd2, 'kpc'), \
                                 cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1] + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
                                 cen_central[2] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[2] + 0.5 * yt.YTArray(3*wd2,  'kpc')]
+
+
+                    box3 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd3, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd3, 'kpc'), \
+                                cen_central[1] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[1] + 0.5 * yt.YTArray(3*wd3,  'kpc'), \
+                                cen_central[2] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[2] + 0.5 * yt.YTArray(3*wd3,  'kpc')]
+
+
+
 
                     p_1 = cen_g[1] - cen_central[1] 
                     p_2 = cen_g[2] - cen_central[2]
@@ -117,6 +128,13 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                 cen_central[1] - 0.5 * yt.YTArray(wdd2,  'kpc') : cen_central[1]  + 0.5 * yt.YTArray(wdd2,  'kpc'), \
                                 cen_central[2] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[2]  + 0.5 * yt.YTArray(3*wd2,  'kpc')]
 
+
+                    box3 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd3, 'kpc') : cen_central[0]  + 0.5 * yt.YTArray(3*wd3, 'kpc'), \
+                                cen_central[1] - 0.5 * yt.YTArray(wdd3,  'kpc') : cen_central[1]  + 0.5 * yt.YTArray(wdd3,  'kpc'), \
+                                cen_central[2] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[2]  + 0.5 * yt.YTArray(3*wd3,  'kpc')]
+
+
+
                     p_1 = cen_g[0] - cen_central[0] 
                     p_2 = cen_g[2] - cen_central[2]
 
@@ -128,6 +146,13 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd2, 'kpc'):  cen_central[0]   + 0.5 * yt.YTArray(3*wd2, 'kpc'), \
                                 cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1]  + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
                                 cen_central[2] - 0.5 * yt.YTArray(wdd2,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd2,  'kpc')]
+
+
+                    box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd3, 'kpc'):  cen_central[0]   + 0.5 * yt.YTArray(3*wd3, 'kpc'), \
+                                cen_central[1] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[1]  + 0.5 * yt.YTArray(3*wd3,  'kpc'), \
+                                cen_central[2] - 0.5 * yt.YTArray(wdd3,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd3,  'kpc')]
+
+
 
                     p_1 = cen_g[0] - cen_central[0] 
                     p_2 = cen_g[1] - cen_central[1]
@@ -213,6 +238,62 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                 fig.set_size_inches(12, 6)                    
                 fig.savefig('%s/%s'%(figdir,figname_zoomout))
                 plt.close(fig)
+
+
+
+
+
+                fig = plt.figure(sat_n)
+                
+                grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                                nrows_ncols = (1, 2),
+                                axes_pad = 0.0, label_mode = "1",
+                                share_all = False, cbar_mode=None,
+                                aspect = False)        
+
+                p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box3, width=W3)
+                p.set_unit(('gas','density'), 'Msun/pc**2')
+                p.set_zlim(('gas', 'density'), zmin = density_proj_min * 0.1, zmax =  density_proj_max)
+                p.set_cmap(('gas', 'density'), density_color_map)
+                p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+                p.hide_axes()
+                p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+                p.annotate_scale(size_bar_args={'color':'white'})
+                plot = p.plots[("gas","density")]
+                plot.figure = fig
+                plot.axes = grid[0].axes
+                p._setup_plots()
+                print (abs(p_1), abs(p_2), W2)
+                if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+
+
+                p = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box3, width = W3)   
+                cmp = plt.cm.Greys_r
+                cmp.set_bad('k')
+                p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
+                p.hide_axes()
+                p.annotate_scale(size_bar_args={'color':'white'})
+
+                p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
+                plot = p.plots[('stars','particle_mass')]
+                plot.figure = fig
+                plot.axes = grid[1].axes
+                p._setup_plots()
+                if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                fig.set_size_inches(12, 6)                    
+                fig.savefig('%s/%s'%(figdir,figname_zoomoutfar))
+                plt.close(fig)
+
+
+
+
+
+
+
+
+
+
+
 
         ds.index.clear_all_data()        
 if __name__ == '__main__':
