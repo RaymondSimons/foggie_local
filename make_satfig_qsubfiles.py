@@ -34,7 +34,7 @@ for sim_name in ['natural', 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_
 
         #for DDi in arange(DD, min(DD + N_split, DDmax)):
         out_string =' > ./outfiles/%s_%.4i_%.4i_movie.err > ./outfiles/%s_%.4i_%.4i_movie.out'%(sim_name, DD,min(DD + N_split, DDmax), sim_name, DD,min(DD + N_split, DDmax))
-        qf.write('python /u/rcsimons/scripts/foggie_local/make_movie_satinterp.py -DDmin %i -DDmax %i -simname %s %s\n'%(DD, min(DD + N_split, DDmax), sim_name, out_string))
+        qf.write('/u/rcsimons/scripts/foggie_local/make_movie_satinterp.py -DDmin %i -DDmax %i -simname %s %s\n'%(DD, min(DD + N_split, DDmax), sim_name, out_string))
 
 
         qf.close()
