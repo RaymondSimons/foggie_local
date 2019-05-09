@@ -12,7 +12,6 @@ import seaborn as sns
 from joblib import Parallel, delayed
 import os, sys, argparse
 import yt
-yt.enable_parallelism()
 from yt.units import kpc
 from consistency import *
 import seaborn as sns
@@ -61,7 +60,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
         def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
         yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
         ds.add_particle_filter('stars')
-        cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name)[()]
+        cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name, pickle=True)[()]
 
         central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_natural.npy')[()]
         xf = central_xyz_fit['x']
