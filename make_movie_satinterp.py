@@ -64,7 +64,11 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
         cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name, allow_pickle=True)[()]
 
         #encoding='latin1' is needed for loading python 2 pickles in python 3
-        central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_natural.npy', allow_pickle=True, encoding='latin1')[()]
+        if 'natural' in cen_name:
+            central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_natural.npy', allow_pickle=True, encoding='latin1')[()]
+        elif 'nref10f' in cen_name:
+            central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_nref11n_nref10f.npy', allow_pickle=True, encoding='latin1')[()]
+
         xf = central_xyz_fit['x']
         yf = central_xyz_fit['y']
         zf = central_xyz_fit['z']
@@ -223,6 +227,7 @@ if __name__ == '__main__':
     if 'v2' in simname: cen_name = 'natural_v2'
     if 'v3' in simname: cen_name = 'natural_v3'
     if 'v4' in simname: cen_name = 'natural_v4'
+    if simname == 'nref11n_nref10f': cen_name = 'nref11n_nref10f'    
 
     figdir = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s'%cen_name
     if not os.path.exists(figdir): os.system('mkdir %s'%figdir)

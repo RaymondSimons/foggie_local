@@ -7,9 +7,9 @@ from numpy import *
 #for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 #for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 #for sim_name in ['nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15']:
-for sim_name in ['natural', 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15']:
+for sim_name in ['natural', 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15', 'nref11n_nref10f']:
     DDmin = 49
-    DDmax = 800
+    DDmax = 1015
     N_split = 15
 
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
@@ -34,7 +34,7 @@ for sim_name in ['natural', 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_
 
         #for DDi in arange(DD, min(DD + N_split, DDmax)):
         out_string =' > ./outfiles/%s_%.4i_%.4i_movie.err > ./outfiles/%s_%.4i_%.4i_movie.out'%(sim_name, DD,min(DD + N_split, DDmax), sim_name, DD,min(DD + N_split, DDmax))
-        qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DDmin %i -DDmax %i -simname %s -wd 30 -wdd 6 %s\n'%(DD, min(DD + N_split, DDmax), sim_name, out_string))
+        qf.write('python /u/rcsimons/scripts/foggie_local/make_movie.py -DDmin %i -DDmax %i -simname %s %s\n'%(DD, min(DD + N_split, DDmax), sim_name, out_string))
 
 
         qf.close()
