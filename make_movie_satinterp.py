@@ -80,10 +80,11 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
 
         for sat_n in arange(6):
-            cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-            ceny = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-            cenz = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
+            cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)[0]
+            ceny = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)[0]
+            cenz = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)[0]
             cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
+            print (cen_g)
             for axis in ['x', 'y', 'z']:
                 figname_zoomin  = '%s_%.4i_%.2i_%s_zoomin.png'%(cen_name, DD, sat_n, axis)
                 figname_zoomout = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
