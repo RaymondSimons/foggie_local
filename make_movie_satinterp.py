@@ -134,6 +134,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                 p_wd2_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
                 p_wd2_g.annotate_scale(size_bar_args={'color':'white'})
 
+                return p_wd2_g
 
                 p_wd2_s = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box2, width = W2)   
                 cmp = plt.cm.Greys_r
@@ -328,5 +329,5 @@ if __name__ == '__main__':
 
     lst = []
     for DD in arange(DDmin, DDmax):
-        make_figure(figdir, DD, cen_name, simdir, haloname, simname)        
+        p = make_figure(figdir, DD, cen_name, simdir, haloname, simname)        
 
