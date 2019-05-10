@@ -88,7 +88,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
         W3 = yt.YTArray([wd3, wd3, wd3], 'kpc')
 
 
-        for axis in ['x']:#, 'y', 'z']:
+        for axis in ['x', 'y', 'z']:
             if True:#not os.path.isfile('%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, 5, axis)):
                 if axis == 'x':                
                     box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd2, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd2, 'kpc'), \
@@ -205,7 +205,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                         p_2 = cen_g[1] - cen_central[1]
                         p_3 = cen_g[2] - cen_central[2]
 
-                    '''
+
                     fig = plt.figure(sat_n)
                     
                     grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
@@ -244,7 +244,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     fig.set_size_inches(12, 6)
                     fig.savefig('%s/%s'%(figdir,figname_zoomin))
                     plt.close(fig)
-                    '''
+
 
                     fig = plt.figure(sat_n)
                     
