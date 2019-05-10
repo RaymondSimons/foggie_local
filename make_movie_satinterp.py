@@ -167,7 +167,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                 p_wd3_s.annotate_scale(size_bar_args={'color':'white'})
                 p_wd3_s.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
 
-                for sat_n in arange(2):
+                for sat_n in arange(6):
                     cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
                     ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
                     cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
