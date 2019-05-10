@@ -6,7 +6,7 @@ import astropy
 from astropy.io import fits
 from scipy.interpolate import interp1d
 from scipy import *
-import copy
+
 import numpy as np
 from numpy import *
 import math
@@ -19,6 +19,7 @@ from consistency import *
 import seaborn as sns
 from mpl_toolkits.axes_grid1 import AxesGrid
 import warnings
+import copy
 warnings.filterwarnings("ignore")
 def parse():
     '''
@@ -133,7 +134,6 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                 p_wd2_g.hide_axes()
                 p_wd2_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
                 p_wd2_g.annotate_scale(size_bar_args={'color':'white'})
-                return p_wd2_g
 
                 p_wd2_s = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box2, width = W2)   
                 cmp = plt.cm.Greys_r
@@ -254,16 +254,15 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                     share_all = False, cbar_mode=None,
                                     aspect = False)        
 
-                    p = copy(p_wd2_g)
+                    p = copy.copy(p_wd2_g)
                     plot = p.plots[("gas","density")]
                     plot.figure = fig
                     plot.axes = grid[0].axes
                     p._setup_plots()
                     print (abs(p_1), abs(p_2), W2)
                     if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
-
                     return
-                    p = copy(p_wd2_s)
+                    p = copy.copy(p_wd2_s)
                     plot = p.plots[('stars','particle_mass')]
                     plot.figure = fig
                     plot.axes = grid[1].axes
@@ -285,7 +284,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                     share_all = False, cbar_mode=None,
                                     aspect = False)        
 
-                    p = copy(p_wd3_g)
+                    p = copy.copy(p_wd3_g)
                     plot = p.plots[("gas","density")]
                     plot.figure = fig
                     plot.axes = grid[0].axes
@@ -294,7 +293,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
 
-                    p = copy(p_wd3_s)
+                    p = copy.copy(p_wd3_s)
                     plot = p.plots[('stars','particle_mass')]
                     plot.figure = fig
                     plot.axes = grid[1].axes
@@ -328,5 +327,5 @@ if __name__ == '__main__':
 
     lst = []
     for DD in arange(DDmin, DDmax):
-        p = make_figure(figdir, DD, cen_name, simdir, haloname, simname)        
+        make_figure(figdir, DD, cen_name, simdir, haloname, simname)        
 
