@@ -263,7 +263,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     print (abs(p_1), abs(p_2), W2)
                     if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
-
+                    return
                     p = copy.copy(p_wd2_s)
                     plot = p.plots[('stars','particle_mass')]
                     plot.figure = fig
