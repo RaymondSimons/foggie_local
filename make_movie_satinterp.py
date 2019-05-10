@@ -255,7 +255,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                     share_all = False, cbar_mode=None,
                                     aspect = False)        
 
-                    p = p_wd2_g
+                    p = copy.copy(p_wd2_g)
                     plot = p.plots[("gas","density")]
                     plot.figure = fig
                     plot.axes = grid[0].axes
@@ -264,7 +264,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
 
-                    p = p_wd2_s
+                    p = copy.copy(p_wd2_s)
                     plot = p.plots[('stars','particle_mass')]
                     plot.figure = fig
                     plot.axes = grid[1].axes
@@ -286,7 +286,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                     share_all = False, cbar_mode=None,
                                     aspect = False)        
 
-                    p = p_wd3_g
+                    p = copy.copy(p_wd3_g)
                     plot = p.plots[("gas","density")]
                     plot.figure = fig
                     plot.axes = grid[0].axes
@@ -295,7 +295,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
 
-                    p = p_wd3_s
+                    p = copy.copy(p_wd3_s)
                     plot = p.plots[('stars','particle_mass')]
                     plot.figure = fig
                     plot.axes = grid[1].axes
@@ -329,5 +329,5 @@ if __name__ == '__main__':
 
     lst = []
     for DD in arange(DDmin, DDmax):
-        p = make_figure(figdir, DD, cen_name, simdir, haloname, simname)        
+        make_figure(figdir, DD, cen_name, simdir, haloname, simname)        
 
