@@ -10,7 +10,7 @@ from numpy import *
 for sim_name in ['natural', 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15', 'nref11n_nref10f']:
     DDmin = 49
     DDmax = 1015
-    N_split = 5
+    N_split = 10
 
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
@@ -22,7 +22,7 @@ for sim_name in ['natural', 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_
         qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/%s'%qsub_fname, 'w+')
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=san\n')
-        qf.write('#PBS -l walltime=4:00:00\n')
+        qf.write('#PBS -l walltime=3:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%sim_snap_name)
         qf.write('#PBS -M rsimons@jhu.edu\n')
