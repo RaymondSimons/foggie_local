@@ -205,7 +205,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                         p_2 = cen_g[1] - cen_central[1]
                         p_3 = cen_g[2] - cen_central[2]
 
-
+                    '''
                     fig = plt.figure(sat_n)
                     
                     grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
@@ -244,7 +244,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     fig.set_size_inches(12, 6)
                     fig.savefig('%s/%s'%(figdir,figname_zoomin))
                     plt.close(fig)
-
+                    '''
 
                     fig = plt.figure(sat_n)
                     
