@@ -87,8 +87,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
         W3 = yt.YTArray([wd3, wd3, wd3], 'kpc')
 
 
-        for axis in ['x', 'y', 'z']:
-            if not os.path.isfile('%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, 5, axis)):
+        for axis in ['x']:#, 'y', 'z']:
+            if True:#not os.path.isfile('%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, 5, axis)):
                 if axis == 'x':                
                     box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd2, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd2, 'kpc'), \
                                 cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1] + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
@@ -167,7 +167,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                 p_wd3_s.annotate_scale(size_bar_args={'color':'white'})
                 p_wd3_s.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
 
-                for sat_n in arange(6):
+                for sat_n in arange(2):
                     cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
                     ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
                     cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
