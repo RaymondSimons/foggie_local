@@ -295,14 +295,6 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
 
 
-
-
-
-
-
-
-
-
         ds.index.clear_all_data()        
 if __name__ == '__main__':
 
@@ -325,19 +317,4 @@ if __name__ == '__main__':
     lst = []
     for DD in arange(DDmin, DDmax):
         make_figure(figdir, DD, cen_name, simdir, haloname, simname)        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
