@@ -21,6 +21,7 @@ from mpl_toolkits.axes_grid1 import AxesGrid
 import warnings
 import copy
 warnings.filterwarnings("ignore")
+import time
 def parse():
     '''
     Parse command line arguments
@@ -125,8 +126,11 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                                 cen_central[2] - 0.5 * yt.YTArray(wdd3,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd3,  'kpc')]
 
 
-
+                a = time.time()
                 p_wd2_g= yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box2, width=W2)
+                b = time.time()
+                print ('p_wd2_g', b-a)
+
                 p_wd2_g.set_unit(('gas','density'), 'Msun/pc**2')
                 p_wd2_g.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
                 p_wd2_g.set_cmap(('gas', 'density'), density_color_map)
@@ -135,7 +139,13 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                 p_wd2_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
                 p_wd2_g.annotate_scale(size_bar_args={'color':'white'})
 
+
+
+                a = time.time()
                 p_wd2_s = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box2, width = W2)   
+                b = time.time()
+                print ('p_wd2_s', b-a)
+
                 cmp = plt.cm.Greys_r
                 cmp.set_bad('k')
                 p_wd2_s.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
@@ -147,8 +157,11 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
 
 
 
-
+                a = time.time()
                 p_wd3_g= yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box3, width=W3)
+                b = time.time()
+                print ('p_wd3_g', b-a)
+
                 p_wd3_g.set_unit(('gas','density'), 'Msun/pc**2')
                 p_wd3_g.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
                 p_wd3_g.set_cmap(('gas', 'density'), density_color_map)
@@ -158,14 +171,23 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                 p_wd3_g.annotate_scale(size_bar_args={'color':'white'})
 
 
-
+                a = time.time()
                 p_wd3_s = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box3, width = W3)   
+                b = time.time()
+                print ('p_wd3_s', b-a)
+
+
                 cmp = plt.cm.Greys_r
                 cmp.set_bad('k')
                 p_wd3_s.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
                 p_wd3_s.hide_axes()
                 p_wd3_s.annotate_scale(size_bar_args={'color':'white'})
                 p_wd3_s.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
+
+
+
+
+
 
                 for sat_n in arange(6):
                     cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
