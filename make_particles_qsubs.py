@@ -5,7 +5,8 @@ split_n = 20
 DDmin = 50
 DDmax = 1000
 
-for simname in ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f']:
+#for simname in ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f']:
+for simname in ['nref11c_nref9f']:
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/particles/submit_%s_%.4i_%.4i_particles.sh'%(simname, DDmin, DDmax), 'w+')
     for i in arange(DDmin, DDmax, split_n):
         min_DD = i
