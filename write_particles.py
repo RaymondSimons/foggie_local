@@ -110,7 +110,7 @@ def make_savefile(simname,  haloname, simdir, DD, ds, ad):
 
 
     hdus_fits = fits.HDUList(hdus)
-    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s_DD%.4i_particles.fits'%(simname, simname, DD), overwrite = True)
+    hdus_fits.writeto('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s/%s_DD%.4i_particles.fits'%(haloname, simname, simname, DD), overwrite = True)
 
 
 
@@ -127,7 +127,7 @@ if __name__ == '__main__':
     elif simname == 'natural_v2': enzo_simname = 'nref11n_v2_selfshield_z15'
     elif simname == 'natural_v3': enzo_simname = 'nref11n_v3_selfshield_z15'
     elif simname == 'natural_v4': enzo_simname = 'nref11n_v4_selfshield_z15'
-    elif simname == 'nref11n_nref10f': enzo_simname = 'nref11n_nref10f'
+    else: enzo_simname = simname
 
     def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
     def _darkmatter(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 4
