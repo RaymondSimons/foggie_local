@@ -1,3 +1,4 @@
+#!/u/rcsimons/miniconda3/bin/python3.7
 import astropy
 from astropy.io import fits
 import numpy as np

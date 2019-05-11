@@ -2,15 +2,15 @@ import astropy
 from astropy.io import fits
 from scipy.signal import find_peaks
 plt.ioff()
-simnames = ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f']
+simnames = ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f', 'nref11c_nref9f']
 anchor_dir = '/Users/rsimons/Dropbox/rcs_foggie/anchor_files'
 part_dir = '/Users/rsimons/Dropbox/rcs_foggie/outputs/particles'
 DDmin = 150
 DDs = arange(DDmin, DDmin+1, 20)
 
-fig, axes = plt.subplots(5,3, figsize = (15,25))
+fig, axes = plt.subplots(6,3, figsize = (15,30))
 
-clrs = ['red', 'green', 'blue', 'purple', 'black']
+clrs = ['red', 'green', 'blue', 'purple', 'black', 'orange']
 
 for s, simname in enumerate(simnames):
     for d, DD in enumerate(DDs):
@@ -88,7 +88,7 @@ for s, simname in enumerate(simnames):
 
 
         hdus_fits = fits.HDUList(hdus)
-        hdus_fits.writeto('/Users/rsimons/Dropbox/rcs_foggie/figures/select_sats/anchors_%s_DD%.4i.fits'%(simname, DDmin), overwrite = True)
+        hdus_fits.writeto('/Users/rsimons/Dropbox/rcs_foggie/select_sats/anchors_%s_DD%.4i.fits'%(simname, DDmin), overwrite = True)
 
 
 
@@ -100,4 +100,4 @@ for s, simname in enumerate(simnames):
     axes[s,0].annotate(simname, (0.1, 0.9), xycoords = 'axes fraction')
 
 
-fig.savefig('/Users/rsimons/Dropbox/rcs_foggie/figures/select_sats/selecting_anchors.png', dpi = 300)
+fig.savefig('/Users/rsimons/Dropbox/rcs_foggie/select_sats/selecting_anchors.png', dpi = 300)
