@@ -77,10 +77,14 @@ def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr
         prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
         prihdu = fits.PrimaryHDU(header=prihdr)    
         master_hdulist.append(prihdu)
-        for sat_n in np.arange(6):
-            cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-            ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
-            cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
+        sat_hdus = []
+        for sat_n in np.arange(7):
+            if st <  6: hd_name = 'SAT_%.2i'%st
+            if st == 6: hd_name = 'CENTRAL'
+
+            cenx = cen_fits[hd_name]['fxe'](DD)
+            ceny = cen_fits[hd_name]['fye'](DD)
+            cenz = cen_fits[hd_name]['fze'](DD)
             cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
             masses = {}
             for key in species_keys: masses[key] = []
@@ -93,12 +97,12 @@ def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr
                     masses[key].append(gc_sphere.quantities.total_quantity([species_dict[key]]).to('Msun'))
             cols = []
             cols.append(fits.Column(name = 'radius', array =  np.array(r_arr), format = 'D'))
-            for key in species_keys: 
-                cols.append(fits.Column(name = key, array =  np.array(masses[key]), format = 'D'))
+            for key in species_keys: cols.append(fits.Column(name = key, array =  np.array(masses[key]), format = 'D'))
             cols = fits.ColDefs(cols)
-            master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = 'SAT%.2i'%sat_n))
-
-
+            
+            if st < 6: sat_hdus.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
+            if st == 6: master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
+        master_hdulist.extend(sat_hdus)
         thdulist = fits.HDUList(master_hdulist)
         print ('\tSaving to ' + fits_name)
 
