@@ -22,7 +22,7 @@ DD_arr = arange(90, 1010, 20)
 DD_plt = linspace(0, 1500, 1000)
 for s, simname in enumerate(simnames):
     print (simname)
-    fig, axes = plt.subplots(6,6, figsize = (24, 24))
+    fig, axes = plt.subplots(7,6, figsize = (24, 30))
     coord_datas_all = {}  
     for st in arange(7):
         xs, ys, zs, DDs  = [], [], [], []
