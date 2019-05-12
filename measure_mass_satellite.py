@@ -66,53 +66,46 @@ def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False
 
 
 def write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr, cen_fits):
-        fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s/%s_DD%.4i_mass_sat%.2i.fits'%(cen_name, simname, DD, sat_n)
+        fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s/%s_DD%.4i_mass.fits'%(cen_name, simname, DD, sat_n)
         if os.path.exists(fits_name): return
-        if (len(cen_fits['SAT_%.2i'%sat_n].data) > 0):
-            if not os.path.isfile(fits_name):
-                #cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
-                #ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
-                #cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
-                cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-                ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
-                cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
+        master_hdulist = []
+        prihdr = fits.Header()
+        prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
+        prihdr['simname'] = simname
+        prihdr['DDname'] = DD
+        prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
+        prihdu = fits.PrimaryHDU(header=prihdr)    
+        master_hdulist.append(prihdu)
+        for sat_n in np.arange(6):
+            cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
+            ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
+            cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
+            cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
+            masses = {}
+            for key in species_keys: masses[key] = []
+            for rr, r in enumerate(r_arr):        
+                print (rr, r)
+                print 'Calculating mass inside %i kpc sphere'%r
+                gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
+                for key in species_keys: 
+                    print key
+                    masses[key].append(gc_sphere.quantities.total_quantity([species_dict[key]]).to('Msun'))
+            cols = []
+            cols.append(fits.ImageHDU(name = 'radius', array =  array(r_arr), format = 'D'))
+            for key in species_keys: 
+                cols.append(fits.Column(name = key, array =  array(masses[key]), format = 'D'))
 
-                cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
+            cols = fits.ColDefs(cols)
 
-                #if 'selfshield_z15' in simname: center_simname = 'natural'
-                #else: center_simname = simname
+            master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = 'SAT%.2i'%sat_n))
 
-                #central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%center_simname)[()]
-                #xf = central_xyz_fit['x']
-                #yf = central_xyz_fit['y']
-                #zf = central_xyz_fit['z']
 
-                masses = {}
-                for key in species_keys: masses[key] = []
-                for rr, r in enumerate(r_arr):        
-                    print (rr, r)
-                    print 'Calculating mass inside %i kpc sphere'%r
-                    gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
-                    for key in species_keys: 
-                        print key
-                        masses[key].append(gc_sphere.quantities.total_quantity([species_dict[key]]).to('Msun'))
+        thdulist = fits.HDUList(master_hdulist)
+        print '\tSaving to ' + fits_name
 
-                master_hdulist = []
-                prihdr = fits.Header()
-                prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
-                prihdr['simname'] = simname
-                prihdr['DDname'] = DD
-                prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
+        thdulist.writeto(fits_name, overwrite = True)
 
-                prihdu = fits.PrimaryHDU(header=prihdr)    
-                master_hdulist.append(prihdu)
 
-                colhdr = fits.Header()
-                master_hdulist.append(fits.ImageHDU(data =  array(r_arr), header = colhdr, name = 'distance'))
-                for key in species_keys: master_hdulist.append(fits.ImageHDU(data =  array(masses[key]), header = colhdr, name = key))
-                thdulist = fits.HDUList(master_hdulist)
-                print '\tSaving to ' + fits_name
-                thdulist.writeto(fits_name, overwrite = True)
 
 
 if __name__ == '__main__':
@@ -204,8 +197,7 @@ if __name__ == '__main__':
     #Parallel(n_jobs = -1)(delayed(write_mass_fits)(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr) for sat_n in np.arange(len(cen_fits) - 1))
     #else: 
     #for sat_n in np.arange(len(cen_fits) - 1): 
-    for sat_n in np.arange(6):
-        write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr, cen_fits)
+    write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr, cen_fits)
 
 
 
