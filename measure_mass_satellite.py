@@ -79,8 +79,8 @@ def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr
         master_hdulist.append(prihdu)
         sat_hdus = []
         for sat_n in np.arange(7):
-            if st <  6: hd_name = 'SAT_%.2i'%st
-            if st == 6: hd_name = 'CENTRAL'
+            if sat_n <  6: hd_name = 'SAT_%.2i'%sat_n
+            if sat_n == 6: hd_name = 'CENTRAL'
 
             cenx = cen_fits[hd_name]['fxe'](DD)
             ceny = cen_fits[hd_name]['fye'](DD)
@@ -100,8 +100,8 @@ def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr
             for key in species_keys: cols.append(fits.Column(name = key, array =  np.array(masses[key]), format = 'D'))
             cols = fits.ColDefs(cols)
             
-            if st < 6: sat_hdus.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
-            if st == 6: master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
+            if sat_n < 6: sat_hdus.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
+            if sat_n == 6: master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
         master_hdulist.extend(sat_hdus)
         thdulist = fits.HDUList(master_hdulist)
         print ('\tSaving to ' + fits_name)
