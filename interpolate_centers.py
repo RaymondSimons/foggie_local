@@ -13,8 +13,10 @@ simnames = ['natural',
             'natural_v2',
             'natural_v3',
             'natural_v4',
-            'nref11n_nref10f']
+            'nref11n_nref10f',
+            'nref11c_nref9f']
 
+simnames = ['nref11c_nref9f']
 
 DD_arr = arange(90, 1010, 20)
 DD_plt = linspace(0, 1500, 1000)
@@ -28,7 +30,9 @@ for s, simname in enumerate(simnames):
         zs  = []
         DDs = []
         for d, DD in enumerate(DD_arr):
-            fname = '/Users/rsimons/Dropbox/rcs_foggie/anchor_files/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(simname, simname, DD)
+            #fname = '/Users/rsimons/Dropbox/rcs_foggie/anchor_files/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(simname, simname, DD)
+            fname = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/halo_008508/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(simname, simname, DD)
+
             if os.path.isfile(fname):
                 data = fits.open(fname)
                 if len(data['SAT_%.2i'%st].data['box_avg']) > 0:
@@ -101,7 +105,7 @@ for s, simname in enumerate(simnames):
 
 
 
-    np.save('/Users/rsimons/Dropbox/rcs_foggie/outputs/sat_interps/%s_interpolations_DD0150.npy'%simname, coord_datas_all, allow_pickle = True)
+    np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%simname, coord_datas_all, allow_pickle = True)
 
     #with open('/Users/rsimons/Dropbox/rcs_foggie/outputs/sat_interps/%s_satinterps_DD0150.pkl'%simname, 'wb') as f:
     #    pickle.dump(fx, f)
@@ -109,7 +113,7 @@ for s, simname in enumerate(simnames):
 
 
 
-    fig.savefig('/Users/rsimons/Dropbox/rcs_foggie/figures/remeasure_centers/%s_interp_centers.png'%simname)
+    fig.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/remeasure_centers/%s_interp_centers.png'%simname)
 
 
 
