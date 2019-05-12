@@ -92,7 +92,7 @@ def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr
                     print (key)
                     masses[key].append(gc_sphere.quantities.total_quantity([species_dict[key]]).to('Msun'))
             cols = []
-            cols.append(fits.ImageHDU(name = 'radius', array =  np.array(r_arr), format = 'D'))
+            cols.append(fits.Column(name = 'radius', array =  np.array(r_arr), format = 'D'))
             for key in species_keys: 
                 cols.append(fits.Column(name = key, array =  np.array(masses[key]), format = 'D'))
 
