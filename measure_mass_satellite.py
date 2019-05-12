@@ -190,14 +190,7 @@ if __name__ == '__main__':
     if simname == 'nref11c_nref9f': cen_name = 'nref11c_nref9f'    
 
     cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name, allow_pickle=True)[()]
-
-    #cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
     r_arr = array([10])
-
-    #if in_parallel: 
-    #Parallel(n_jobs = -1)(delayed(write_mass_fits)(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr) for sat_n in np.arange(len(cen_fits) - 1))
-    #else: 
-    #for sat_n in np.arange(len(cen_fits) - 1): 
     write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr, cen_fits)
 
 
