@@ -65,14 +65,18 @@ def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False
 
 
 
-def write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr):
+def write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr, cen_fits):
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s/%s_DD%.4i_mass_sat%.2i.fits'%(cen_name, simname, DD, sat_n)
         if os.path.exists(fits_name): return
         if (len(cen_fits['SAT_%.2i'%sat_n].data) > 0):
             if not os.path.isfile(fits_name):
-                cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
-                ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
-                cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
+                #cenx = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][0]
+                #ceny = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][1]
+                #cenz = cen_fits['SAT_%.2i'%sat_n].data['box_avg'][2]
+                cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
+                ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
+                cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
+
                 cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
                 if 'selfshield_z15' in simname: center_simname = 'natural'
@@ -188,16 +192,20 @@ if __name__ == '__main__':
     if 'v2' in simname: cen_name = 'natural_v2'
     if 'v3' in simname: cen_name = 'natural_v3'
     if 'v4' in simname: cen_name = 'natural_v4'
+    if simname == 'nref11n_nref10f': cen_name = 'nref11n_nref10f'    
+    if simname == 'nref11c_nref9f': cen_name = 'nref11c_nref9f'    
 
+    cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name, allow_pickle=True)[()]
 
-    cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
+    #cen_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/%s_DD%.4i_anchorprops.fits'%(cen_name, simname, DD))
     r_arr = array([10])
 
-    if in_parallel: 
-        Parallel(n_jobs = -1)(delayed(write_mass_fits)(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr) for sat_n in np.arange(len(cen_fits) - 1))
-    else: 
-        for sat_n in np.arange(len(cen_fits) - 1): 
-            write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr)
+    #if in_parallel: 
+    #Parallel(n_jobs = -1)(delayed(write_mass_fits)(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr) for sat_n in np.arange(len(cen_fits) - 1))
+    #else: 
+    #for sat_n in np.arange(len(cen_fits) - 1): 
+    for sat_n in np.arange(6):
+        write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr, cen_fits)
 
 
 
