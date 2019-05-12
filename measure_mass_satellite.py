@@ -79,8 +79,8 @@ def write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys
 
                 cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
-                if 'selfshield_z15' in simname: center_simname = 'natural'
-                else: center_simname = simname
+                #if 'selfshield_z15' in simname: center_simname = 'natural'
+                #else: center_simname = simname
 
                 #central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_%s.npy'%center_simname)[()]
                 #xf = central_xyz_fit['x']
