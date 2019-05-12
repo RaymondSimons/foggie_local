@@ -53,7 +53,7 @@ def weighted_avg_and_std(values, weights, good):
 
 def run_tracker(simname, haloname, DD):
     DDname         = 'DD%.4i'%DD
-    print DDname
+    print (DDname)
     pfits   = fits.open('/nobackupp2/rcsimons/foggie_momentum/particles/%s/%s/%s_DD%.4i_particles.fits'%(haloname, simname, simname, DD))
     anchor_fits = fits.open('/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/anchor_fits/anchors_%s_DD0150.fits'%(haloname,simname))
 
@@ -74,7 +74,7 @@ def run_tracker(simname, haloname, DD):
     hdus.append(prim_hdu)
 
     for sat_n in arange(6):
-        print DDname, sat_n
+        print (DDname, sat_n)
         np.random.seed(1)
         anchor_ids = anchor_fits['SAT%.2i'%sat_n].data['id']
         anchor_ids_rand = np.random.choice(anchor_ids, 200)
@@ -86,7 +86,7 @@ def run_tracker(simname, haloname, DD):
         gd_indices       = array(gd_indices)
  
         if len(gd_indices) > 5:
-            print 'more than 5 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
+            print ('more than 5 anchor stars found for sat %i in DD%.4i'%(sat_n, DD))
             ids_used         = id_s[gd_indices]
             anchor_mss       = mss[gd_indices]
             anchor_xs_box    = xs_box[gd_indices]
@@ -121,7 +121,7 @@ def run_tracker(simname, haloname, DD):
                                   fits.Column(name = 'anchor_ids'   ,   array =  ids_used,       format = 'D'),
                                   ])
         else:
-            print 'less than 5 anchor stars found for sat %i in DD%.4i'%(sat_n, DD)
+            print ('less than 5 anchor stars found for sat %i in DD%.4i'%(sat_n, DD))
             cols1 = fits.ColDefs([fits.Column(name = 'box_avg     ', array =  None   , format = '0D'),
                                   fits.Column(name = 'anchor_mss     ', array =  None, format = '0D'),
                                   fits.Column(name = 'anchor_xs_box  ', array =  None, format = '0D'),
