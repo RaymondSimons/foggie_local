@@ -86,10 +86,10 @@ def write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys
             for key in species_keys: masses[key] = []
             for rr, r in enumerate(r_arr):        
                 print (rr, r)
-                print 'Calculating mass inside %i kpc sphere'%r
+                print ('Calculating mass inside %i kpc sphere'%r)
                 gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
                 for key in species_keys: 
-                    print key
+                    print (key)
                     masses[key].append(gc_sphere.quantities.total_quantity([species_dict[key]]).to('Msun'))
             cols = []
             cols.append(fits.ImageHDU(name = 'radius', array =  array(r_arr), format = 'D'))
@@ -102,7 +102,7 @@ def write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys
 
 
         thdulist = fits.HDUList(master_hdulist)
-        print '\tSaving to ' + fits_name
+        print ('\tSaving to ' + fits_name)
 
         thdulist.writeto(fits_name, overwrite = True)
 
