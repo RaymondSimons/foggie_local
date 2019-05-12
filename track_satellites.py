@@ -67,16 +67,20 @@ def run_tracker(simname, haloname, DD):
     id_s    = pfits['STARS'].data['id']
 
     anchorprops_filename = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(haloname, simname, simname, DD)
-    if os.path.isfile(anchorprops_filename): return
+    #if os.path.isfile(anchorprops_filename): return
 
     hdus = []
     prim_hdu = fits.PrimaryHDU()
     hdus.append(prim_hdu)
 
-    for sat_n in arange(6):
+
+    sat_hdus = []
+    for sat_n in arange(7):
         print (DDname, sat_n)
         np.random.seed(1)
-        anchor_ids = anchor_fits['SAT%.2i'%sat_n].data['id']
+        if sat_n < 6:  anchor_ids = anchor_fits['SAT%.2i'%sat_n].data['id']
+        if sat_n == 6: anchor_ids = anchor_fits['CENTRAL'].data['id']
+
         anchor_ids_rand = np.random.choice(anchor_ids, 200)
         gd_indices = []
         for anch_id in anchor_ids_rand: 
@@ -133,8 +137,13 @@ def run_tracker(simname, haloname, DD):
                                   fits.Column(name = 'ids_used_avg', array =  None, format = '0D'),
                                   ])
 
-        hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'SAT_%.2i'%sat_n))
+        
 
+        if sat_n < 6:  sat_hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'SAT_%.2i'%sat_n))
+        if sat_n == 6: hdus.append(fits.BinTableHDU.from_columns(cols1, name = 'CENTRAL'))
+
+
+    hdus.extend(sat_hdus)
     hdus_fits = fits.HDUList(hdus)
     hdus_fits.writeto(anchorprops_filename, overwrite = True)
 

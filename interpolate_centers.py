@@ -23,16 +23,11 @@ DD_plt = linspace(0, 1500, 1000)
 for s, simname in enumerate(simnames):
     print (simname)
     fig, axes = plt.subplots(6,6, figsize = (24, 24))
-    coord_datas_all = {}
+    coord_datas_all = {}  
     for st in arange(6):
-        xs  = []
-        ys  = []
-        zs  = []
-        DDs = []
+        xs, ys, zs, DDs  = [], [], [], []
         for d, DD in enumerate(DD_arr):
-            #fname = '/Users/rsimons/Dropbox/rcs_foggie/anchor_files/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(simname, simname, DD)
             fname = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/halo_008508/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(simname, simname, DD)
-
             if os.path.isfile(fname):
                 data = fits.open(fname)
                 if len(data['SAT_%.2i'%st].data['box_avg']) > 0:
