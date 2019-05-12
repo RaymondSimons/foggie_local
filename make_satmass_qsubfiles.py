@@ -41,7 +41,7 @@ for sim_name in simnames:
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
         for DDi in arange(DD, min(DD + N_split, DDmax)):
-            qf.write('python /u/rcsimons/scripts/foggie_local/measure_mass_satellite.py --DD %i --simname  %s > ./outfiles/%s.err > ./outfiles/%s.out\n'%(DDi, sim_name, sim_snap_name, sim_snap_name))
+            qf.write('/u/rcsimons/scripts/foggie_local/measure_mass_satellite.py --DD %i --simname  %s > ./outfiles/%s.err > ./outfiles/%s.out\n'%(DDi, sim_name, sim_snap_name, sim_snap_name))
 
 
         qf.close()
