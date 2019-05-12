@@ -66,7 +66,7 @@ def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False
 
 
 
-def write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr, cen_fits):
+def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr, cen_fits):
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s/%s_DD%.4i_mass.fits'%(cen_name, simname, DD, sat_n)
         if os.path.exists(fits_name): return
         master_hdulist = []
@@ -198,7 +198,7 @@ if __name__ == '__main__':
     #Parallel(n_jobs = -1)(delayed(write_mass_fits)(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr) for sat_n in np.arange(len(cen_fits) - 1))
     #else: 
     #for sat_n in np.arange(len(cen_fits) - 1): 
-    write_mass_fits(ds, cen_name, simname, DD, sat_n, species_dict, species_keys, r_arr, cen_fits)
+    write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr, cen_fits)
 
 
 
