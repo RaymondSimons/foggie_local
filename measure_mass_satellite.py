@@ -95,9 +95,7 @@ def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr
             cols.append(fits.Column(name = 'radius', array =  np.array(r_arr), format = 'D'))
             for key in species_keys: 
                 cols.append(fits.Column(name = key, array =  np.array(masses[key]), format = 'D'))
-
             cols = fits.ColDefs(cols)
-
             master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = 'SAT%.2i'%sat_n))
 
 
