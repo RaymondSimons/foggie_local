@@ -92,9 +92,9 @@ def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr
                     print (key)
                     masses[key].append(gc_sphere.quantities.total_quantity([species_dict[key]]).to('Msun'))
             cols = []
-            cols.append(fits.ImageHDU(name = 'radius', array =  array(r_arr), format = 'D'))
+            cols.append(fits.ImageHDU(name = 'radius', array =  np.array(r_arr), format = 'D'))
             for key in species_keys: 
-                cols.append(fits.Column(name = key, array =  array(masses[key]), format = 'D'))
+                cols.append(fits.Column(name = key, array =  np.array(masses[key]), format = 'D'))
 
             cols = fits.ColDefs(cols)
 
@@ -190,7 +190,7 @@ if __name__ == '__main__':
     if simname == 'nref11c_nref9f': cen_name = 'nref11c_nref9f'    
 
     cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name, allow_pickle=True)[()]
-    r_arr = array([10])
+    r_arr = np.array([10])
     write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr, cen_fits)
 
 
