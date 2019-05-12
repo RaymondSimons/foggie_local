@@ -70,7 +70,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
         #encoding='latin1' is needed for loading python 2 pickles in python 3
         if 'natural' in cen_name:
             central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_natural.npy', allow_pickle=True, encoding='latin1')[()]
-        elif 'nref10f' in cen_name:
+        elif ('nref11n_nref10f' in cen_name) | ('nref11c_nref9f' in cen_name):
             central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_nref11n_nref10f.npy', allow_pickle=True, encoding='latin1')[()]
 
         xf = central_xyz_fit['x']
@@ -264,7 +264,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     p._setup_plots()
 
                     fig.set_size_inches(12, 6)
-                    fig.savefig('%s/%s'%(figdir,figname_zoomin))
+                    fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomin', figname_zoomin))
                     plt.close(fig)
 
 
@@ -291,7 +291,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     p._setup_plots()
                     if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
                     fig.set_size_inches(12, 6)                    
-                    fig.savefig('%s/%s'%(figdir,figname_zoomout))
+                    fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomout', figname_zoomout))
                     plt.close(fig)
 
 
@@ -320,7 +320,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     p._setup_plots()
                     if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
                     fig.set_size_inches(12, 6)                    
-                    fig.savefig('%s/%s'%(figdir,figname_zoomoutfar))
+                    fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomoutfar', figname_zoomoutfar))
                     plt.close(fig)
 
 
@@ -340,6 +340,7 @@ if __name__ == '__main__':
     if 'v3' in simname: cen_name = 'natural_v3'
     if 'v4' in simname: cen_name = 'natural_v4'
     if simname == 'nref11n_nref10f': cen_name = 'nref11n_nref10f'    
+    if simname == 'nref11c_nref9f': cen_name = 'nref11c_nref9f'    
 
     figdir = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s'%cen_name
     if not os.path.exists(figdir): os.system('mkdir %s'%figdir)
