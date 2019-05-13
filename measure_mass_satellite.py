@@ -69,44 +69,45 @@ def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False
 def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr, cen_fits):
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/satellite_masses/%s/%s_DD%.4i_mass.fits'%(cen_name, simname, DD)
         #if os.path.exists(fits_name): return
-        master_hdulist = []
-        prihdr = fits.Header()
-        prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
-        prihdr['simname'] = simname
-        prihdr['DDname'] = DD
-        prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
-        prihdu = fits.PrimaryHDU(header=prihdr)    
-        master_hdulist.append(prihdu)
-        sat_hdus = []
-        for sat_n in np.arange(7):
-            if sat_n <  6: hd_name = 'SAT_%.2i'%sat_n
-            if sat_n == 6: hd_name = 'CENTRAL'
+        if not os.path.isfile(fits_name):
+            master_hdulist = []
+            prihdr = fits.Header()
+            prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
+            prihdr['simname'] = simname
+            prihdr['DDname'] = DD
+            prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
+            prihdu = fits.PrimaryHDU(header=prihdr)    
+            master_hdulist.append(prihdu)
+            sat_hdus = []
+            for sat_n in np.arange(7):
+                if sat_n <  6: hd_name = 'SAT_%.2i'%sat_n
+                if sat_n == 6: hd_name = 'CENTRAL'
 
-            cenx = cen_fits[hd_name]['fxe'](DD)
-            ceny = cen_fits[hd_name]['fye'](DD)
-            cenz = cen_fits[hd_name]['fze'](DD)
-            cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
-            masses = {}
-            for key in species_keys: masses[key] = []
-            for rr, r in enumerate(r_arr):        
-                print (rr, r)
-                print ('Calculating mass inside %i kpc sphere'%r)
-                gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
-                for key in species_keys: 
-                    print (key)
-                    masses[key].append(gc_sphere.quantities.total_quantity([species_dict[key]]).to('Msun'))
-            cols = []
-            cols.append(fits.Column(name = 'radius', array =  np.array(r_arr), format = 'D'))
-            for key in species_keys: cols.append(fits.Column(name = key, array =  np.array(masses[key]), format = 'D'))
-            cols = fits.ColDefs(cols)
-            
-            if sat_n < 6: sat_hdus.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
-            if sat_n == 6: master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
-        master_hdulist.extend(sat_hdus)
-        thdulist = fits.HDUList(master_hdulist)
-        print ('\tSaving to ' + fits_name)
+                cenx = cen_fits[hd_name]['fxe'](DD)
+                ceny = cen_fits[hd_name]['fye'](DD)
+                cenz = cen_fits[hd_name]['fze'](DD)
+                cen = yt.YTArray([cenx, ceny, cenz], 'kpc')
+                masses = {}
+                for key in species_keys: masses[key] = []
+                for rr, r in enumerate(r_arr):        
+                    print (rr, r)
+                    print ('Calculating mass inside %i kpc sphere'%r)
+                    gc_sphere =  ds.sphere(cen, ds.arr(r,'kpc'))
+                    for key in species_keys: 
+                        print (key)
+                        masses[key].append(gc_sphere.quantities.total_quantity([species_dict[key]]).to('Msun'))
+                cols = []
+                cols.append(fits.Column(name = 'radius', array =  np.array(r_arr), format = 'D'))
+                for key in species_keys: cols.append(fits.Column(name = key, array =  np.array(masses[key]), format = 'D'))
+                cols = fits.ColDefs(cols)
+                
+                if sat_n < 6: sat_hdus.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
+                if sat_n == 6: master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = hd_name))
+            master_hdulist.extend(sat_hdus)
+            thdulist = fits.HDUList(master_hdulist)
+            print ('\tSaving to ' + fits_name)
 
-        thdulist.writeto(fits_name, overwrite = True)
+            thdulist.writeto(fits_name, overwrite = True)
 
 
 
