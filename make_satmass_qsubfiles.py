@@ -8,9 +8,9 @@ from numpy import *
 #for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 
 simnames = ['natural', 
-            'natural_v2',
-            'natural_v3',
-            'natural_v4',
+            'nref11n_v2_selfshield_z15',
+            'nref11n_v3_selfshield_z15',
+            'nref11n_v4_selfshield_z15',
             'nref11n_nref10f',
             'nref11c_nref9f']
 
