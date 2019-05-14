@@ -1,5 +1,6 @@
 import os
 import numpy as np
+from numpy import *
 
 
 DDs = arange(49, 1000)
