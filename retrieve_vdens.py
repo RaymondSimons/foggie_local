@@ -57,10 +57,10 @@ def retrieve_vdens(simname, DDs):
             cols = []
 
             for p, perc in enumerate(np.array(['2', '16', '50', '84', '98'])):
-                cols.append(fits.Column(name = 'density_%i'%perc,    array =  dens[:,p], format = 'D'))
-                cols.append(fits.Column(name = 'x_velocity_%i'%perc, array =  vx[:,p], format = 'D'))
-                cols.append(fits.Column(name = 'y_velocity_%i'%perc, array =  vy[:,p], format = 'D'))
-                cols.append(fits.Column(name = 'z_velocity_%i'%perc, array =  vz[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'density_%s'%perc,    array =  dens[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'x_velocity_%s'%perc, array =  vx[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'y_velocity_%s'%perc, array =  vy[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'z_velocity_%s'%perc, array =  vz[:,p], format = 'D'))
 
             cols = fits.ColDefs(cols)
             
