@@ -66,7 +66,7 @@ def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False
 
 
 
-def write_ram_fits(ds, cen_name, simname, DD, species_dict, species_keys, cen_fits):
+def write_ram_fits(ds, cen_name, simname, DD, cen_fits):
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/ram_pressure/%s/%s_DD%.4i_ram.fits'%(cen_name, simname, DD)
         #if os.path.exists(fits_name): return
         if not os.path.isfile(fits_name):
@@ -144,7 +144,7 @@ if __name__ == '__main__':
 
     cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name, allow_pickle=True)[()]
 
-    write_ram_fits(ds, cen_name, simname, DD, species_dict, species_keys, cen_fits)
+    write_ram_fits(ds, cen_name, simname, DD, cen_fits)
 
 
 
