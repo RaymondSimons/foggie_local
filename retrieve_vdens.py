@@ -55,10 +55,10 @@ def retrieve_vdens(simname, DDs):
                 vy[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['y_velocity'], (2, 16, 50, 84, 98)) 
                 vz[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['z_velocity'], (2, 16, 50, 84, 98)) 
             cols = []
-            cols.append(fits.Column(name = 'density', array =  np.array(dens), format = 'D'))
-            cols.append(fits.Column(name = 'x_velocity', array =  np.array(vx), format = 'D'))
-            cols.append(fits.Column(name = 'y_velocity', array =  np.array(vy), format = 'D'))
-            cols.append(fits.Column(name = 'z_velocity', array =  np.array(vz), format = 'D'))
+            cols.append(fits.Column(name = 'density',    array =  dens, format = 'D'))
+            cols.append(fits.Column(name = 'x_velocity', array =  vx, format = 'D'))
+            cols.append(fits.Column(name = 'y_velocity', array =  vy, format = 'D'))
+            cols.append(fits.Column(name = 'z_velocity', array =  vz, format = 'D'))
             cols = fits.ColDefs(cols)
             
             master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = 'SAT_%.2i'%sat_n))
@@ -75,7 +75,7 @@ def retrieve_vdens(simname, DDs):
 
 
 
-DDs = arange(49, 1000)
+DDs = arange(49, 100)
 
 
 
