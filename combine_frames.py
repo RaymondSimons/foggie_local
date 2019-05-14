@@ -65,7 +65,7 @@ def combine_frames(sat, ax, zoom, DD, simnames):
 
     for s, simname in enumerate(simnames):
         fname = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
-        if os.path.isfile(im):
+        if os.path.isfile(fname):
             im =  Image.open(fname)
             imgs.append(im)
         else:
