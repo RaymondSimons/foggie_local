@@ -97,7 +97,7 @@ def write_ram_fits(ds, cen_name, simname, DD, cen_fits):
                 cen_next = yt.YTArray([cenx_next, ceny_next, cenz_next], 'kpc')
 
                 vec_next =  cen_next - cen
-                vec_next = vec_next/np.sqrt(np.sum(vec_next))
+                vec_next = vec_next/np.sqrt(np.sum(vec_next**2.))
 
                 cen_10kpc  = cen + vec_next * yt.YTArray([10], 'kpc')
 
