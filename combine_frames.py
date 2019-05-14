@@ -40,10 +40,10 @@ for sat in sats:
                     print (os.path.isfile(fname))
                     im =  Image.open(fname)
                     imgs.append(im)
-                #imgs_12 = imgs[0:2]
-                #imgs_34 = imgs[2:4]
-                #imgs_56 = imgs[4:6]
-                #imgs_comb = []
+                imgs_12 = imgs[0:2]
+                imgs_34 = imgs[2:4]
+                imgs_56 = imgs[4:6]
+                imgs_comb = []
 
                 for imgs in [imgs_12, imgs_34, imgs_56]:
                     min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
