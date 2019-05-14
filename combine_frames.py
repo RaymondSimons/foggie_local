@@ -57,7 +57,7 @@ zooms = ['zoomin']
 sats = arange(1)
 '''
 
-def combine_frames(sat, ax, zoom, DD, simnames):
+def combine_frames(sat, ax, DD, simnames):
     imgs_zoomin = [] 
     imgs_zoomout = [] 
     imgs_zoomoutfar = [] 
@@ -65,7 +65,7 @@ def combine_frames(sat, ax, zoom, DD, simnames):
     fname_out = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/all/%.4i_%.2i_%s.png'%(ax, DD, sat, ax)
 
     for s, simname in enumerate(simnames):
-        fname_zoomin = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
+        fname_zoomin = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, 'zoomin', simname, DD, sat, ax, 'zoomin')
         fname_zoomout = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, 'zoomout', simname, DD, sat, ax, 'zoomout')
         fname_zoomoutfar = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, 'zoomoutfar', simname, DD, sat, ax, 'zoomoutfar')
         if os.path.isfile(fname_zoomin):
