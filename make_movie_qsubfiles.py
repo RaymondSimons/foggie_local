@@ -35,7 +35,7 @@ for sat in sats:
             qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
 
-            qf.write('/u/rcsimons/scripts/foggie_local/combine_frames.py --ax %i --sat  %s --zoom > ./outfiles/%s.err > ./outfiles/%s.out\n'%(ax, sat, zoom, sim_name, sim_snap_name, sim_snap_name))
+            qf.write('/u/rcsimons/scripts/foggie_local/combine_frames.py --ax %s --sat  %i --zoom %s > ./outfiles/%s.err > ./outfiles/%s.out\n'%(ax, sat, zoom, sim_snap_name, sim_snap_name))
 
 
             qf.close()
