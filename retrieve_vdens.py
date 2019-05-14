@@ -2,6 +2,7 @@ import os
 from joblib import Parallel, delayed
 import numpy as np
 from astropy.io import fits
+from numpy import *
 
 def retrieve_vdens(simname, DDs):
 
