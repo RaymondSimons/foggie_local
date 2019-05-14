@@ -101,7 +101,7 @@ def write_ram_fits(ds, cen_name, simname, DD, cen_fits):
 
                 cen_10kpc  = cen + vec_next * yt.YTArray([10], 'kpc')
 
-                cp = ds.cutting(normal = vec_next, coord = cen_10kpc)
+                cp = ds.cutting(vec_next, cen_10kpc)
                 frb = cp.to_frb((15, 'kpc'), 200)
 
                 frb_dens = frb["gas", "density"]
