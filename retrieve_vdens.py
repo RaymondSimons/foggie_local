@@ -6,26 +6,26 @@ from astropy.io import fits
 def retrieve_vdens(simname, DDs):
 
 
-        if simname == 'natural'
+        if simname == 'natural':
             simfname = 'natural'
 
 
-        if simname == 'natural_v2'
+        if simname == 'natural_v2':
             simfname = 'nref11n_v2_selfshield_z15'
 
         
-        if simname == 'natural_v3'
+        if simname == 'natural_v3':
             simfname = 'nref11n_v3_selfshield_z15'
 
 
-        if simname == 'natural_v4'
+        if simname == 'natural_v4':
             simfname = 'nref11n_v4_selfshield_z15'
 
         
-        if simname == 'nref11c_nref9f'
+        if simname == 'nref11c_nref9f':
             simfname = 'nref11c_nref9f'
 
-        if simname == 'nref11n_nref10f'
+        if simname == 'nref11n_nref10f':
             simfname = 'nref11n_nref10f'
 
 
