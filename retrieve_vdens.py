@@ -39,7 +39,7 @@ def retrieve_vdens(simname, DDs):
         cols.append(fits.Column(name = 'DDs', array =  np.array(DDs), format = 'D'))
         cols = fits.ColDefs(cols)        
         master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = 'DD'))
-        fits_name = '/nobackupp2/rcsimons/foggie_momentum/ram_pressure/%s_ram_percentiles.fits'%(simname)
+        fits_name = '/nobackupp2/rcsimons/foggie_momentum/ram_pressure/percentiles/%s_ram_percentiles.fits'%(simname)
 
 
         for sat_n in arange(6):
