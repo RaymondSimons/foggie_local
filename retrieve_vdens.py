@@ -36,7 +36,7 @@ def retrieve_vdens(simname, DDs):
         prihdu = fits.PrimaryHDU(header=prihdr)    
         master_hdulist.append(prihdu)
         cols = []
-        cols.append(fits.Column(name = 'DDs', array =  np.array(DDs), format = 'D'))
+        cols.append(fits.Column(name = 'DDs', array =  DDs, format = 'D'))
         cols = fits.ColDefs(cols)        
         master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = 'DD'))
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/ram_pressure/percentiles/%s_ram_percentiles.fits'%(simname)
