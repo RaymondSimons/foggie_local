@@ -1,3 +1,4 @@
+#!/u/rcsimons/miniconda3/bin/python3.7
 import os
 import numpy as np
 from numpy import *
