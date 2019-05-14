@@ -11,7 +11,16 @@ simnames =  ['natural',
             'nref11c_nref9f',
             'nref11n_nref10f']
 
+axs = ['x', 'y', 'z']
 
-for d, DD in enumerate(DDs):
-    for s, simname in enumerate(simnames):
-        print (DD, simname)
+zooms = ['zoomin', 'zoomout', 'zoomoutfar']
+
+sats = arange(6)
+
+for sat in sats:
+    for a, ax in enumerate(axs):
+        for z, zoom in enumerate(zooms):
+            for d, DD in enumerate(DDs):
+                for s, simname in enumerate(simnames):
+                    fname = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
+                    print os.path.isfile(fname)
