@@ -69,7 +69,7 @@ def combine_frames(sat, ax, zoom, DD, simnames):
         fname_zoomin = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
         fname_zoomout = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, 'zoomout', simname, DD, sat, ax, 'zoomout')
         fname_zoomoutfar = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, 'zoomoutfar', simname, DD, sat, ax, 'zoomoutfar')
-        if os.path.isfile(fname):
+        if os.path.isfile(fname_zoomin):
             im =  Image.open(fname_zoomin)
             imgs_zoomin.append(im)
 
