@@ -40,7 +40,17 @@ for sat in sats:
                     print (os.path.isfile(fname))
                     im =  Image.open(fname)
                     imgs.append(im)
-                min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
-                imgs_comb = np.vstack((np.asarray( i.resize(min_shape) ) for i in imgs ))
-                imgs_comb_all = Image.fromarray( imgs_comb)
+                imgs_12 = imgs[0:2]
+                imgs_34 = imgs[2:4]
+                imgs_56 = imgs[4:6]
+                imgs_comb_temp = []
+
+                for imgs in [imgs_12, imgs_34, imgs_56]:
+                    min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
+                    imgs_comb = np.vstack((np.asarray( i.resize(min_shape) ) for i in imgs ))
+                    imgs_comb_temp.append(Image.fromarray( imgs_comb))
+
+                min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs_comb_temp])[0][1]
+                imgs_comb = np.hstack((np.asarray( i.resize(min_shape) ) for i in imgs_comb_temp ))
+                imgs_comb_all = PIL.Image.fromarray( imgs_comb)
                 imgs_comb_all.save(fname_out)
