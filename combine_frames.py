@@ -59,7 +59,6 @@ sats = arange(1)
 '''
 
 def combine_frames(sat, ax, zoom, DD, simnames):
-    print (DD)
     imgs = [] 
     fname_out = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/%s/%.4i_%.2i_%s_%s.png'%(ax, zoom, DD, sat, ax, zoom)
 
