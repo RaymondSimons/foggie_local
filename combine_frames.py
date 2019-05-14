@@ -45,12 +45,12 @@ for sat in sats:
                 #imgs_56 = imgs[4:6]
                 #imgs_comb = []
 
-                #for imgs in [imgs_12, imgs_34, imgs_56]:
-                min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
-                imgs_comb_temp = np.vstack((np.asarray( i.resize(min_shape) ) for i in imgs ))
-                imgs_comb_temp = Image.fromarray( imgs_comb_temp)
-                #imgs_comb.append(imgs_comb_temp)
-                imgs_comb_temp.save(fname_out)
+                for imgs in [imgs_12, imgs_34, imgs_56]:
+                    min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
+                    imgs_comb_temp = np.vstack((np.asarray( i.resize(min_shape) ) for i in imgs ))
+                    imgs_comb_temp = Image.fromarray( imgs_comb_temp)
+                    imgs_comb.append(imgs_comb_temp)
+                #imgs_comb_temp.save(fname_out)
 
                 '''
                 min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs_comb])[0][1]
