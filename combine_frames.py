@@ -6,7 +6,7 @@ from joblib import Parallel, delayed
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-DDs = arange(49, 1000)
+DDs = arange(49, 200)
 simnames =  ['natural',
             'natural_v2',
             'natural_v3',
@@ -55,7 +55,8 @@ for sat in sats:
         for z, zoom in enumerate(zooms):
             Parallel(n_jobs = -1)(delayed(combine_frames)(sat, ax, zoom, DD, simnames) for d, DD in enumerate(DDs))
 
-    
+            png_names = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/'%(simname, ax, zoom) + '%4d' + '_%.2i_%s_%s.mp4'%(sat, ax, zoom)
+            os.system('ffmpeg -r 24 -f image2 -s 1920x1080 -start_number 49 -i %s -vframes 1000 -vcodec libx264 -crf 25  -pix_fmt yuv420p /nobackupp2/rcsimons/foggie_momentum/sat_figures/movies/%.2i_%s_%s.mp4'%(png_names, sat, ax, zoom))
                 
 
 
