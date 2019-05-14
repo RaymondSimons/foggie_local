@@ -50,10 +50,10 @@ def retrieve_vdens(simname, DDs):
 
             for d, DD in enumerate(DDs):
                 data = fits.open('/nobackupp2/rcsimons/foggie_momentum/ram_pressure/%s/%s_DD%.4i_ram.fits'%(simname, simfname, DD))
-                dens[d,:] = np.percentile(data['SAT_%2i'%sat_n].data['density'], (2, 16, 50, 84, 98)) 
-                vx[d,:]   = np.percentile(data['SAT_%2i'%sat_n].data['x_velocity'], (2, 16, 50, 84, 98)) 
-                vy[d,:]   = np.percentile(data['SAT_%2i'%sat_n].data['y_velocity'], (2, 16, 50, 84, 98)) 
-                vz[d,:]   = np.percentile(data['SAT_%2i'%sat_n].data['z_velocity'], (2, 16, 50, 84, 98)) 
+                dens[d,:] = np.percentile(data['SAT_%.2i'%sat_n].data['density'], (2, 16, 50, 84, 98)) 
+                vx[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['x_velocity'], (2, 16, 50, 84, 98)) 
+                vy[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['y_velocity'], (2, 16, 50, 84, 98)) 
+                vz[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['z_velocity'], (2, 16, 50, 84, 98)) 
             cols = []
             cols.append(fits.Column(name = 'density', array =  np.array(dens), format = 'D'))
             cols.append(fits.Column(name = 'x_velocity', array =  np.array(vx), format = 'D'))
