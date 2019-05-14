@@ -23,4 +23,4 @@ for sat in sats:
             for d, DD in enumerate(DDs):
                 for s, simname in enumerate(simnames):
                     fname = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
-                    print os.path.isfile(fname)
+                    print (os.path.isfile(fname))
