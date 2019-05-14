@@ -59,26 +59,51 @@ sats = arange(1)
 '''
 
 def combine_frames(sat, ax, zoom, DD, simnames):
-    imgs = [] 
-    fname_out = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/%s/%.4i_%.2i_%s_%s.png'%(ax, zoom, DD, sat, ax, zoom)
+    imgs_zoomin = [] 
+    imgs_zoomout = [] 
+    imgs_zoomoutfar = [] 
+
+    fname_out = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/all/%.4i_%.2i_%s_%s.png'%(ax, DD, sat, ax)
 
     for s, simname in enumerate(simnames):
-        fname = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
+        fname_zoomin = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
+        fname_zoomout = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, 'zoomout', simname, DD, sat, ax, 'zoomout')
+        fname_zoomoutfar = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, 'zoomoutfar', simname, DD, sat, ax, 'zoomoutfar')
         if os.path.isfile(fname):
-            im =  Image.open(fname)
-            imgs.append(im)
+            im =  Image.open(fname_zoomin)
+            imgs_zoomin.append(im)
+
+            im =  Image.open(fname_zoomout)
+            imgs_zoomout.append(im)
+
+            im =  Image.open(fname_zoomoutfar)
+            imgs_zoomoutfar.append(im)
         else:
             return
-    imgs_12 = imgs[0:2]
-    imgs_34 = imgs[2:4]
-    imgs_56 = imgs[4:6]
-    imgs_comb = []
+    min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs_zoomin])[0][1]
+    imgs_comb_zoomin = np.vstack((np.asarray( i.resize(min_shape) ) for i in imgs_zoomin ))
+    imgs_comb_zoomin = Image.fromarray( imgs_comb_zoomin)
 
-    #for imgs in [imgs_12, imgs_34, imgs_56]:
+
+    min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs_zoomout])[0][1]
+    imgs_comb_zoomout = np.vstack((np.asarray( i.resize(min_shape) ) for i in imgs_zoomout ))
+    imgs_comb_zoomout = Image.fromarray( imgs_comb_zoomout)
+
+
+    min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs_zoomoutfar])[0][1]
+    imgs_comb_zoomoutfar = np.vstack((np.asarray( i.resize(min_shape) ) for i in imgs_zoomoutfar ))
+    imgs_comb_zoomoutfar = Image.fromarray( imgs_comb_zoomoutfar)
+
+
+
+    imgs = [imgs_comb_zoomin, imgs_comb_zoomout, imgs_comb_zoomoutfar]
     min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
-    imgs_comb_temp = np.vstack((np.asarray( i.resize(min_shape) ) for i in imgs ))
-    imgs_comb_temp = Image.fromarray( imgs_comb_temp)
-    imgs_comb_temp.save(fname_out)
+    imgs_comb = np.hstack((np.asarray( i.resize(min_shape) ) for i in imgs ))
+    imgs_comb_all = PIL.Image.fromarray( imgs_comb)
+
+    imgs_comb_all.save(fname_out)
+
+
 
 
 if __name__ == '__main__':
@@ -87,7 +112,7 @@ if __name__ == '__main__':
     sat = int(args['sat'])
     zoom = args['zoom'] 
     Parallel(n_jobs = -1)(delayed(combine_frames)(sat, ax, zoom, DD, simnames) for d, DD in enumerate(DDs))
-    png_names = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/%s/'%(ax, zoom) + '%4d' + '_%.2i_%s_%s.png'%(sat, ax, zoom)
+    png_names = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/all/'%(ax) + '%4d' + '_%.2i_%s.png'%(sat, ax)
     os.system('ffmpeg -r 24 -f image2 -s 1920x1080 -start_number 49 -i %s -vframes 1000 -vcodec libx264 -crf 25  -pix_fmt yuv420p /nobackupp2/rcsimons/foggie_momentum/sat_figures/movies/%.2i_%s_%s.mp4'%(png_names, sat, ax, zoom))
 
 '''
