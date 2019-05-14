@@ -63,7 +63,7 @@ def combine_frames(sat, ax, zoom, DD, simnames):
     imgs_zoomout = [] 
     imgs_zoomoutfar = [] 
 
-    fname_out = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/all/%.4i_%.2i_%s_%s.png'%(ax, DD, sat, ax)
+    fname_out = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/all/%.4i_%.2i_%s.png'%(ax, DD, sat, ax)
 
     for s, simname in enumerate(simnames):
         fname_zoomin = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
