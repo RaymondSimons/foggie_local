@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from numpy import *
-import PIL
+from PIL import Image
 
 
 DDs = arange(49, 1000)
@@ -37,5 +37,5 @@ for sat in sats:
                 for s, simname in enumerate(simnames):
                     fname = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
                     print (os.path.isfile(fname))
-                    im =  PIL.Image.open(fname)
+                    im =  Image.open(fname)
                     imgs.append(im1)
