@@ -17,7 +17,7 @@ sats = arange(6)
 
 
 
-DDs = arange(49, 50)
+#DDs = arange(49, 50)
 simnames =  ['natural',
             'natural_v2',
             'natural_v3',
