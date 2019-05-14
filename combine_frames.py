@@ -1,5 +1,5 @@
 import os
-
+import numpy as np
 
 
 DDs = arange(49, 1000)
