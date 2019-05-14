@@ -1,11 +1,5 @@
-
-#make_movie_qsubfiles.pyname = 'nref11n_nref10f_selfshield_z6'
-#sim_name = 'nref11n_selfshield_z15'
 import numpy
 from numpy import *
-
-#for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
-#for sim_name in ['natural', 'nref11n_nref10f_selfshield_z6']:
 
 
 
@@ -40,8 +34,8 @@ for sat in sats:
             qf.write('#PBS -V\n')
             qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
-            for DDi in arange(DD, min(DD + N_split, DDmax)):
-                qf.write('/u/rcsimons/scripts/foggie_local/combine_frames.py --ax %i --sat  %s --zoom > ./outfiles/%s.err > ./outfiles/%s.out\n'%(ax, sat, zoom, sim_name, sim_snap_name, sim_snap_name))
+
+            qf.write('/u/rcsimons/scripts/foggie_local/combine_frames.py --ax %i --sat  %s --zoom > ./outfiles/%s.err > ./outfiles/%s.out\n'%(ax, sat, zoom, sim_name, sim_snap_name, sim_snap_name))
 
 
             qf.close()
