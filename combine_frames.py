@@ -26,7 +26,7 @@ simnames =  ['natural',
             'natural_v4',
             'nref11c_nref9f',
             'nref11n_nref10f']
-axs = ['y']
+axs = ['x']
 zooms = ['zoomin']
 sats = arange(1)
 
@@ -50,11 +50,16 @@ def combine_frames(sat, ax, zoom, DD, simnames):
     imgs_comb_temp = Image.fromarray( imgs_comb_temp)
     imgs_comb_temp.save(fname_out)
 
+#Combine Frames
 for sat in sats:
     for a, ax in enumerate(axs):
         for z, zoom in enumerate(zooms):
             Parallel(n_jobs = -1)(delayed(combine_frames)(sat, ax, zoom, DD, simnames) for d, DD in enumerate(DDs))
 
+#Make Movie
+for sat in sats:
+    for a, ax in enumerate(axs):
+        for z, zoom in enumerate(zooms):
             png_names = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/%s/'%(ax, zoom) + '%4d' + '_%.2i_%s_%s.png'%(sat, ax, zoom)
             os.system('ffmpeg -r 24 -f image2 -s 1920x1080 -start_number 49 -i %s -vframes 1000 -vcodec libx264 -crf 25  -pix_fmt yuv420p /nobackupp2/rcsimons/foggie_momentum/sat_figures/movies/%.2i_%s_%s.mp4'%(png_names, sat, ax, zoom))
                 
