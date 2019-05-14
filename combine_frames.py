@@ -85,7 +85,7 @@ def combine_frames(sat, ax, zoom, DD, simnames):
 if __name__ == '__main__':
     args = parse()
     ax = args['ax'] 
-    sat = args['sat'] 
+    sat = int(args['sat'])
     zoom = args['zoom'] 
     Parallel(n_jobs = -1)(delayed(combine_frames)(sat, ax, zoom, DD, simnames) for d, DD in enumerate(DDs))
     png_names = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/%s/'%(ax, zoom) + '%4d' + '_%.2i_%s_%s.png'%(sat, ax, zoom)
