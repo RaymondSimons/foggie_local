@@ -55,10 +55,13 @@ def retrieve_vdens(simname, DDs):
                 vy[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['y_velocity'], (2, 16, 50, 84, 98)) 
                 vz[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['z_velocity'], (2, 16, 50, 84, 98)) 
             cols = []
-            cols.append(fits.Column(name = 'density',    array =  dens, format = 'D'))
-            cols.append(fits.Column(name = 'x_velocity', array =  vx, format = 'D'))
-            cols.append(fits.Column(name = 'y_velocity', array =  vy, format = 'D'))
-            cols.append(fits.Column(name = 'z_velocity', array =  vz, format = 'D'))
+
+            for p, perc in ['2', '16', '50', '84', '98']:
+                cols.append(fits.Column(name = 'density_%i'%perc,    array =  dens[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'x_velocity_%i'%perc, array =  vx[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'y_velocity_%i'%perc, array =  vy[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'z_velocity_%i'%perc, array =  vz[:,p], format = 'D'))
+
             cols = fits.ColDefs(cols)
             
             master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = 'SAT_%.2i'%sat_n))
