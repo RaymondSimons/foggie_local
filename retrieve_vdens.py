@@ -49,11 +49,16 @@ def retrieve_vdens(simname, DDs):
             vz      = nan*zeros((len(DDs), 5))
 
             for d, DD in enumerate(DDs):
-                data = fits.open('/nobackupp2/rcsimons/foggie_momentum/ram_pressure/%s/%s_DD%.4i_ram.fits'%(simname, simfname, DD))
-                dens[d,:] = np.percentile(data['SAT_%.2i'%sat_n].data['density'], (2, 16, 50, 84, 98)) 
-                vx[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['x_velocity'], (2, 16, 50, 84, 98)) 
-                vy[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['y_velocity'], (2, 16, 50, 84, 98)) 
-                vz[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['z_velocity'], (2, 16, 50, 84, 98)) 
+                data_name = '/nobackupp2/rcsimons/foggie_momentum/ram_pressure/%s/%s_DD%.4i_ram.fits'%(simname, simfname, DD)
+                if os.path.isfile(data_name):
+                    data = fits.open(data_name)
+                    dens[d,:] = np.percentile(data['SAT_%.2i'%sat_n].data['density'], (2, 16, 50, 84, 98)) 
+                    vx[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['x_velocity'], (2, 16, 50, 84, 98)) 
+                    vy[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['y_velocity'], (2, 16, 50, 84, 98)) 
+                    vz[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['z_velocity'], (2, 16, 50, 84, 98)) 
+                else:
+                    print ('no file found in %s'%data_name)
+
             cols = []
 
             for p, perc in enumerate(np.array(['2', '16', '50', '84', '98'])):
