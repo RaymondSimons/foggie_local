@@ -111,7 +111,7 @@ if __name__ == '__main__':
     sat = int(args['sat'])
     Parallel(n_jobs = -1)(delayed(combine_frames)(sat, ax, DD, simnames) for d, DD in enumerate(DDs))
     png_names = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/all/'%(ax) + '%4d' + '_%.2i_%s.png'%(sat, ax)
-    os.system('ffmpeg -r 24 -f image2 -s 1920x1080 -start_number 49 -i %s -vframes 1000 -vcodec libx264 -crf 25  -pix_fmt yuv420p /nobackupp2/rcsimons/foggie_momentum/sat_figures/movies/%.2i_%s_%s.mp4'%(png_names, sat, ax))
+    os.system('ffmpeg -r 24 -f image2 -s 1920x1080 -start_number 49 -i %s -vframes 1000 -vcodec libx264 -crf 25  -pix_fmt yuv420p /nobackupp2/rcsimons/foggie_momentum/sat_figures/movies/%.2i_%s.mp4'%(png_names, sat, ax))
 
 '''
 #Combine Frames
