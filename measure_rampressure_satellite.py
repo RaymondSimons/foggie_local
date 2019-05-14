@@ -104,10 +104,10 @@ def write_ram_fits(ds, cen_name, simname, DD, cen_fits):
                 cp = ds.cutting(vec_next, cen_10kpc)
                 frb = cp.to_frb((15, 'kpc'), 200)
 
-                frb_dens = frb["gas", "density"]
-                frb_vx = frb["gas", "velocity_x"].in_units('km/s')
-                frb_vy = frb["gas", "velocity_y"].in_units('km/s')
-                frb_vz = frb["gas", "velocity_z"].in_units('km/s')
+                frb_dens = frb["gas", "density"].ravel()
+                frb_vx = frb["gas", "velocity_x"].in_units('km/s').ravel()
+                frb_vy = frb["gas", "velocity_y"].in_units('km/s').ravel()
+                frb_vz = frb["gas", "velocity_z"].in_units('km/s').ravel()
                 cols = []
                 cols.append(fits.Column(name = 'density', array =  np.array(frb_dens), format = 'D'))
                 cols.append(fits.Column(name = 'x_velocity', array =  np.array(frb_vx), format = 'D'))
