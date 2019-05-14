@@ -58,7 +58,7 @@ def combine_frames(sat, ax, zoom, DD, simnames):
 for sat in sats:
     for a, ax in enumerate(axs):
         for z, zoom in enumerate(zooms):
-            Parallel(delayed(combine_frames)(sat, ax, zoom, DD, simnames) for d, DD in enumerate(DDs))
+            Parallel(n_jobs = -1)(delayed(combine_frames)(sat, ax, zoom, DD, simnames) for d, DD in enumerate(DDs))
 
     
                 
