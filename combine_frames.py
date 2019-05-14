@@ -31,7 +31,7 @@ def parse():
 
 
 
-DDs = arange(49, 200)
+DDs = arange(49, 1000)
 simnames =  ['natural',
             'natural_v2',
             'natural_v3',
