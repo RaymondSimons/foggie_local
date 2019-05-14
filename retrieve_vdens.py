@@ -36,7 +36,7 @@ def retrieve_vdens(simname, DDs):
         prihdu = fits.PrimaryHDU(header=prihdr)    
         master_hdulist.append(prihdu)
         cols = []
-        cols.append(fits.Column(name = 'DDs', array =  DDs, format = 'D'))
+        cols.append(fits.Column(name = 'DD', array =  DDs, format = 'D'))
         cols = fits.ColDefs(cols)        
         master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = 'DD'))
         fits_name = '/nobackupp2/rcsimons/foggie_momentum/ram_pressure/percentiles/%s_ram_percentiles.fits'%(simname)
@@ -61,7 +61,7 @@ def retrieve_vdens(simname, DDs):
 
             cols = []
 
-            for p, perc in enumerate(np.array(['2', '16', '50', '84', '98'])):
+            for p, perc in enumerate(np.array(['02', '16', '50', '84', '98'])):
                 cols.append(fits.Column(name = 'density_%s'%perc,    array =  dens[:,p], format = 'D'))
                 cols.append(fits.Column(name = 'x_velocity_%s'%perc, array =  vx[:,p], format = 'D'))
                 cols.append(fits.Column(name = 'y_velocity_%s'%perc, array =  vy[:,p], format = 'D'))
@@ -82,7 +82,7 @@ def retrieve_vdens(simname, DDs):
 
 
 
-DDs = arange(49, 100)
+DDs = arange(49, 1000)
 
 
 
