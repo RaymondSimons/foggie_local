@@ -52,5 +52,5 @@ for sat in sats:
 
                 min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs_comb_temp])[0][1]
                 imgs_comb = np.hstack((np.asarray( i.resize(min_shape) ) for i in imgs_comb_temp ))
-                imgs_comb_all = PIL.Image.fromarray( imgs_comb)
+                imgs_comb_all = Image.fromarray( imgs_comb)
                 imgs_comb_all.save(fname_out)
