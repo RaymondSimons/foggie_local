@@ -34,8 +34,13 @@ for sat in sats:
         for z, zoom in enumerate(zooms):
             for d, DD in enumerate(DDs):
                 imgs = [] 
+                fname_out = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/combined/%s/%s/%.4i_%.2i_%s_%s.png'%(ax, zoom, DD, sat, ax, zoom)
                 for s, simname in enumerate(simnames):
                     fname = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s/%s/%s/%s_%.4i_%.2i_%s_%s.png'%(simname, ax, zoom, simname, DD, sat, ax, zoom)
                     print (os.path.isfile(fname))
                     im =  Image.open(fname)
                     imgs.append(im)
+                min_shape = sorted([(np.sum(i.size), i.size ) for i in imgs])[0][1]
+                imgs_comb = np.vstack((np.asarray( i.resize(min_shape) ) for i in imgs ))
+                imgs_comb_all = Image.fromarray( imgs_comb)
+                imgs_comb_all.save(fname_out)
