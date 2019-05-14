@@ -33,9 +33,6 @@ def retrieve_vdens(simname, DDs):
         master_hdulist = []
         prihdr = fits.Header()
         prihdr['COMMENT'] = "Storing the ram pressure percintiles in this FITS file."
-        prihdr['simname'] = simname
-        prihdr['DDname'] = DD
-        prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
         prihdu = fits.PrimaryHDU(header=prihdr)    
         master_hdulist.append(prihdu)
         cols = []
