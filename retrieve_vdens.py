@@ -47,6 +47,9 @@ def retrieve_vdens(simname, DDs):
             vx      = nan*zeros((len(DDs), 5))
             vy      = nan*zeros((len(DDs), 5))
             vz      = nan*zeros((len(DDs), 5))
+            rx      = nan*zeros((len(DDs), 5))
+            ry      = nan*zeros((len(DDs), 5))
+            rz      = nan*zeros((len(DDs), 5))
 
             for d, DD in enumerate(DDs):
                 data_name = '/nobackupp2/rcsimons/foggie_momentum/ram_pressure/%s/%s_DD%.4i_ram.fits'%(simname, simfname, DD)
@@ -56,6 +59,10 @@ def retrieve_vdens(simname, DDs):
                     vx[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['x_velocity'], (2, 16, 50, 84, 98)) 
                     vy[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['y_velocity'], (2, 16, 50, 84, 98)) 
                     vz[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['z_velocity'], (2, 16, 50, 84, 98)) 
+                    rx[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['x_velocity']**2. * data['SAT_%.2i'%sat_n].data['density'], (2, 16, 50, 84, 98)) 
+                    ry[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['y_velocity']**2. * data['SAT_%.2i'%sat_n].data['density'], (2, 16, 50, 84, 98)) 
+                    rz[d,:]   = np.percentile(data['SAT_%.2i'%sat_n].data['z_velocity']**2. * data['SAT_%.2i'%sat_n].data['density'], (2, 16, 50, 84, 98)) 
+
                 else:
                     print ('no file found in %s'%data_name)
 
@@ -66,6 +73,9 @@ def retrieve_vdens(simname, DDs):
                 cols.append(fits.Column(name = 'x_velocity_%s'%perc, array =  vx[:,p], format = 'D'))
                 cols.append(fits.Column(name = 'y_velocity_%s'%perc, array =  vy[:,p], format = 'D'))
                 cols.append(fits.Column(name = 'z_velocity_%s'%perc, array =  vz[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'x_ram_%s'%perc, array =  rx[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'y_ram_%s'%perc, array =  ry[:,p], format = 'D'))
+                cols.append(fits.Column(name = 'z_ram_%s'%perc, array =  rz[:,p], format = 'D'))
 
             cols = fits.ColDefs(cols)
             

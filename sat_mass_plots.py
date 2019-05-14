@@ -11,7 +11,7 @@ DD_to_t = np.load('/Users/rsimons/Dropbox/rcs_foggie/outputs/DD_time.npy')[()]
 
 DDs_use = arange(100, 1000)
 
-clrs = ['blue', 'navy', 'darkblue', 'royalblue', 'red', 'green']
+clrs = ['blue', 'navy', 'darkblue', 'royalblue', 'green', 'red']
 ls = ['-', ':', '--','-.', '-', '-']
 lw = [2,2,2,2,2, 2]
 alp = [0.8, 0.8, 0.8, 0.8, 0.8,  0.8]
@@ -26,7 +26,7 @@ ms = nan * zeros((len(sims), len(DDs_use), len(sats)))
 mg = nan * zeros((len(sims), len(DDs_use), len(sats)))
 sf = nan * zeros((len(sims), len(DDs_use), len(sats)))
 dm = nan * zeros((len(sims), len(DDs_use), len(sats)))
-
+'''
 for s, sim in enumerate(sims):
     print sim
     for d, DD in enumerate(DDs_use):
@@ -122,15 +122,23 @@ for s, sim in enumerate(sims):
     print ('\tSaving to ' + fits_name)
     thdulist.writeto(fits_name, overwrite = True)
 
+'''
 
 
+tmax = [5.8, 3.1, 2.5, 2.2, 1.6, 1.9]
 for sat_n in sats:
-    fig, ax1 = plt.subplots(1,3, figsize = (15, 5))
-    fig2, ax2 = plt.subplots(1,1, figsize = (12, 6))
+    fig = plt. figure(figsize = (15, 10))
+
+    ax_ms = plt.subplot2grid((2, 3), (0,0))
+    ax_dm = plt.subplot2grid((2, 3), (0,1))
+    ax_mg = plt.subplot2grid((2, 3), (0,2))
+    ax_sfr = plt.subplot2grid((2, 3), (1,0), colspan = 3)
+    #fig2, ax2 = plt.subplots(1,1, figsize = (12, 6))
 
     ms_bounds = nan*zeros((len(DDs_use), 2))
     dm_bounds = nan*zeros((len(DDs_use), 2))
     mg_bounds = nan*zeros((len(DDs_use), 2))
+    gd = where(ts_s < tmax[sat_n])[0]
 
     for s, sim in enumerate(sims):
         if sim == 'natural(v1)': 
@@ -165,48 +173,46 @@ for sat_n in sats:
         sf_s = data['SAT_%.2i'%sat_n].data['sf']
         dm_s = data['SAT_%.2i'%sat_n].data['dm']
 
-        ax1[0].plot(ts_s, ms_s, label = sim, color = clrs[s], linestyle = ls[s], linewidth = lw[s], alpha = alp[s])
-        ax1[1].plot(ts_s, dm_s, label = sim, color = clrs[s], linestyle = ls[s], linewidth = lw[s], alpha = alp[s])
-        ax1[2].plot(ts_s, mg_s, label = sim, color = clrs[s], linestyle = ls[s], linewidth = lw[s], alpha = alp[s])
-        #axes[1,1].plot(ts, R_90, label = sim, color = clrs[s], linestyle = ls[s], linewidth = lw[s], alpha = alp[s])
-        #ax2.plot(ts_s, sf_s, label = sim, color = clrs[s], linestyle = ls[s], linewidth = 1, alpha = alp[s])
+
+        ax_ms.plot(ts_s[gd], ms_s[gd], label = sim, color = clrs[s], linestyle = ls[s], linewidth = lw[s], alpha = alp[s])
+        ax_dm.plot(ts_s[gd], dm_s[gd], label = sim, color = clrs[s], linestyle = ls[s], linewidth = lw[s], alpha = alp[s])
+        ax_mg.plot(ts_s[gd], mg_s[gd], label = sim, color = clrs[s], linestyle = ls[s], linewidth = lw[s], alpha = alp[s])
+        ax_sfr.plot(ts_s[gd], sf_s[gd], label = sim, color = clrs[s], linestyle = ls[s], linewidth = 1, alpha = alp[s])
 
         if s < 4:
-            ms_bounds[:,0] = np.nanmin((ms_s, ms_bounds[:,0]), axis = 0)
-            dm_bounds[:,0] = np.nanmin((dm_s, dm_bounds[:,0]), axis = 0)
-            mg_bounds[:,0] = np.nanmin((mg_s, mg_bounds[:,0]), axis = 0)
-
-            ms_bounds[:,1] = np.nanmax((ms_s, ms_bounds[:,1]), axis = 0)
-            dm_bounds[:,1] = np.nanmax((dm_s, dm_bounds[:,1]), axis = 0)
-            mg_bounds[:,1] = np.nanmax((mg_s, mg_bounds[:,1]), axis = 0)
-
+            ms_bounds[gd,0] = np.nanmin((ms_s[gd], ms_bounds[gd,0]), axis = 0)
+            dm_bounds[gd,0] = np.nanmin((dm_s[gd], dm_bounds[gd,0]), axis = 0)
+            mg_bounds[gd,0] = np.nanmin((mg_s[gd], mg_bounds[gd,0]), axis = 0)
+            ms_bounds[gd,1] = np.nanmax((ms_s[gd], ms_bounds[gd,1]), axis = 0)
+            dm_bounds[gd,1] = np.nanmax((dm_s[gd], dm_bounds[gd,1]), axis = 0)
+            mg_bounds[gd,1] = np.nanmax((mg_s[gd], mg_bounds[gd,1]), axis = 0)
 
 
 
 
 
-    ax1[0].fill_between(ts_s, ms_bounds[:,0], ms_bounds[:,1], color = 'blue', alpha = 0.2)
-    ax1[1].fill_between(ts_s, dm_bounds[:,0], dm_bounds[:,1], color = 'blue', alpha = 0.2)
-    ax1[2].fill_between(ts_s, mg_bounds[:,0], mg_bounds[:,1], color = 'blue', alpha = 0.2)
 
-    ax1[0].legend(loc = 4)
-    ax2.legend(loc = 2)
+    ax_ms.fill_between(ts_s[gd], ms_bounds[gd,0], ms_bounds[gd,1], color = 'blue', alpha = 0.2)
+    ax_dm.fill_between(ts_s[gd], dm_bounds[gd,0], dm_bounds[gd,1], color = 'blue', alpha = 0.2)
+    ax_mg.fill_between(ts_s[gd], mg_bounds[gd,0], mg_bounds[gd,1], color = 'blue', alpha = 0.2)
 
-
-    fs = 12
-
-    ax1[0].set_ylabel('M$_*$ (M$_{\odot}$)', fontsize = fs)
-    ax1[1].set_ylabel('M$_{DM}$ (M$_{\odot}$)', fontsize = fs)
-    ax1[2].set_ylabel('M$_{g}$ (M$_{\odot}$)', fontsize = fs)
-    ax2.set_ylabel('star formation rate (M$_{\odot}$ yr$^{-1}$)', fontsize = fs)
+    ax_ms.legend(loc = 2)
+    ax_sfr.legend(loc = 2)
 
 
+    fs = 15
+
+    ax_ms.set_ylabel('M$_*$ (M$_{\odot}$)', fontsize = fs)
+    ax_dm.set_ylabel('M$_{DM}$ (M$_{\odot}$)', fontsize = fs)
+    ax_mg.set_ylabel('M$_{g}$ (M$_{\odot}$)', fontsize = fs)
+    ax_sfr.set_ylabel('star formation rate (M$_{\odot}$ yr$^{-1}$)', fontsize = fs)
 
 
-    for ax in ax1.ravel(): ax.set_xlabel('time (Gyr)', fontsize = fs)
-        #ax.set_yscale('log')
 
-    ax2.set_xlabel('time (Gyr)', fontsize = fs)
+
+    for ax in [ax_ms, ax_dm, ax_mg, ax_sfr]: 
+        ax.set_xlabel('time (Gyr)', fontsize = fs)
+
     fig.savefig('/Users/rsimons/Dropbox/rcs_foggie/figures/butterfly/%i_mass.png'%sat_n, dpi = 300)
     #fig2.savefig('/Users/rsimons/Dropbox/rcs_foggie/figures/butterfly/%i_SFR.png'%sat_n, dpi = 300)
 
