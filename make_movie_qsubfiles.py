@@ -1,5 +1,5 @@
 
-#sim_name = 'nref11n_nref10f_selfshield_z6'
+#make_movie_qsubfiles.pyname = 'nref11n_nref10f_selfshield_z6'
 #sim_name = 'nref11n_selfshield_z15'
 import numpy
 from numpy import *
@@ -17,7 +17,7 @@ sats = arange(6)
 
 
 
-sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/submit_%s_%i_%i_movie_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
+sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/submit_all.sh', 'w+')
 for sat in sats:
     for a, ax in enumerate(axs):
         for z, zoom in enumerate(zooms):
