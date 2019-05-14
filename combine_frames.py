@@ -26,7 +26,7 @@ simnames =  ['natural',
             'natural_v4',
             'nref11c_nref9f',
             'nref11n_nref10f']
-axs = ['x']
+axs = ['y']
 zooms = ['zoomin']
 sats = arange(1)
 
