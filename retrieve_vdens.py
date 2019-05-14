@@ -50,7 +50,7 @@ def retrieve_vdens(simname, DDs):
             vy      = nan*zeros((len(DDs), 5))
             vz      = nan*zeros((len(DDs), 5))
 
-            for d, DD in enumerate(DDs)
+            for d, DD in enumerate(DDs):
                 dens[d,:] = np.percentile(a['SAT_%2i'%sat_n].data['density'], (2, 16, 50, 84, 98)) 
                 vx[d,:]   = np.percentile(a['SAT_%2i'%sat_n].data['x_velocity'], (2, 16, 50, 84, 98)) 
                 vy[d,:]   = np.percentile(a['SAT_%2i'%sat_n].data['y_velocity'], (2, 16, 50, 84, 98)) 
