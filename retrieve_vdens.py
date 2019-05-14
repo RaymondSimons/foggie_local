@@ -65,8 +65,7 @@ def retrieve_vdens(simname, DDs):
             cols = fits.ColDefs(cols)
             
             master_hdulist.append(fits.BinTableHDU.from_columns(cols, name = 'SAT_%.2i'%sat_n))
-            
-        master_hdulist.extend(sat_hdus)
+        
         thdulist = fits.HDUList(master_hdulist)
         print ('\tSaving to ' + fits_name)
 
