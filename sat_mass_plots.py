@@ -125,7 +125,9 @@ for s, sim in enumerate(sims):
 '''
 
 
-tmax = [5.8, 3.1, 2.5, 2.2, 1.6, 1.9]
+tmin = [1.3, 1.4, 1.3, 1.3, 1.2, 1.3]
+tmax = [5.65, 3.5, 2.5, 2.2, 1.6, 1.9]
+
 for sat_n in sats:
     fig = plt. figure(figsize = (15, 10))
 
@@ -138,7 +140,7 @@ for sat_n in sats:
     ms_bounds = nan*zeros((len(DDs_use), 2))
     dm_bounds = nan*zeros((len(DDs_use), 2))
     mg_bounds = nan*zeros((len(DDs_use), 2))
-    gd = where(ts_s < tmax[sat_n])[0]
+    gd = where((ts_s < tmax[sat_n]) & (ts_s > tmin[sat_n]))[0]
 
     for s, sim in enumerate(sims):
         if sim == 'natural(v1)': 
