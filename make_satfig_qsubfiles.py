@@ -14,7 +14,7 @@ for sim_name in ['natural']:#, 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshie
     DDmax = 1550
     N_split = 10
 
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
+    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
         snap_name = '%.4i_%.4i'%(DD, min(DD + N_split, DDmax))
         sim_snap_name = snap_name + '_' + sim_name +'_satmovie'
