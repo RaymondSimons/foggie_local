@@ -89,7 +89,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
         W3 = yt.YTArray([wd3, wd3, wd3], 'kpc')
 
 
-        for axis in ['x', 'y', 'z']:
+        for axis in ['x']:#, 'y', 'z']:
             if not os.path.isfile('%s/%s/%s/%s_%.4i_%.2i_%s_zoomoutfar.png'%(figdir,axis, 'zoomoutfar',  cen_name, DD, 5, axis)):
                 if axis == 'x':                
                     box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd2, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd2, 'kpc'), \
@@ -185,14 +185,18 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                 p_wd3_s.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
 
 
+                for sat_n in arange(6,7):
+                    if sat_n < 6:
+                        cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
+                        ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
+                        cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
+
+                    if sat_n == 6:
+                        cenx = cen_fits['CENTRAL']['fxe'](DD)
+                        ceny = cen_fits['CENTRAL']['fye'](DD)
+                        cenz = cen_fits['CENTRAL']['fze'](DD)
 
 
-
-
-                for sat_n in arange(6):
-                    cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-                    ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
-                    cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
                     cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
                     print ('satellite center: ', cen_g)
                     print ('central center: ', cen_central)
@@ -289,12 +293,10 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     plot.figure = fig
                     plot.axes = grid[1].axes
                     p._setup_plots()
-                    if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                    #if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
                     fig.set_size_inches(12, 6)                    
                     fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomout', figname_zoomout))
                     plt.close(fig)
-
-
 
 
 
@@ -318,7 +320,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     plot.figure = fig
                     plot.axes = grid[1].axes
                     p._setup_plots()
-                    if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                    #if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
                     fig.set_size_inches(12, 6)                    
                     fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomoutfar', figname_zoomoutfar))
                     plt.close(fig)
