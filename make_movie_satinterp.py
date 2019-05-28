@@ -76,18 +76,18 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
             central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_nref11n_nref10f.npy', allow_pickle=True, encoding='latin1')[()]
         '''
 
-        xf = cen_fits['CENTRAL']['fxe'](DD)
-        yf = cen_fits['CENTRAL']['fye'](DD)
-        zf = cen_fits['CENTRAL']['fze'](DD)
+        central_x = cen_fits['CENTRAL']['fxe'](DD)
+        central_y = cen_fits['CENTRAL']['fye'](DD)
+        central_z = cen_fits['CENTRAL']['fze'](DD)
 
         '''
         xf = central_xyz_fit['x']
         yf = central_xyz_fit['y']
         zf = central_xyz_fit['z']
         '''
-        central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
-        central_y = yf[0] * DD**4. + yf[1] * DD**3. + yf[2] * DD**2. + yf[3] * DD + yf[4]
-        central_z = zf[0] * DD**4. + zf[1] * DD**3. + zf[2] * DD**2. + zf[3] * DD + zf[4]
+        #central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
+        #central_y = yf[0] * DD**4. + yf[1] * DD**3. + yf[2] * DD**2. + yf[3] * DD + yf[4]
+        #central_z = zf[0] * DD**4. + zf[1] * DD**3. + zf[2] * DD**2. + zf[3] * DD + zf[4]
 
         cen_central = yt.YTArray([central_x, central_y, central_z], 'kpc')
 
