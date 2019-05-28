@@ -97,7 +97,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
         W3 = yt.YTArray([wd3, wd3, wd3], 'kpc')
 
 
-        for axis in ['x', 'y', 'z']:
+        for axis in ['x']:#@, 'y', 'z']:
             if not os.path.isfile('%s/%s/%s/%s_%.4i_%.2i_%s_zoomoutfar.png'%(figdir,axis, 'zoomoutfar',  cen_name, DD, 5, axis)):
                 if axis == 'x':                
                     box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd2, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd2, 'kpc'), \
