@@ -11,7 +11,7 @@ from numpy import *
 for sim_name in ['natural']:#, 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshield_z15', 'nref11n_v4_selfshield_z15']:
 
     DDmin = 990
-    DDmax = 1700
+    DDmax = 1550
     N_split = 10
 
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
