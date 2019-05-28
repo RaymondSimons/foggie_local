@@ -21,7 +21,7 @@ for sim_name in ['natural']:#, 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshie
 
         qsub_fname = '%s.qsub'%(sim_snap_name)
 
-        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/%s'%qsub_fname, 'w+')
+        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/%s'%qsub_fname, 'w+')
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=san\n')
         qf.write('#PBS -l walltime=3:00:00\n')
@@ -63,7 +63,7 @@ for sim_name in ['nref11n_nref10f', 'nref11c_nref9f']:
 
         qsub_fname = '%s.qsub'%(sim_snap_name)
 
-        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/%s'%qsub_fname, 'w+')
+        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/%s'%qsub_fname, 'w+')
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=san\n')
         qf.write('#PBS -l walltime=3:00:00\n')
