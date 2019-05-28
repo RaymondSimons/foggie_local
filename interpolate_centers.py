@@ -24,8 +24,8 @@ simnames = ['natural',
 
 #simnames = ['nref11c_nref9f']
 
-DD_arr = arange(90, 1700, 20)
-DD_plt = linspace(0, 1500, 1000)
+DD_arr = arange(90, 1550, 20)
+DD_plt = linspace(0, 1800, 1000)
 for s, simname in enumerate(simnames):
     print (simname)
     fig, axes = plt.subplots(7,6, figsize = (24, 30))

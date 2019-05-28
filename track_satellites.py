@@ -67,7 +67,7 @@ def run_tracker(simname, haloname, DD):
     id_s    = pfits['STARS'].data['id']
 
     anchorprops_filename = '/nobackupp2/rcsimons/foggie_momentum/anchor_files/%s/anchor_props/%s/%s_DD%.4i_anchorprops.fits'%(haloname, simname, simname, DD)
-    #if os.path.isfile(anchorprops_filename): return
+    if os.path.isfile(anchorprops_filename): return
 
     hdus = []
     prim_hdu = fits.PrimaryHDU()
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     delt_DD = int(args['delt_DD'])
     haloname = args['haloname']
 
-    Parallel(n_jobs = -1)(delayed(run_tracker)(simname = simname, haloname = haloname, DD = DD) for DD in np.arange(min_DD, max_DD, delt_DD))
+    Parallel(n_jobs = 5)(delayed(run_tracker)(simname = simname, haloname = haloname, DD = DD) for DD in np.arange(min_DD, max_DD, delt_DD))
     
 
 
