@@ -56,7 +56,7 @@ for sim_name in ['nref11n_nref10f', 'nref11c_nref9f']:
     DDmax = 1700
     N_split = 10
 
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movie/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
+    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
         snap_name = '%.4i_%.4i'%(DD, min(DD + N_split, DDmax))
         sim_snap_name = snap_name + '_' + sim_name +'_satmovie'
