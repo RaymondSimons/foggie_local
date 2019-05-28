@@ -67,16 +67,24 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
         ds.add_particle_filter('stars')
         cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name, allow_pickle=True)[()]
 
+        '''
         #encoding='latin1' is needed for loading python 2 pickles in python 3
         if 'natural' in cen_name:
             central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_natural.npy', allow_pickle=True, encoding='latin1')[()]
+
         elif ('nref11n_nref10f' in cen_name) | ('nref11c_nref9f' in cen_name):
             central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_nref11n_nref10f.npy', allow_pickle=True, encoding='latin1')[()]
+        '''
 
+        xf = cen_fits['CENTRAL']['fxe'](DD)
+        yf = cen_fits['CENTRAL']['fye'](DD)
+        zf = cen_fits['CENTRAL']['fze'](DD)
+
+        '''
         xf = central_xyz_fit['x']
         yf = central_xyz_fit['y']
         zf = central_xyz_fit['z']
-
+        '''
         central_x = xf[0] * DD**4. + xf[1] * DD**3. + xf[2] * DD**2. + xf[3] * DD + xf[4]
         central_y = yf[0] * DD**4. + yf[1] * DD**3. + yf[2] * DD**2. + yf[3] * DD + yf[4]
         central_z = zf[0] * DD**4. + zf[1] * DD**3. + zf[2] * DD**2. + zf[3] * DD + zf[4]
