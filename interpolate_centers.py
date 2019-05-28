@@ -16,9 +16,15 @@ simnames = ['natural',
             'nref11n_nref10f',
             'nref11c_nref9f']
 
+
+simnames = ['natural', 
+            'nref11n_nref10f',
+            'nref11c_nref9f']
+
+
 #simnames = ['nref11c_nref9f']
 
-DD_arr = arange(90, 1010, 20)
+DD_arr = arange(90, 1700, 20)
 DD_plt = linspace(0, 1500, 1000)
 for s, simname in enumerate(simnames):
     print (simname)
