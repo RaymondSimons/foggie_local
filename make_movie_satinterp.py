@@ -102,243 +102,242 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50, wdd =
 
 
         for axis in ['x']:#@, 'y', 'z']:
-            if not os.path.isfile('%s/%s/%s/%s_%.4i_%.2i_%s_zoomoutfar.png'%(figdir,axis, 'zoomoutfar',  cen_name, DD, 6, axis)):
-                if axis == 'x':                
-                    box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd2, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd2, 'kpc'), \
-                                cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1] + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
-                                cen_central[2] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[2] + 0.5 * yt.YTArray(3*wd2,  'kpc')]
+            if axis == 'x':                
+                box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd2, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd2, 'kpc'), \
+                            cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1] + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
+                            cen_central[2] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[2] + 0.5 * yt.YTArray(3*wd2,  'kpc')]
 
 
-                    box3 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd3, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd3, 'kpc'), \
-                                cen_central[1] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[1] + 0.5 * yt.YTArray(3*wd3,  'kpc'), \
-                                cen_central[2] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[2] + 0.5 * yt.YTArray(3*wd3,  'kpc')]
+                box3 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd3, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd3, 'kpc'), \
+                            cen_central[1] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[1] + 0.5 * yt.YTArray(3*wd3,  'kpc'), \
+                            cen_central[2] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[2] + 0.5 * yt.YTArray(3*wd3,  'kpc')]
 
 
-                if axis == 'y':
+            if axis == 'y':
 
-                    box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd2, 'kpc') : cen_central[0]  + 0.5 * yt.YTArray(3*wd2, 'kpc'), \
-                                cen_central[1] - 0.5 * yt.YTArray(wdd2,  'kpc') : cen_central[1]  + 0.5 * yt.YTArray(wdd2,  'kpc'), \
-                                cen_central[2] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[2]  + 0.5 * yt.YTArray(3*wd2,  'kpc')]
-
-
-                    box3 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd3, 'kpc') : cen_central[0]  + 0.5 * yt.YTArray(3*wd3, 'kpc'), \
-                                cen_central[1] - 0.5 * yt.YTArray(wdd3,  'kpc') : cen_central[1]  + 0.5 * yt.YTArray(wdd3,  'kpc'), \
-                                cen_central[2] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[2]  + 0.5 * yt.YTArray(3*wd3,  'kpc')]
+                box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd2, 'kpc') : cen_central[0]  + 0.5 * yt.YTArray(3*wd2, 'kpc'), \
+                            cen_central[1] - 0.5 * yt.YTArray(wdd2,  'kpc') : cen_central[1]  + 0.5 * yt.YTArray(wdd2,  'kpc'), \
+                            cen_central[2] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[2]  + 0.5 * yt.YTArray(3*wd2,  'kpc')]
 
 
-                if axis == 'z':
-
-                    box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd2, 'kpc'):  cen_central[0]   + 0.5 * yt.YTArray(3*wd2, 'kpc'), \
-                                cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1]  + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
-                                cen_central[2] - 0.5 * yt.YTArray(wdd2,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd2,  'kpc')]
+                box3 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd3, 'kpc') : cen_central[0]  + 0.5 * yt.YTArray(3*wd3, 'kpc'), \
+                            cen_central[1] - 0.5 * yt.YTArray(wdd3,  'kpc') : cen_central[1]  + 0.5 * yt.YTArray(wdd3,  'kpc'), \
+                            cen_central[2] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[2]  + 0.5 * yt.YTArray(3*wd3,  'kpc')]
 
 
-                    box3 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd3, 'kpc'):  cen_central[0]   + 0.5 * yt.YTArray(3*wd3, 'kpc'), \
-                                cen_central[1] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[1]  + 0.5 * yt.YTArray(3*wd3,  'kpc'), \
-                                cen_central[2] - 0.5 * yt.YTArray(wdd3,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd3,  'kpc')]
+            if axis == 'z':
+
+                box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd2, 'kpc'):  cen_central[0]   + 0.5 * yt.YTArray(3*wd2, 'kpc'), \
+                            cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1]  + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
+                            cen_central[2] - 0.5 * yt.YTArray(wdd2,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd2,  'kpc')]
 
 
-                a = time.time()
-                p_wd2_g= yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box2, width=W2)
-                b = time.time()
-                print ('p_wd2_g', b-a)
+                box3 = ds.r[cen_central[0] - 0.5 * yt.YTArray(3*wd3, 'kpc'):  cen_central[0]   + 0.5 * yt.YTArray(3*wd3, 'kpc'), \
+                            cen_central[1] - 0.5 * yt.YTArray(3*wd3,  'kpc'): cen_central[1]  + 0.5 * yt.YTArray(3*wd3,  'kpc'), \
+                            cen_central[2] - 0.5 * yt.YTArray(wdd3,  'kpc'):  cen_central[2] + 0.5 * yt.YTArray(wdd3,  'kpc')]
 
-                p_wd2_g.set_unit(('gas','density'), 'Msun/pc**2')
-                p_wd2_g.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
-                p_wd2_g.set_cmap(('gas', 'density'), density_color_map)
-                p_wd2_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-                p_wd2_g.hide_axes()
-                p_wd2_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-                p_wd2_g.annotate_scale(size_bar_args={'color':'white'})
+            '''
+
+            a = time.time()
+            p_wd2_g= yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box2, width=W2)
+            b = time.time()
+            print ('p_wd2_g', b-a)
+
+            p_wd2_g.set_unit(('gas','density'), 'Msun/pc**2')
+            p_wd2_g.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
+            p_wd2_g.set_cmap(('gas', 'density'), density_color_map)
+            p_wd2_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+            p_wd2_g.hide_axes()
+            p_wd2_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+            p_wd2_g.annotate_scale(size_bar_args={'color':'white'})
 
 
 
-                a = time.time()
-                p_wd2_s = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box2, width = W2)   
-                b = time.time()
-                print ('p_wd2_s', b-a)
+            a = time.time()
+            p_wd2_s = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box2, width = W2)   
+            b = time.time()
+            print ('p_wd2_s', b-a)
 
+            cmp = plt.cm.Greys_r
+            cmp.set_bad('k')
+            p_wd2_s.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
+            p_wd2_s.hide_axes()
+            p_wd2_s.annotate_scale(size_bar_args={'color':'white'})
+
+            p_wd2_s.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
+
+
+
+            a = time.time()
+            p_wd3_g= yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box3, width=W3)
+            b = time.time()
+            print ('p_wd3_g', b-a)
+
+            p_wd3_g.set_unit(('gas','density'), 'Msun/pc**2')
+            p_wd3_g.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
+            p_wd3_g.set_cmap(('gas', 'density'), density_color_map)
+            p_wd3_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+            p_wd3_g.hide_axes()
+            p_wd3_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+            p_wd3_g.annotate_scale(size_bar_args={'color':'white'})
+
+
+            a = time.time()
+            p_wd3_s = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box3, width = W3)   
+            b = time.time()
+            print ('p_wd3_s', b-a)
+        
+    
+            cmp = plt.cm.Greys_r
+            cmp.set_bad('k')
+            p_wd3_s.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
+            p_wd3_s.hide_axes()
+            p_wd3_s.annotate_scale(size_bar_args={'color':'white'})
+            p_wd3_s.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
+            '''
+
+            for sat_n in arange(6,7):
+                if sat_n < 6:
+                    cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
+                    ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
+                    cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
+
+                if sat_n == 6:
+                    cenx = cen_fits['CENTRAL']['fxe'](DD)
+                    ceny = cen_fits['CENTRAL']['fye'](DD)
+                    cenz = cen_fits['CENTRAL']['fze'](DD)
+
+
+                cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
+                print ('satellite center: ', cen_g)
+                print ('central center: ', cen_central)
+
+                figname_zoomin  = '%s_%.4i_%.2i_%s_zoomin.png'%(cen_name, DD, sat_n, axis)
+                figname_zoomout = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
+                figname_zoomoutfar = '%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, sat_n, axis)
+
+                if axis == 'x':
+                    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(wdd, 'kpc'), \
+                               cen_g[1] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(3*wd,  'kpc'), \
+                               cen_g[2] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(3*wd,  'kpc')]
+
+                    p_1 = cen_g[1] - cen_central[1] 
+                    p_2 = cen_g[2] - cen_central[2]
+                    p_3 = cen_g[0] - cen_central[0]
+
+                elif axis == 'y':
+                    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
+                               cen_g[1] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[1]   + 0.5 * yt.YTArray(wdd,  'kpc'), \
+                               cen_g[2] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[2]  + 0.5 * yt.YTArray(3*wd,  'kpc')]
+                    p_1 = cen_g[2] - cen_central[2] 
+                    p_2 = cen_g[0] - cen_central[0]
+                    p_3 = cen_g[1] - cen_central[1]
+
+                elif axis == 'z':
+                    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
+                               cen_g[1] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(3*wd,  'kpc'), \
+                               cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
+
+                    p_1 = cen_g[0] - cen_central[0] 
+                    p_2 = cen_g[1] - cen_central[1]
+                    p_3 = cen_g[2] - cen_central[2]
+
+
+                fig = plt.figure(sat_n)
+                
+                grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                                nrows_ncols = (1, 2),
+                                axes_pad = 0.0, label_mode = "1",
+                                share_all = False, cbar_mode=None,
+                                aspect = False)        
+
+                p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
+                p.set_unit(('gas','density'), 'Msun/pc**2')
+                p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
+                p.set_cmap(('gas', 'density'), density_color_map)
+                p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+                p.hide_axes()
+                p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+                p.annotate_scale(size_bar_args={'color':'white'})
+                plot = p.plots[("gas","density")]
+                plot.figure = fig
+                plot.axes = grid[0].axes
+                p._setup_plots()
+
+
+                p = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_g, data_source=box, width = W)   
                 cmp = plt.cm.Greys_r
                 cmp.set_bad('k')
-                p_wd2_s.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
-                p_wd2_s.hide_axes()
-                p_wd2_s.annotate_scale(size_bar_args={'color':'white'})
+                p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
+                p.hide_axes()
+                p.annotate_scale(size_bar_args={'color':'white'})
 
-                p_wd2_s.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
+                p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
+                plot = p.plots[('stars','particle_mass')]
+                plot.figure = fig
+                plot.axes = grid[1].axes
+                p._setup_plots()
 
+                fig.set_size_inches(12, 6)
+                fig.savefig('%s/%s/%s/central/%s'%(figdir,axis, 'zoomin', figname_zoomin))
+                plt.close(fig)
 
+                '''
+                fig = plt.figure(sat_n)
+                
+                grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                                nrows_ncols = (1, 2),
+                                axes_pad = 0.0, label_mode = "1",
+                                share_all = False, cbar_mode=None,
+                                aspect = False)        
 
+                p = copy.copy(p_wd2_g)
+                plot = p.plots[("gas","density")]
+                plot.figure = fig
+                plot.axes = grid[0].axes
+                p._setup_plots()
+                print (abs(p_1), abs(p_2), W2)
+                if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
-                a = time.time()
-                p_wd3_g= yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_central, data_source=box3, width=W3)
-                b = time.time()
-                print ('p_wd3_g', b-a)
-
-                p_wd3_g.set_unit(('gas','density'), 'Msun/pc**2')
-                p_wd3_g.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
-                p_wd3_g.set_cmap(('gas', 'density'), density_color_map)
-                p_wd3_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-                p_wd3_g.hide_axes()
-                p_wd3_g.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-                p_wd3_g.annotate_scale(size_bar_args={'color':'white'})
-
-
-                a = time.time()
-                p_wd3_s = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_central, data_source=box3, width = W3)   
-                b = time.time()
-                print ('p_wd3_s', b-a)
-
-
-                cmp = plt.cm.Greys_r
-                cmp.set_bad('k')
-                p_wd3_s.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
-                p_wd3_s.hide_axes()
-                p_wd3_s.annotate_scale(size_bar_args={'color':'white'})
-                p_wd3_s.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
-
-
-                for sat_n in arange(6,7):
-                    if sat_n < 6:
-                        cenx = cen_fits['SAT_%.2i'%sat_n]['fxe'](DD)
-                        ceny = cen_fits['SAT_%.2i'%sat_n]['fye'](DD)
-                        cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
-
-                    if sat_n == 6:
-                        cenx = cen_fits['CENTRAL']['fxe'](DD)
-                        ceny = cen_fits['CENTRAL']['fye'](DD)
-                        cenz = cen_fits['CENTRAL']['fze'](DD)
-
-
-                    cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
-                    print ('satellite center: ', cen_g)
-                    print ('central center: ', cen_central)
-
-                    figname_zoomin  = '%s_%.4i_%.2i_%s_zoomin.png'%(cen_name, DD, sat_n, axis)
-                    figname_zoomout = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
-                    figname_zoomoutfar = '%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, sat_n, axis)
-
-                    if axis == 'x':
-                        box = ds.r[cen_g[0] - 0.5 * yt.YTArray(wdd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(wdd, 'kpc'), \
-                                   cen_g[1] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[1] + 0.5 * yt.YTArray(3*wd,  'kpc'), \
-                                   cen_g[2] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(3*wd,  'kpc')]
-
-                        p_1 = cen_g[1] - cen_central[1] 
-                        p_2 = cen_g[2] - cen_central[2]
-                        p_3 = cen_g[0] - cen_central[0]
-
-                    elif axis == 'y':
-                        box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
-                                   cen_g[1] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[1]   + 0.5 * yt.YTArray(wdd,  'kpc'), \
-                                   cen_g[2] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[2]  + 0.5 * yt.YTArray(3*wd,  'kpc')]
-                        p_1 = cen_g[2] - cen_central[2] 
-                        p_2 = cen_g[0] - cen_central[0]
-                        p_3 = cen_g[1] - cen_central[1]
-
-                    elif axis == 'z':
-                        box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
-                                   cen_g[1] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(3*wd,  'kpc'), \
-                                   cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
-
-                        p_1 = cen_g[0] - cen_central[0] 
-                        p_2 = cen_g[1] - cen_central[1]
-                        p_3 = cen_g[2] - cen_central[2]
-
-
-                    fig = plt.figure(sat_n)
-                    
-                    grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                                    nrows_ncols = (1, 2),
-                                    axes_pad = 0.0, label_mode = "1",
-                                    share_all = False, cbar_mode=None,
-                                    aspect = False)        
-
-                    p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
-                    p.set_unit(('gas','density'), 'Msun/pc**2')
-                    p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
-                    p.set_cmap(('gas', 'density'), density_color_map)
-                    p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-                    p.hide_axes()
-                    p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-                    p.annotate_scale(size_bar_args={'color':'white'})
-                    plot = p.plots[("gas","density")]
-                    plot.figure = fig
-                    plot.axes = grid[0].axes
-                    p._setup_plots()
-
-
-                    p = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_g, data_source=box, width = W)   
-                    cmp = plt.cm.Greys_r
-                    cmp.set_bad('k')
-                    p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
-                    p.hide_axes()
-                    p.annotate_scale(size_bar_args={'color':'white'})
-
-                    p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
-                    plot = p.plots[('stars','particle_mass')]
-                    plot.figure = fig
-                    plot.axes = grid[1].axes
-                    p._setup_plots()
-
-                    fig.set_size_inches(12, 6)
-                    fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomin', figname_zoomin))
-                    plt.close(fig)
-
-
-                    fig = plt.figure(sat_n)
-                    
-                    grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                                    nrows_ncols = (1, 2),
-                                    axes_pad = 0.0, label_mode = "1",
-                                    share_all = False, cbar_mode=None,
-                                    aspect = False)        
-
-                    p = copy.copy(p_wd2_g)
-                    plot = p.plots[("gas","density")]
-                    plot.figure = fig
-                    plot.axes = grid[0].axes
-                    p._setup_plots()
-                    print (abs(p_1), abs(p_2), W2)
-                    if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
-
-                    p = copy.copy(p_wd2_s)
-                    plot = p.plots[('stars','particle_mass')]
-                    plot.figure = fig
-                    plot.axes = grid[1].axes
-                    p._setup_plots()
-                    if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
-                    fig.set_size_inches(12, 6)                    
-                    fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomout', figname_zoomout))
-                    plt.close(fig)
+                p = copy.copy(p_wd2_s)
+                plot = p.plots[('stars','particle_mass')]
+                plot.figure = fig
+                plot.axes = grid[1].axes
+                p._setup_plots()
+                #if (abs(p_1) < wd2/2.) & (abs(p_2) < wd2/2.) & (abs(p_3) < wd2/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                fig.set_size_inches(12, 6)                    
+                fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomout', figname_zoomout))
+                plt.close(fig)
 
 
 
 
 
-                    fig = plt.figure(sat_n)
-                    
-                    grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                                    nrows_ncols = (1, 2),
-                                    axes_pad = 0.0, label_mode = "1",
-                                    share_all = False, cbar_mode=None,
-                                    aspect = False)        
-                    p = copy.copy(p_wd3_g)
-                    plot = p.plots[("gas","density")]
-                    plot.figure = fig
-                    plot.axes = grid[0].axes
-                    p._setup_plots()
-                    print (abs(p_1), abs(p_2), W2)
-                    #if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                fig = plt.figure(sat_n)
+                
+                grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
+                                nrows_ncols = (1, 2),
+                                axes_pad = 0.0, label_mode = "1",
+                                share_all = False, cbar_mode=None,
+                                aspect = False)        
+                p = copy.copy(p_wd3_g)
+                plot = p.plots[("gas","density")]
+                plot.figure = fig
+                plot.axes = grid[0].axes
+                p._setup_plots()
+                print (abs(p_1), abs(p_2), W2)
+                #if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
-                    p = copy.copy(p_wd3_s)
-                    plot = p.plots[('stars','particle_mass')]
-                    plot.figure = fig
-                    plot.axes = grid[1].axes
-                    p._setup_plots()
-                    #if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
-                    fig.set_size_inches(12, 6)                    
-                    fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomoutfar', figname_zoomoutfar))
-                    plt.close(fig)
-
+                p = copy.copy(p_wd3_s)
+                plot = p.plots[('stars','particle_mass')]
+                plot.figure = fig
+                plot.axes = grid[1].axes
+                p._setup_plots()
+                #if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                fig.set_size_inches(12, 6)                    
+                fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomoutfar', figname_zoomoutfar))
+                plt.close(fig)
+                '''
 
         ds.index.clear_all_data()        
 
