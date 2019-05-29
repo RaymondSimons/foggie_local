@@ -58,9 +58,13 @@ for s, simname in enumerate(simnames):
         fy = interp1d(DDs, ys, kind = 7)
         fz = interp1d(DDs, zs, kind = 7)
 
-        fxe = interp1d(DDs, xs, kind = 3, fill_value = 'extrapolate')
-        fye = interp1d(DDs, ys, kind = 3, fill_value = 'extrapolate')
-        fze = interp1d(DDs, zs, kind = 3, fill_value = 'extrapolate')
+        knd = 3
+        knd = 5
+        fxe = interp1d(DDs, xs, kind = 5, fill_value = 'extrapolate')
+        fye = interp1d(DDs, ys, kind = 5, fill_value = 'extrapolate')
+        fze = interp1d(DDs, zs, kind = 5, fill_value = 'extrapolate')
+
+
 
         
         coord_datas = array([(DDs, xs, fx, fxe), (DDs, ys, fy, fye), (DDs, zs, fz, fze)])
