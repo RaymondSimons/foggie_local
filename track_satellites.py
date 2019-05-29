@@ -21,7 +21,7 @@ def parse():
                                 ''')
     parser.add_argument('-DDmax', '--DDmax', default=1560, help='max DD')
     parser.add_argument('-DDmin', '--DDmin', default=60, help='min DD')
-    parser.add_argument('-delt_DD', '--delt_DD', default=20, help='min DD')
+    parser.add_argument('-delt_DD', '--delt_DD', default=10, help='min DD')
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
     parser.add_argument('-figdir', '--figdir', default='/nobackupp2/rcsimons/foggie_momentum/figures/center_figures/central_gal', help='figures output directory')
