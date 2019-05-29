@@ -60,6 +60,10 @@ def parse():
 
 
 def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd = 30, wd2 = 300, wdd2 = 300, wd3 = 1000, wdd3 = 1000):
+        figname_zoomoutfar = '%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, 6, 'x')
+        figname_check = '%s/%s/%s/%s'%(figdir,'x', 'zoomoutfar', figname_zoomoutfar)
+        if os.path.isfile(figname_check): return
+
         DDname = 'DD%.4i'%DD
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
         def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
