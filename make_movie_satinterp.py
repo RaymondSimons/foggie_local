@@ -59,7 +59,7 @@ def parse():
 
 
 
-def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd = 30, wd2 = 300, wdd2 = 300, wd3 = 1000, wdd3 = 1000):
+def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50, wdd = 50, wd2 = 150, wdd2 = 150, wd3 = 1000, wdd3 = 1000):
         figname_zoomoutfar = '%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, 6, 'x')
         figname_check = '%s/%s/%s/%s'%(figdir,'x', 'zoomoutfar', figname_zoomoutfar)
         if os.path.isfile(figname_check): return
@@ -327,14 +327,14 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 30, wdd =
                     plot.axes = grid[0].axes
                     p._setup_plots()
                     print (abs(p_1), abs(p_2), W2)
-                    if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                    #if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
 
                     p = copy.copy(p_wd3_s)
                     plot = p.plots[('stars','particle_mass')]
                     plot.figure = fig
                     plot.axes = grid[1].axes
                     p._setup_plots()
-                    if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
+                    #if (abs(p_1) < wd3/2.) & (abs(p_2) < wd3/2.) & (abs(p_3) < wdd3/2.): plot.axes.scatter(p_1, p_2, marker = 'o', facecolor = "none", edgecolor='red', lw = 2, s = 800)
                     fig.set_size_inches(12, 6)                    
                     fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomoutfar', figname_zoomoutfar))
                     plt.close(fig)
