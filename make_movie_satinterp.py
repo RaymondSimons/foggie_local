@@ -80,9 +80,13 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50, wdd =
             central_xyz_fit = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/center_nref11n_nref10f.npy', allow_pickle=True, encoding='latin1')[()]
         '''
 
-        central_x = cen_fits['CENTRAL']['fxe'](DD)
-        central_y = cen_fits['CENTRAL']['fye'](DD)
-        central_z = cen_fits['CENTRAL']['fze'](DD)
+        #central_x = cen_fits['CENTRAL']['fxe'](DD)
+        #central_y = cen_fits['CENTRAL']['fye'](DD)
+        #central_z = cen_fits['CENTRAL']['fze'](DD)
+
+        central_x = cen_fits['CENTRAL']['fx'](DD)
+        central_y = cen_fits['CENTRAL']['fy'](DD)
+        central_z = cen_fits['CENTRAL']['fz'](DD)
 
         '''
         xf = central_xyz_fit['x']
@@ -203,9 +207,13 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50, wdd =
                     cenz = cen_fits['SAT_%.2i'%sat_n]['fze'](DD)
 
                 if sat_n == 6:
-                    cenx = cen_fits['CENTRAL']['fxe'](DD)
-                    ceny = cen_fits['CENTRAL']['fye'](DD)
-                    cenz = cen_fits['CENTRAL']['fze'](DD)
+                    #cenx = cen_fits['CENTRAL']['fxe'](DD)
+                    #ceny = cen_fits['CENTRAL']['fye'](DD)
+                    #cenz = cen_fits['CENTRAL']['fze'](DD)
+
+                    cenx = cen_fits['CENTRAL']['fx'](DD)
+                    ceny = cen_fits['CENTRAL']['fy'](DD)
+                    cenz = cen_fits['CENTRAL']['fz'](DD)
 
 
                 cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
