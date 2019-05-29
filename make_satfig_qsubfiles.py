@@ -51,41 +51,74 @@ for sim_name in ['natural']:#, 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshie
 
 
     
+
+
+DD_temps = [238,
+253,
+343,
+387,
+388,
+403,
+417,
+418,
+433,
+447,
+448,
+463,
+478,
+658,
+673,
+687,
+688,
+702,
+703,
+717,
+718,
+733,
+748,
+763,
+778,
+793]
 for sim_name in ['nref11n_nref10f', 'nref11c_nref9f']:
     DDmin = 44
     DDmax = 1570
     N_split = 15
 
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
-    for DD in arange(DDmin, DDmax, N_split):
-        snap_name = '%.4i_%.4i'%(DD, min(DD + N_split, DDmax))
-        sim_snap_name = snap_name + '_' + sim_name +'_satmovie'
+    N_split = 1
+    for DD in DD_temps:
+        DDmin = DD
+        DDmax = DD+1
 
-        qsub_fname = '%s.qsub'%(sim_snap_name)
+        sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
+        for DD in arange(DDmin, DDmax, N_split):
+            snap_name = '%.4i_%.4i'%(DD, min(DD + N_split, DDmax))
+            sim_snap_name = snap_name + '_' + sim_name +'_satmovie'
 
-        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/%s'%qsub_fname, 'w+')
-        qf.write('#PBS -S /bin/bash\n')
-        qf.write('#PBS -l select=1:ncpus=16:model=san\n')
-        qf.write('#PBS -l walltime=5:00:00\n')
-        qf.write('#PBS -q normal\n')
-        qf.write('#PBS -N %s\n'%sim_snap_name)
-        qf.write('#PBS -M rsimons@jhu.edu\n')
-        qf.write('#PBS -m abe\n')
-        qf.write('#PBS -o ./outfiles/%s_pbs.out\n'%sim_snap_name)
-        qf.write('#PBS -e ./outfiles/%s_pbs.err\n'%sim_snap_name)
-        qf.write('#PBS -V\n')
-        qf.write('#PBS -W group_list=s1938\n\n\n\n')  
+            qsub_fname = '%s.qsub'%(sim_snap_name)
 
-        #for DDi in arange(DD, min(DD + N_split, DDmax)):
-        out_string =' > ./outfiles/%s_%.4i_%.4i_movie.err > ./outfiles/%s_%.4i_%.4i_movie.out'%(sim_name, DD,min(DD + N_split, DDmax), sim_name, DD,min(DD + N_split, DDmax))
-        qf.write('/u/rcsimons/scripts/foggie_local/make_movie_satinterp.py -DDmin %i -DDmax %i -simname %s %s\n'%(DD, min(DD + N_split, DDmax), sim_name, out_string))
+            qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/%s'%qsub_fname, 'w+')
+            qf.write('#PBS -S /bin/bash\n')
+            qf.write('#PBS -l select=1:ncpus=16:model=san\n')
+            qf.write('#PBS -l walltime=5:00:00\n')
+            qf.write('#PBS -q normal\n')
+            qf.write('#PBS -N %s\n'%sim_snap_name)
+            qf.write('#PBS -M rsimons@jhu.edu\n')
+            qf.write('#PBS -m abe\n')
+            qf.write('#PBS -o ./outfiles/%s_pbs.out\n'%sim_snap_name)
+            qf.write('#PBS -e ./outfiles/%s_pbs.err\n'%sim_snap_name)
+            qf.write('#PBS -V\n')
+            qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
-
-        qf.close()
-
-
-        sf.write('qsub %s\n'%qsub_fname)
+            #for DDi in arange(DD, min(DD + N_split, DDmax)):
+            out_string =' > ./outfiles/%s_%.4i_%.4i_movie.err > ./outfiles/%s_%.4i_%.4i_movie.out'%(sim_name, DD,min(DD + N_split, DDmax), sim_name, DD,min(DD + N_split, DDmax))
+            qf.write('/u/rcsimons/scripts/foggie_local/make_movie_satinterp.py -DDmin %i -DDmax %i -simname %s %s\n'%(DD, min(DD + N_split, DDmax), sim_name, out_string))
 
 
-    sf.close()
+            qf.close()
+
+
+            sf.write('qsub %s\n'%qsub_fname)
+
+
+        sf.close()
 
