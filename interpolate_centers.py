@@ -22,6 +22,8 @@ simnames = ['natural',
             'nref11c_nref9f']
 
 
+simnames = ['nref11c_nref9f']
+
 #simnames = ['nref11c_nref9f']
 
 DD_arr = arange(90, 1550, 20)
@@ -112,7 +114,7 @@ for s, simname in enumerate(simnames):
 
 
 
-    np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%simname, coord_datas_all, allow_pickle = True)
+    np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150_new.npy'%simname, coord_datas_all, allow_pickle = True)
 
     #with open('/Users/rsimons/Dropbox/rcs_foggie/outputs/sat_interps/%s_satinterps_DD0150.pkl'%simname, 'wb') as f:
     #    pickle.dump(fx, f)
@@ -120,7 +122,7 @@ for s, simname in enumerate(simnames):
 
 
 
-    fig.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/remeasure_centers/%s_interp_centers.png'%simname)
+    fig.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/remeasure_centers/%s_interp_centers_new.png'%simname)
 
 
 
