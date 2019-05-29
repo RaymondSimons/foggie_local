@@ -2,8 +2,8 @@ import numpy as np
 from numpy import *
 split_n = 20
 
-DDmin = 990
-DDmax = 1700
+DDmin = 60
+DDmax = 1690
 
 #for simname in ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f']:
 for simname in ['natural', 'nref11n_nref10f', 'nref11c_nref9f']:
