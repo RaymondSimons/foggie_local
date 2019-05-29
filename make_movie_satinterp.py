@@ -84,9 +84,9 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50, wdd =
         #central_y = cen_fits['CENTRAL']['fye'](DD)
         #central_z = cen_fits['CENTRAL']['fze'](DD)
 
-        central_x = cen_fits['CENTRAL']['fx'](DD)
-        central_y = cen_fits['CENTRAL']['fy'](DD)
-        central_z = cen_fits['CENTRAL']['fz'](DD)
+        central_x = cen_fits['CENTRAL']['fxe'](DD)
+        central_y = cen_fits['CENTRAL']['fye'](DD)
+        central_z = cen_fits['CENTRAL']['fze'](DD)
 
         '''
         xf = central_xyz_fit['x']
@@ -211,9 +211,9 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50, wdd =
                     #ceny = cen_fits['CENTRAL']['fye'](DD)
                     #cenz = cen_fits['CENTRAL']['fze'](DD)
 
-                    cenx = cen_fits['CENTRAL']['fx'](DD)
-                    ceny = cen_fits['CENTRAL']['fy'](DD)
-                    cenz = cen_fits['CENTRAL']['fz'](DD)
+                    cenx = cen_fits['CENTRAL']['fxe'](DD)
+                    ceny = cen_fits['CENTRAL']['fye'](DD)
+                    cenz = cen_fits['CENTRAL']['fze'](DD)
 
 
                 cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
