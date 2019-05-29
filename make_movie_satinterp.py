@@ -69,7 +69,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50, wdd =
         def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
         yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
         ds.add_particle_filter('stars')
-        cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name, allow_pickle=True)[()]
+        cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150_new.npy'%cen_name, allow_pickle=True)[()]
 
         '''
         #encoding='latin1' is needed for loading python 2 pickles in python 3
