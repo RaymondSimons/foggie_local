@@ -59,7 +59,7 @@ def parse():
 
 
 
-def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd = 100., wd2 = 150, wdd2 = 150, wd3 = 1000, wdd3 = 1000):
+def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd = 100., wd2 = 150., wdd2 = 150., wd3 = 1000., wdd3 = 1000.):
         #figname_zoomoutfar = '%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, 6, 'x')
         #figname_check = '%s/%s/%s/%s'%(figdir,'x', 'zoomoutfar', figname_zoomoutfar)
         #if os.path.isfile(figname_check): return
@@ -87,6 +87,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
         central_x = cen_fits['CENTRAL']['fxe'](DD)
         central_y = cen_fits['CENTRAL']['fye'](DD)
         central_z = cen_fits['CENTRAL']['fze'](DD)
+
+        print (central_x, central_y, central_z)
 
         '''
         xf = central_xyz_fit['x']
