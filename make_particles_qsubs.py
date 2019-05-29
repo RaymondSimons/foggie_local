@@ -17,8 +17,8 @@ for simname in ['natural', 'nref11n_nref10f', 'nref11c_nref9f']:
         qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/particles/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
-        qf.write('#PBS -l select=1:ncpus=20:model=ivy\n')
-        qf.write('#PBS -l walltime=1:00:00\n')
+        qf.write('#PBS -l select=1:ncpus=12:model=san\n')
+        qf.write('#PBS -l walltime=2:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%snapname)
         qf.write('#PBS -M rsimons@jhu.edu\n')
