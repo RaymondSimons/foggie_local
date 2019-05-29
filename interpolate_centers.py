@@ -60,9 +60,9 @@ for s, simname in enumerate(simnames):
 
         knd = 3
         knd = 5
-        fxe = interp1d(DDs, xs, kind = 5, fill_value = 'extrapolate')
-        fye = interp1d(DDs, ys, kind = 5, fill_value = 'extrapolate')
-        fze = interp1d(DDs, zs, kind = 5, fill_value = 'extrapolate')
+        fxe = interp1d(DDs, xs, kind = knd, fill_value = 'extrapolate')
+        fye = interp1d(DDs, ys, kind = knd, fill_value = 'extrapolate')
+        fze = interp1d(DDs, zs, kind = knd, fill_value = 'extrapolate')
 
 
 
