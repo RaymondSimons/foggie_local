@@ -26,7 +26,7 @@ for simname in ['natural', 'nref11n_nref10f', 'nref11c_nref9f']:
         qf.write('#PBS -o ./out/%s_pbs.out\n'%snapname)
         qf.write('#PBS -e ./out/%s_pbs.err\n'%snapname)
         qf.write('#PBS -V\n')
-        qf.write('#PBS -W group_list=s1938\n\n\n\n')  
+        qf.write('#PBS -W group_list=s1698\n\n\n\n')  
 
         qf.write('/u/rcsimons/scripts/foggie_local/write_particles.py \
                  -simname %s -DDmin %i -DDmax %i > ./out/%s.err > \
