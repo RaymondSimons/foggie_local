@@ -19,8 +19,8 @@ def parse():
                                 of the data for some of these cameras. Then export the data within
                                 the fov to a FITS file in a format that Sunrise understands.
                                 ''')
-    parser.add_argument('-DDmax', '--DDmax', default=1550, help='max DD')
-    parser.add_argument('-DDmin', '--DDmin', default=50, help='min DD')
+    parser.add_argument('-DDmax', '--DDmax', default=1560, help='max DD')
+    parser.add_argument('-DDmin', '--DDmin', default=60, help='min DD')
     parser.add_argument('-delt_DD', '--delt_DD', default=20, help='min DD')
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
