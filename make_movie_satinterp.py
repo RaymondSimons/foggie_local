@@ -222,7 +222,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                 print ('satellite center: ', cen_g)
                 print ('central center: ', cen_central)
 
-                figname_zoomin  = '%s_%.4i_%.2i_%s_zoomin.png'%(cen_name, DD, sat_n, axis)
+                figname_zoomin  = '%s_%.4i_%.2i_%s_zoomin_100kpc.png'%(cen_name, DD, sat_n, axis)
                 figname_zoomout = '%s_%.4i_%.2i_%s_zoomout.png'%(cen_name, DD, sat_n, axis)
                 figname_zoomoutfar = '%s_%.4i_%.2i_%s_zoomoutfar.png'%(cen_name, DD, sat_n, axis)
 

@@ -52,37 +52,10 @@ for sim_name in ['natural']:#, 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshie
 
     
 
-
-DD_temps = [238,
-253,
-343,
-387,
-388,
-403,
-417,
-418,
-433,
-447,
-448,
-463,
-478,
-658,
-673,
-687,
-688,
-702,
-703,
-717,
-718,
-733,
-748,
-763,
-778,
-793]
 for sim_name in ['nref11n_nref10f', 'nref11c_nref9f']:
-    DDmin = 900
-    DDmax = 1018
-    N_split = 3
+    DDmin = 44
+    DDmax = 1570
+    N_split = 15
 
     sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/movies/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
