@@ -289,7 +289,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                 p._setup_plots()
 
                 fig.set_size_inches(12, 6)
-                fig.savefig('%s/%s/%s/central/%s'%(figdir,axis, 'zoomin', figname_zoomin))
+                fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomin', figname_zoomin))
                 plt.close(fig)
 
                 '''
