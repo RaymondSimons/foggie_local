@@ -32,7 +32,7 @@ for sim_name in ['natural']:#, 'nref11n_v2_selfshield_z15', 'nref11n_v3_selfshie
         qf.write('#PBS -o ./outfiles/%s_pbs.out\n'%sim_snap_name)
         qf.write('#PBS -e ./outfiles/%s_pbs.err\n'%sim_snap_name)
         qf.write('#PBS -V\n')
-        qf.write('#PBS -W group_list=s1938\n\n\n\n')  
+        qf.write('#PBS -W group_list=s1698\n\n\n\n')  
 
         #for DDi in arange(DD, min(DD + N_split, DDmax)):
         out_string =' > ./outfiles/%s_%.4i_%.4i_movie.err > ./outfiles/%s_%.4i_%.4i_movie.out'%(sim_name, DD,min(DD + N_split, DDmax), sim_name, DD,min(DD + N_split, DDmax))
