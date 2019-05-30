@@ -26,7 +26,7 @@ simnames = ['nref11c_nref9f']
 
 #simnames = ['nref11c_nref9f']
 
-DD_arr = arange(90, 1550, 20)
+DD_arr = arange(50, 1560, 10)
 DD_plt = linspace(0, 1800, 1000)
 for s, simname in enumerate(simnames):
     print (simname)
@@ -59,7 +59,7 @@ for s, simname in enumerate(simnames):
         fz = interp1d(DDs, zs, kind = 7)
 
         knd = 3
-        knd = 'linear'
+        knd = 7
         fxe = interp1d(DDs, xs, kind = knd, fill_value = 'extrapolate')
         fye = interp1d(DDs, ys, kind = knd, fill_value = 'extrapolate')
         fze = interp1d(DDs, zs, kind = knd, fill_value = 'extrapolate')
