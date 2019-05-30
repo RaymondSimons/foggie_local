@@ -22,7 +22,7 @@ simnames = ['natural',
             'nref11c_nref9f']
 
 
-simnames = ['nref11c_nref9f']
+#simnames = ['nref11c_nref9f']
 
 #simnames = ['nref11c_nref9f']
 
