@@ -20,7 +20,7 @@ for simname in ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nr
     qf.write('#PBS -V\n')
     qf.write('#PBS -W group_list=s1698\n\n\n\n')  
 
-    qf.write('/u/rcsimons/scripts/foggie_local/plunging_orbits.py \
+    qf.write('python /u/rcsimons/scripts/foggie_local/plunging_orbits.py \
          -simname %s  > ./out/%s.err > ./out/%s.out\n'%(simname, snapname, snapname))
 
     qf.close()
