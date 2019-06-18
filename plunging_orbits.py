@@ -68,7 +68,7 @@ if __name__ == '__main__':
     haloname = args['haloname']
     simname = args['simname']
     simdir = args['simdir']
-    DDname = 'D0600'
+    DDname = 'DD0600'
     if simname == 'natural':      enzo_simname = 'natural'
     elif simname == 'natural_v2': enzo_simname = 'nref11n_v2_selfshield_z15'
     elif simname == 'natural_v3': enzo_simname = 'nref11n_v3_selfshield_z15'
@@ -81,7 +81,6 @@ if __name__ == '__main__':
 
 
     if True:
-        DD = 600
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, enzo_simname,  DDname, DDname))
 
 
