@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
 
 
-    if False:
+    if True:
         ray_l = 400
         ray_w = 10
 
@@ -167,7 +167,7 @@ if __name__ == '__main__':
 
 
 
-    if False:
+    if True:
         fig = plt.figure()
         ax = fig.add_subplot(1,1,1)
         for aa, axs in enumerate(['x', 'y', 'z']):
