@@ -149,10 +149,10 @@ if __name__ == '__main__':
 
 
                 print ((box['gas', axs].to('kpc') - cen_central[aa]).min(), (box['gas', axs].to('kpc') - cen_central[aa]).max())
-                #p = yt.ProjectionPlot(ds, ax_plot, ("gas","density"), data_source = box, center = cen_central, width = (ray_l, 'kpc'))
+                p = yt.ProjectionPlot(ds, ax_plot, ("gas","density"), data_source = box, center = cen_central, width = (ray_l, 'kpc'))
 
 
-                #p.save('~/Desktop/%s_%i.png'%(axs, i))
+                p.save('/nobackupp2/rcsimons/foggie_momentum/figures/plunges/DD0600_%s_%i_%s_tunnel.png'%(axs,i, simname))
 
 
                 to_save = {}
