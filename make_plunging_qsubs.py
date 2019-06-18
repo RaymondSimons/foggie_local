@@ -3,7 +3,7 @@ from numpy import *
 
 sh = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/plunges/run_all.sh', 'w+')
 for simname in ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f', 'nref11c_nref9f']:
-    for DD in arange(400, 800, 50):
+    for DD in arange(300, 900, 50):
         snapname = '%s_%i_plunges'%(simname, DD)
         qsub_fname = '%s_%i_plunges.qsub'%(simname, DD)
 
