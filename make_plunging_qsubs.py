@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import *
 
-sh = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/plunges/run_all.sh')
+sh = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/plunges/run_all.sh', 'w+')
 for simname in ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f', 'nref11c_nref9f']:
     snapname = '%s_plunges'%(simname)
     qsub_fname = '%s_plunges.qsub'%(simname)
