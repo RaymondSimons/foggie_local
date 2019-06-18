@@ -34,7 +34,7 @@ def parse():
     return args
 
 
-def vmax_profile(ds, center, start_rad = 5, end_rad = 220., delta_rad = 5):
+def vmax_profile(ds, DDname, center, start_rad = 5, end_rad = 220., delta_rad = 5):
 
     rs = np.arange(start_rad, end_rad, delta_rad)
     r_arr = zeros(len(rs))
@@ -60,7 +60,7 @@ def vmax_profile(ds, center, start_rad = 5, end_rad = 220., delta_rad = 5):
     G = yt.YTArray([c.G.value], 'm**3/kg/s**2') 
     to_save['v'] = sqrt(2 * G * m_arr/r_arr).to('km/s')
 
-    np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_%s_vescape.npy'%(DDname, simname), to_save)
+    np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/vescape/%s_%s_vescape.npy'%(DDname, simname), to_save)
 
 
 
@@ -96,7 +96,7 @@ if __name__ == '__main__':
         cen_central = yt.YTArray([central_x, central_y, central_z], 'kpc')
         v_sphere = ds.sphere(cen_central, (100, 'kpc'))  
         cen_bulkv = v_sphere.quantities.bulk_velocity().to('km/s') 
-    if True: vmax_profile(ds, cen_central)
+    if True: vmax_profile(ds, DDname, cen_central)
 
 
 
@@ -169,7 +169,7 @@ if __name__ == '__main__':
         for aa, axs in enumerate(['x', 'y', 'z']):
             for i in np.arange(2):
                 plunge = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/plunge/%s_%s_%i_%s.npy'%(DDname, axs,i, simname), allow_pickle = True)[()]
-                vmax = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_%s_vescape.npy'%(DDname, simname), allow_pickle = True)[()]
+                vmax = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/vescape/%s_%s_vescape.npy'%(DDname, simname), allow_pickle = True)[()]
                 dinner = yt.YTArray(200., 'kpc')
                 dt = yt.YTArray(2.e7, 'yr')
                 M = 0
