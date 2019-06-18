@@ -70,7 +70,7 @@ if __name__ == '__main__':
     simname = args['simname']
     simdir = args['simdir']
     DD = args['DD']
-    DDname = 'DD%.4i'%DD
+    DDname = 'DD%s'%DD
     if simname == 'natural':      enzo_simname = 'natural'
     elif simname == 'natural_v2': enzo_simname = 'nref11n_v2_selfshield_z15'
     elif simname == 'natural_v3': enzo_simname = 'nref11n_v3_selfshield_z15'
