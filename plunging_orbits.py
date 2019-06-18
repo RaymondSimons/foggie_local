@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
 
 
-    if False:
+    if True:
         DD = 600
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, enzo_simname,  DDname, DDname))
 
@@ -95,7 +95,7 @@ if __name__ == '__main__':
         cen_central = yt.YTArray([central_x, central_y, central_z], 'kpc')
         v_sphere = ds.sphere(cen_central, (100, 'kpc'))  
         cen_bulkv = v_sphere.quantities.bulk_velocity().to('km/s') 
-    if False: vmax_profile(ds, cen_central)
+    if True: vmax_profile(ds, cen_central)
 
 
 
