@@ -95,11 +95,11 @@ if __name__ == '__main__':
         cen_central = yt.YTArray([central_x, central_y, central_z], 'kpc')
         v_sphere = ds.sphere(cen_central, (100, 'kpc'))  
         cen_bulkv = v_sphere.quantities.bulk_velocity().to('km/s') 
-    if False: vmax_profile(ds, cen_central)
+    if True: vmax_profile(ds, cen_central)
 
 
 
-    if True:
+    if False:
         ray_l = 400
         ray_w = 10
 
@@ -167,7 +167,7 @@ if __name__ == '__main__':
 
 
 
-    if True:
+    if False:
         fig = plt.figure()
         ax = fig.add_subplot(1,1,1)
         for aa, axs in enumerate(['x', 'y', 'z']):
