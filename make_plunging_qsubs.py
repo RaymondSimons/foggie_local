@@ -2,8 +2,8 @@ import numpy as np
 from numpy import *
 
 for simname in ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nref10f', 'nref11c_nref9f']:
-    snapname = '%s_particles'%(simname)
-    qsub_fname = '%s_particles.qsub'%(simname)
+    snapname = '%s_plunges'%(simname)
+    qsub_fname = '%s_plunges.qsub'%(simname)
 
     qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/plunges/%s'%qsub_fname, 'w+')
 
