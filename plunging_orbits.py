@@ -60,7 +60,7 @@ def vmax_profile(ds, center, start_rad = 5, end_rad = 220., delta_rad = 5):
     G = yt.YTArray([c.G.value], 'm**3/kg/s**2') 
     to_save['v'] = sqrt(2 * G * m_arr/r_arr).to('km/s')
 
-    np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/DD0600_%s_vescape.npy'%simname, to_save)
+    np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_%s_vescape.npy'%(DDname, simname), to_save)
 
 
 
@@ -148,7 +148,7 @@ if __name__ == '__main__':
                 p = yt.ProjectionPlot(ds, ax_plot, ("gas","density"), data_source = box, center = cen_central, width = (ray_l, 'kpc'))
 
 
-                p.save('/nobackupp2/rcsimons/foggie_momentum/figures/plunges/DD0600_%s_%i_%s_tunnel.png'%(axs,i, simname))
+                p.save('/nobackupp2/rcsimons/foggie_momentum/figures/plunges/%s_%s_%i_%s_tunnel.png'%(DDname,axs,i, simname))
 
 
                 to_save = {}
@@ -158,7 +158,7 @@ if __name__ == '__main__':
                 if i == 1: sn = -1.
                 to_save['vel'] = sn * (box['enzo', '%s-velocity'%axs].to('km/s') - cen_bulkv[aa]).to('km/s')
 
-                np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/plunge/DD0600_%s_%i_%s.npy'%(axs,i, simname), to_save)
+                np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/plunge/%s_%s_%i_%s.npy'%(DDname,axs,i, simname), to_save)
 
 
 
@@ -168,8 +168,8 @@ if __name__ == '__main__':
         ax = fig.add_subplot(1,1,1)
         for aa, axs in enumerate(['x', 'y', 'z']):
             for i in np.arange(2):
-                plunge = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/plunge/DD0600_%s_%i_%s.npy'%(axs,i, simname), allow_pickle = True)[()]
-                vmax = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/DD0600_%s_vescape.npy'%simname, allow_pickle = True)[()]
+                plunge = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/plunge/%s_%s_%i_%s.npy'%(DDname, axs,i, simname), allow_pickle = True)[()]
+                vmax = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/%s_%s_vescape.npy'%(DDname, simname), allow_pickle = True)[()]
                 dinner = yt.YTArray(200., 'kpc')
                 dt = yt.YTArray(2.e7, 'yr')
                 M = 0
@@ -191,7 +191,7 @@ if __name__ == '__main__':
                     print (t)
                     ts.append((t * dt.to('s')).to('yr'))
                 ax.plot(ts, tot_Ms ,'k-')    
-        fig.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/plunges/DD0600_%s_%i_%s.png'%(axs,i, simname), dpi = 300)
+        fig.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/plunges/%s_%s_%i_%s.png'%(DDname, axs,i, simname), dpi = 300)
 
 
 
