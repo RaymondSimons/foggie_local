@@ -195,7 +195,7 @@ if __name__ == '__main__':
                     print (t)
                     ts.append((t * dt.to('s')).to('yr'))
                 ax.plot(ts, tot_Ms ,'k-')    
-        fig.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/DD0600_%s_%i_%s.fig'%(axs,i, simname), dpi = 300)
+        fig.savefig('/nobackupp2/rcsimons/foggie_momentum/figures/plunges/DD0600_%s_%i_%s.png'%(axs,i, simname), dpi = 300)
 
 
 
