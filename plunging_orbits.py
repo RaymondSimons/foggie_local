@@ -60,7 +60,7 @@ def vmax_profile(ds, center, start_rad = 5, end_rad = 220., delta_rad = 5):
     G = yt.YTArray([c.G.value], 'm**3/kg/s**2') 
     to_save['v'] = sqrt(2 * G * m_arr/r_arr).to('km/s')
 
-    np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/DD0600_vescape.npy', to_save)
+    np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/DD0600_%s_vescape.npy'%simname, to_save)
 
 
 
@@ -145,11 +145,6 @@ if __name__ == '__main__':
                                    cen_central[2]:  cen_central[2] + 0.5 * yt.YTArray(ray_l,  'kpc')]
                         ax_plot = 'y'
 
-
-
-
-
-                print ((box['gas', axs].to('kpc') - cen_central[aa]).min(), (box['gas', axs].to('kpc') - cen_central[aa]).max())
                 p = yt.ProjectionPlot(ds, ax_plot, ("gas","density"), data_source = box, center = cen_central, width = (ray_l, 'kpc'))
 
 
@@ -174,7 +169,7 @@ if __name__ == '__main__':
         for aa, axs in enumerate(['x', 'y', 'z']):
             for i in np.arange(2):
                 plunge = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/plunge/DD0600_%s_%i_%s.npy'%(axs,i, simname), allow_pickle = True)[()]
-                vmax = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/DD0600_vescape.npy', allow_pickle = True)[()]
+                vmax = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/DD0600_%s_vescape.npy'%simname, allow_pickle = True)[()]
                 dinner = yt.YTArray(200., 'kpc')
                 dt = yt.YTArray(2.e7, 'yr')
                 M = 0
