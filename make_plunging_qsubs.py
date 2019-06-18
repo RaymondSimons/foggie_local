@@ -24,5 +24,3 @@ for simname in ['natural', 'natural_v2', 'natural_v3', 'natural_v4', 'nref11n_nr
 
     qf.close()
 
-
-    sf.write('qsub %s\n'%qsub_fname)
