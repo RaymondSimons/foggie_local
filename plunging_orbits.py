@@ -68,7 +68,8 @@ if __name__ == '__main__':
     haloname = args['haloname']
     simname = args['simname']
     simdir = args['simdir']
-    DDname = 'DD0600'
+    DD = 600
+    DDname = 'DD%.4i'%DD
     if simname == 'natural':      enzo_simname = 'natural'
     elif simname == 'natural_v2': enzo_simname = 'nref11n_v2_selfshield_z15'
     elif simname == 'natural_v3': enzo_simname = 'nref11n_v3_selfshield_z15'
