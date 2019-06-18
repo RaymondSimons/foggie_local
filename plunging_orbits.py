@@ -26,6 +26,7 @@ def parse():
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
     parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
+    parser.add_argument('-DD', '--DD', default=None, help='DD')
 
 
 
@@ -68,7 +69,7 @@ if __name__ == '__main__':
     haloname = args['haloname']
     simname = args['simname']
     simdir = args['simdir']
-    DD = 600
+    DD = args['DD']
     DDname = 'DD%.4i'%DD
     if simname == 'natural':      enzo_simname = 'natural'
     elif simname == 'natural_v2': enzo_simname = 'nref11n_v2_selfshield_z15'
