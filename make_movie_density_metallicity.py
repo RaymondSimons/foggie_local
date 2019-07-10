@@ -79,7 +79,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                    cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
 
 
-        W = 90.
+        W = 85.
 
         axis = 'y'
 
@@ -91,28 +91,28 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
             p.set_unit(('gas','density'), 'Msun/pc**2')
             p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
             p.set_cmap(('gas', 'density'), density_color_map)
-            p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
             p.hide_axes()
+            p.save('%s/%.4i_density.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
             p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
             p.annotate_scale(size_bar_args={'color':'white'})
-            p.save('%s/%.4i_density.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
+            p.save('%s/%.4i_density_withannotation.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
 
             metal_color_map = sns.blend_palette(
                 ( "#5d31c4", "#984ea3","#4575b4", "#d73027",
                  "darkorange", "#ffe34d"), as_cmap=True)
 
 
-            metal_min = 1.e-2
+            metal_min = 8.e-3
             p = yt.ProjectionPlot(ds, axis, "metallicity", center = cen_g, data_source=box, width=(W, 'kpc'), weight_field = ('gas', 'density'))
             p.set_unit(('gas','metallicity'), 'Zsun')
             p.set_zlim(('gas', 'metallicity'), zmin = metal_min, zmax =  metal_max)
             p.set_cmap(('gas', 'metallicity'), metal_color_map)
             p.set_log("metallicity", True)
-            p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
             p.hide_axes()
+            p.save('%s/%.4i_metallicity.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
             p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
             p.annotate_scale(size_bar_args={'color':'white'})
-            p.save('%s/%.4i_metallicity.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
+            p.save('%s/%.4i_metallicity_withannotation.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
 
 
 
