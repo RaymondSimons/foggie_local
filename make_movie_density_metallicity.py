@@ -58,42 +58,32 @@ def parse():
 
 
 
-def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd = 100., wd2 = 150., wdd2 = 150., wd3 = 1000., wdd3 = 1000.):
+def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50., wdd = 100., wd2 = 150., wdd2 = 150., wd3 = 1000., wdd3 = 1000.):
         DDname = 'DD%.4i'%DD
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
-        def _stars(pfilter, data): return data[(pfilter.filtered_type, "particle_type")] == 2
-        yt.add_particle_filter("stars",function=_stars, filtered_type='all',requires=["particle_type"])
-        ds.add_particle_filter('stars')
+
         cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150_new.npy'%cen_name, allow_pickle=True)[()]
 
-        W = yt.YTArray([wd, wd, wd], 'kpc')
-        W2 = yt.YTArray([wd2, wd2, wd2], 'kpc')
-        W3 = yt.YTArray([wd3, wd3, wd3], 'kpc')
 
 
-        axis = 'z'
         cenx = cen_fits['CENTRAL']['fxe'](DD)
         ceny = cen_fits['CENTRAL']['fye'](DD)
         cenz = cen_fits['CENTRAL']['fze'](DD)
 
-
         cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
-        figname  = '%s_%.4i_%s_density_metals.png'%(cen_name, DD, axis)
+
 
         box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
                    cen_g[1] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(3*wd,  'kpc'), \
                    cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
 
-        fig = plt.figure()
-        
-        grid = AxesGrid(fig, (0.0,0.0,1.0,1.0),
-                        nrows_ncols = (1, 2),
-                        axes_pad = 0.0, label_mode = "1",
-                        share_all = False, cbar_mode=None,
-                        aspect = False)        
-        '''
-        p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
+
+
+        axis = 'z'
+
+        density_proj_min = 2.5e-1
+        p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=(W, 'kpc'))
         p.set_unit(('gas','density'), 'Msun/pc**2')
         p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
         p.set_cmap(('gas', 'density'), density_color_map)
@@ -101,31 +91,26 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
         p.hide_axes()
         p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
         p.annotate_scale(size_bar_args={'color':'white'})
-        plot = p.plots[("gas","density")]
-        plot.figure = fig
-        plot.axes = grid[0].axes
-        p._setup_plots()
-        '''
+        p.save('%s/%.4i_density.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
 
-        metal_color_map = sns.blend_palette(("black", "#4575b4", "#984ea3", "#984ea3", "#d73027", "darkorange", "#ffe34d"), as_cmap=True)
-        metal_min = 1.e-4
-        metal_max = 3.
-        p = yt.ProjectionPlot(ds, axis, "metallicity", center = cen_g, data_source=box, width=W)
-        #p.set_unit(('gas','metallicity'), 'Zsun')
+        metal_color_map = sns.blend_palette(
+            ("black", "#4575b4", "#5d31c4", "#984ea3", "#d73027",
+             "darkorange", "#ffe34d"), as_cmap=True)
+
+
+        metal_min = 2.e-3
+        p = yt.ProjectionPlot(ds, axis, "metallicity", center = cen_g, data_source=box, width=(W, 'kpc'), weight_field = ('gas', 'density'))
+        p.set_unit(('gas','metallicity'), 'Zsun')
         p.set_zlim(('gas', 'metallicity'), zmin = metal_min, zmax =  metal_max)
         p.set_cmap(('gas', 'metallicity'), metal_color_map)
+        p.set_log("metallicity", True)
         p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
         p.hide_axes()
         p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
         p.annotate_scale(size_bar_args={'color':'white'})
-        plot = p.plots[("gas","metallicity")]
-        plot.figure = fig
-        plot.axes = grid[0].axes
-        p._setup_plots()
+        p.save('%s/%.4i_metallicity.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
 
-        fig.set_size_inches(12, 6)
-        fig.savefig('%s/%s'%(figdir, figname))
-        plt.close(fig)
+
 
 if __name__ == '__main__':
 

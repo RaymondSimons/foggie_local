@@ -47,9 +47,9 @@ def vmax_profile(ds, DDname, center, start_rad = 5, end_rad = 220., delta_rad = 
         critical_density = cosmo.critical_density(ds.current_redshift).value
         r0 =  ds.arr(delta_rad, 'kpc')
         v_sphere = ds.sphere(center, r0)
-        baryon_mass, particle_mass = v_sphere.quantities.total_quantity(["cell_mass", "particle_mass"])
+        cell_mass, particle_mass = v_sphere.quantities.total_quantity(["cell_mass", "particle_mass"])
 
-        m_arr[rr] = baryon_mass.in_units('Msun') + particle_mass.in_units('Msun')
+        m_arr[rr] = cell_mass.in_units('Msun') + particle_mass.in_units('Msun')
 
 
     m_arr = yt.YTArray(m_arr, 'Msun')
@@ -159,8 +159,6 @@ if __name__ == '__main__':
                 to_save['vel'] = sn * (box['enzo', '%s-velocity'%axs].to('km/s') - cen_bulkv[aa]).to('km/s')
 
                 np.save('/nobackupp2/rcsimons/foggie_momentum/catalogs/plunge/%s_%s_%i_%s.npy'%(DDname,axs,i, simname), to_save)
-
-
 
 
     if True:
