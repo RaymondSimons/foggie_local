@@ -81,7 +81,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50., wdd 
 
         W = 50.
 
-        axis = 'z'
+        axis = 'y'
 
         density_proj_min = 2.5e-1
         p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=(W, 'kpc'))
