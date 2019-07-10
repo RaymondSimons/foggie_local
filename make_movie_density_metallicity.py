@@ -92,7 +92,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                         axes_pad = 0.0, label_mode = "1",
                         share_all = False, cbar_mode=None,
                         aspect = False)        
-
+        '''
         p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
         p.set_unit(('gas','density'), 'Msun/pc**2')
         p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
@@ -105,7 +105,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
         plot.figure = fig
         plot.axes = grid[0].axes
         p._setup_plots()
-
+        '''
 
         metal_color_map = sns.blend_palette(("black", "#4575b4", "#984ea3", "#984ea3", "#d73027", "darkorange", "#ffe34d"), as_cmap=True)
         metal_min = 1.e-4
