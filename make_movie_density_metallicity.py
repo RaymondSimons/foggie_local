@@ -98,11 +98,11 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
             p.save('%s/%.4i_density_withannotation.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
 
             metal_color_map = sns.blend_palette(
-                ( "#5d31c4", "#984ea3","#4575b4", "#d73027",
+                ("black", "#5d31c4", "#5d31c4","#4575b4", "#d73027",
                  "darkorange", "#ffe34d"), as_cmap=True)
 
 
-            metal_min = 8.e-3
+            metal_min = 1.e-3
             p = yt.ProjectionPlot(ds, axis, "metallicity", center = cen_g, data_source=box, width=(W, 'kpc'), weight_field = ('gas', 'density'))
             p.set_unit(('gas','metallicity'), 'Zsun')
             p.set_zlim(('gas', 'metallicity'), zmin = metal_min, zmax =  metal_max)
