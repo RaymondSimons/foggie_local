@@ -128,7 +128,7 @@ if __name__ == '__main__':
     if simname == 'nref11n_nref10f': cen_name = 'nref11n_nref10f'    
     if simname == 'nref11c_nref9f': cen_name = 'nref11c_nref9f'    
 
-    figdir = '/nobackupp2/rcsimons/foggie_momentum/sat_figures/%s'%cen_name
+    figdir = '/nobackupp2/rcsimons/foggie_momentum/figures/density_metallicity_movies'
     if not os.path.exists(figdir): os.system('mkdir %s'%figdir)
 
     lst = []
