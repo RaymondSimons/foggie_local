@@ -79,7 +79,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
 
         cen_g = yt.YTArray([cenx, ceny, cenz], 'kpc')
 
-        figname  = '%s_%.4i_%.2i_%s_density_metals.png'%(cen_name, DD, axis)
+        figname  = '%s_%.4i_%s_density_metals.png'%(cen_name, DD, axis)
 
         box = ds.r[cen_g[0] - 0.5 * yt.YTArray(3*wd, 'kpc'): cen_g[0]   + 0.5 * yt.YTArray(3*wd, 'kpc'), \
                    cen_g[1] - 0.5 * yt.YTArray(3*wd,  'kpc'): cen_g[1]  + 0.5 * yt.YTArray(3*wd,  'kpc'), \
