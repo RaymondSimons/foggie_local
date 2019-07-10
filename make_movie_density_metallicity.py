@@ -79,6 +79,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 50., wdd 
                    cen_g[2] - 0.5 * yt.YTArray(wdd,  'kpc'): cen_g[2] + 0.5 * yt.YTArray(wdd,  'kpc')]
 
 
+        W = 50.
 
         axis = 'z'
 
