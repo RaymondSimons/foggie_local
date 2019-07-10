@@ -110,8 +110,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
         metal_color_map = sns.blend_palette(("black", "#4575b4", "#984ea3", "#984ea3", "#d73027", "darkorange", "#ffe34d"), as_cmap=True)
         metal_min = 1.e-4
         metal_max = 3.
-        p = yt.ProjectionPlot(ds, axis, ("gas","metallicity"), center = cen_g, data_source=box, width=W)
-        p.set_unit(('gas','metallicity'), 'Zsun')
+        p = yt.ProjectionPlot(ds, axis, "metallicity", center = cen_g, data_source=box, width=W)
+        #p.set_unit(('gas','metallicity'), 'Zsun')
         p.set_zlim(('gas', 'metallicity'), zmin = metal_min, zmax =  metal_max)
         p.set_cmap(('gas', 'metallicity'), metal_color_map)
         p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
