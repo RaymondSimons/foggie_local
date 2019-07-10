@@ -66,9 +66,6 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
         ds.add_particle_filter('stars')
         cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150_new.npy'%cen_name, allow_pickle=True)[()]
 
-        cen_central = yt.YTArray([central_x, central_y, central_z], 'kpc')
-
-
         W = yt.YTArray([wd, wd, wd], 'kpc')
         W2 = yt.YTArray([wd2, wd2, wd2], 'kpc')
         W3 = yt.YTArray([wd3, wd3, wd3], 'kpc')
