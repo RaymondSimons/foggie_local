@@ -59,6 +59,7 @@ def parse():
 
 
 def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd = 100., wd2 = 150., wdd2 = 150., wd3 = 1000., wdd3 = 1000.):
+        if os.path.isfile('%s/%.4i_metallicity_withannotation.png'%(figdir, DD)): return
         DDname = 'DD%.4i'%DD
         ds = yt.load('%s/%s/%s/%s/%s'%(simdir, haloname, simname,  DDname, DDname))
 
@@ -83,36 +84,33 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
 
         axis = 'y'
 
+        density_proj_min = 1.e-1
+        p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=(W, 'kpc'))
+        p.set_unit(('gas','density'), 'Msun/pc**2')
+        p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
+        p.set_cmap(('gas', 'density'), density_color_map)
+        p.hide_axes()
+        p.save('%s/%.4i_density.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
+        p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+        p.annotate_scale(size_bar_args={'color':'white'})
+        p.save('%s/%.4i_density_withannotation.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
 
-        if True:
-
-            density_proj_min = 1.e-1
-            p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=(W, 'kpc'))
-            p.set_unit(('gas','density'), 'Msun/pc**2')
-            p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
-            p.set_cmap(('gas', 'density'), density_color_map)
-            p.hide_axes()
-            p.save('%s/%.4i_density.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
-            p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-            p.annotate_scale(size_bar_args={'color':'white'})
-            p.save('%s/%.4i_density_withannotation.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
-
-            metal_color_map = sns.blend_palette(
-                ("black", "#5d31c4", "#5d31c4","#4575b4", "#d73027",
-                 "darkorange", "#ffe34d"), as_cmap=True)
+        metal_color_map = sns.blend_palette(
+            ("black", "#5d31c4", "#5d31c4","#4575b4", "#d73027",
+             "darkorange", "#ffe34d"), as_cmap=True)
 
 
-            metal_min = 1.e-3
-            p = yt.ProjectionPlot(ds, axis, "metallicity", center = cen_g, data_source=box, width=(W, 'kpc'), weight_field = ('gas', 'density'))
-            p.set_unit(('gas','metallicity'), 'Zsun')
-            p.set_zlim(('gas', 'metallicity'), zmin = metal_min, zmax =  metal_max)
-            p.set_cmap(('gas', 'metallicity'), metal_color_map)
-            p.set_log("metallicity", True)
-            p.hide_axes()
-            p.save('%s/%.4i_metallicity.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
-            p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-            p.annotate_scale(size_bar_args={'color':'white'})
-            p.save('%s/%.4i_metallicity_withannotation.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
+        metal_min = 1.e-3
+        p = yt.ProjectionPlot(ds, axis, "metallicity", center = cen_g, data_source=box, width=(W, 'kpc'), weight_field = ('gas', 'density'))
+        p.set_unit(('gas','metallicity'), 'Zsun')
+        p.set_zlim(('gas', 'metallicity'), zmin = metal_min, zmax =  metal_max)
+        p.set_cmap(('gas', 'metallicity'), metal_color_map)
+        p.set_log("metallicity", True)
+        p.hide_axes()
+        p.save('%s/%.4i_metallicity.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
+        p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+        p.annotate_scale(size_bar_args={'color':'white'})
+        p.save('%s/%.4i_metallicity_withannotation.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
 
 
 
