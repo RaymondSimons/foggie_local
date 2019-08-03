@@ -52,7 +52,7 @@ for sat in arange(5,6):
 
         image1 = yt.off_axis_projection(box, cen_g, L, W, N, ('gas', 'density'), north_vector =  north_vector)
         '''
-        axis = 'x'
+        axis = 'y'
         density_proj_min = 5e-2  # msun / pc^2
         density_proj_max = 1e4
         p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
