@@ -4,6 +4,7 @@ import yt
 from yt import YTArray
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import *
 from numpy import *
 plt.ioff()
 plt.close('all')
@@ -25,15 +26,28 @@ for i in arange(300, 320):
 
     N = 512
     north_vector = [0,1,0]
+    fig, ax = plt.subplots(1,1, figsize = (10, 10))
+    ax.axis('off')
+
 
     image1 = yt.off_axis_projection(ds, cen, L, W, N, ('gas', 'density'), north_vector =  north_vector)
 
-    fig, ax = subplots(1,1, figsize = (10, 10))
-
 
     image1 = image1.in_units('Msun * kpc**-2')
-    ax.imshow(np.log10(image1), vmin = 4.5, vmax = 9.5)
-    
-    ax.axis('off')
+    ax.imshow(np.log10(image1), vmin = 4.5, vmax = 9.5)    
     fig.subplots_adjust(left = 0.0, right = 0.92, top =1.0, bottom = 0.0, hspace = 0.0, wspace = 0.0)
     fig.savefig("/user/rsimons/foggie/figures/movies/ram_pressure/frame_%i.png"%i, dpi = 300)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
