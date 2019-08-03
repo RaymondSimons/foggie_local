@@ -35,9 +35,9 @@ for i in arange(300, 301):
     fig, ax = plt.subplots(1,1, figsize = (10, 10))
     ax.axis('off')
 
-    box = ds.r[cen_g[0] - yt.YTArray(wd/2.,  'kpc'): cen_g[0] + 0.5 * yt.YTArray(wd/2., 'kpc'), \
-               cen_g[1] - yt.YTArray(wd/2., 'kpc'): cen_g[1] + 0.5 * yt.YTArray( wd/2., 'kpc'), \
-               cen_g[2] - yt.YTArray(wd/2., 'kpc'): cen_g[2] + 0.5 * yt.YTArray( wd/2., 'kpc')]
+    box = ds.r[cen_g[0] - yt.YTArray(wd/2.,  'kpc'): cen_g[0] + yt.YTArray(wd/2., 'kpc'), \
+               cen_g[1] - yt.YTArray(wd/2., 'kpc'): cen_g[1] +  yt.YTArray( wd/2., 'kpc'), \
+               cen_g[2] - yt.YTArray(wd/2., 'kpc'): cen_g[2] +  yt.YTArray( wd/2., 'kpc')]
 
 
     image1 = yt.off_axis_projection(box, cen_g, L, W, N, ('gas', 'density'), north_vector =  north_vector)
