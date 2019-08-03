@@ -16,6 +16,15 @@ ds = yt.load('/user/rsimons/foggie/sims/halo_008508/nref11n_nref10f/DD0809/DD080
 
 
 wd = 30.
+a = np.load('/user/rsimons/foggie_outputs/nref11n_nref10f_interpolations_DD0150_new.npy', allow_pickle = True)[()]
+
+sat = 1
+cen_x = a['SAT_%.2i'%sat]['fx'](809)  
+cen_y = a['SAT_%.2i'%sat]['fy'](809)  
+cen_z = a['SAT_%.2i'%sat]['fz'](809)  
+
+
+cen_g = YTArray([cen_x, cen_y, cen_z], 'kpc')
 
 x_w = wd
 y_w = wd
@@ -23,7 +32,6 @@ z_w = wd
 
 W = YTArray([x_w, y_w, z_w], 'kpc')
 
-cen_g = YTArray([31597.918859155205, 31096.55501686099, 32192.674736309542], 'kpc')
 
 
 for i in arange(300, 301):
