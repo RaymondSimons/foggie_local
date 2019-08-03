@@ -18,7 +18,7 @@ ds = yt.load('/user/rsimons/foggie/sims/halo_008508/nref11n_nref10f/DD0809/DD080
 wd = 30.
 a = np.load('/user/rsimons/foggie_outputs/nref11n_nref10f_interpolations_DD0150_new.npy', allow_pickle = True)[()]
 
-for sat in arange(6):
+for sat in arange(5,6):
 
     cen_x = a['SAT_%.2i'%sat]['fx'](809)  
     cen_y = a['SAT_%.2i'%sat]['fy'](809)  
