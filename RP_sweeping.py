@@ -44,7 +44,7 @@ for i in arange(300, 301):
 
 
     image1 = image1.in_units('Msun/pc**2')
-    ax.imshow(np.log10(image1), vmin = density_proj_min, vmax = density_proj_max, cmap = density_color_map)    
+    ax.imshow(np.log10(image1), cmap = density_color_map)    
     fig.subplots_adjust(left = 0.0, right = 0.92, top =1.0, bottom = 0.0, hspace = 0.0, wspace = 0.0)
     fig.savefig("/user/rsimons/foggie/figures/movies/ram_pressure/frame_%i.png"%i, dpi = 300)
 
