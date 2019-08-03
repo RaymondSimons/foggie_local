@@ -3,6 +3,7 @@ from astropy.io import fits
 import yt
 from yt import YTArray
 import numpy as np
+import matplotlib.pyplot as plt
 plt.ioff()
 plt.close('all')
 
