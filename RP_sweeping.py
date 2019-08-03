@@ -11,14 +11,18 @@ plt.close('all')
 
 ds = yt.load('/user/rsimons/foggie/sims/halo_008508/nref11n_nref10f/DD0809/DD0809')
 
-W_kpc = 30
-x_w = W_kpc
-y_w = W_kpc
-z_w = W_kpc
+
+wdd = 10
+wd = 30
+
+x_w = wd
+y_w = wd
+z_w = wd
 
 W = YTArray([x_w, y_w, z_w], 'kpc')
 
-cen = YTArray([31597.918859155205, 31096.55501686099, 32192.674736309542], 'kpc')
+cen_g = YTArray([31597.918859155205, 31096.55501686099, 32192.674736309542], 'kpc')
+
 
 for i in arange(300, 320):
     print (i)
@@ -29,8 +33,12 @@ for i in arange(300, 320):
     fig, ax = plt.subplots(1,1, figsize = (10, 10))
     ax.axis('off')
 
+    box = ds.r[cen_g[0] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[0] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'), \
+               cen_g[1] - 0.5 * yt.YTArray(min([3, wd]), 'kpc'): cen_g[1] + 0.5 * yt.YTArray(max([3, wd]), 'kpc'), \
+               cen_g[2] - 0.5 * yt.YTArray(max([wdd, wd]), 'kpc'): cen_g[2] + 0.5 * yt.YTArray(max([wdd, wd]), 'kpc')]
 
-    image1 = yt.off_axis_projection(ds, cen, L, W, N, ('gas', 'density'), north_vector =  north_vector)
+
+    image1 = yt.off_axis_projection(box, cen_g, L, W, N, ('gas', 'density'), north_vector =  north_vector)
 
 
     image1 = image1.in_units('Msun * kpc**-2')
