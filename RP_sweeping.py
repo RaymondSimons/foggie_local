@@ -15,7 +15,7 @@ ds = yt.load('/user/rsimons/foggie/sims/halo_008508/nref11n_nref10f/DD0809/DD080
 
 
 
-wd = 30
+wd = 10.
 
 x_w = wd
 y_w = wd
