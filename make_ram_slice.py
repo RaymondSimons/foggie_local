@@ -52,11 +52,11 @@ def ram_slice(haloname):
         flname = '/Users/rsimons/Desktop/foggie/sims/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
 
 
-
+        box_size = 100.
         ds = yt.load(flname)
-        sp = ds.r[center[0] - yt.YTArray(100, 'kpc'): center[0] + yt.YTArray(100, 'kpc'), \
-                  center[1] - yt.YTArray(100, 'kpc'): center[1] + yt.YTArray(100, 'kpc'), \
-                  center[2] - yt.YTArray(100, 'kpc'): center[2] + yt.YTArray(100, 'kpc')]
+        sp = ds.r[center[0] - yt.YTArray(box_size/2., 'kpc'): center[0] + yt.YTArray(box_size/2., 'kpc'), \
+                  center[1] - yt.YTArray(box_size/2., 'kpc'): center[1] + yt.YTArray(box_size/2., 'kpc'), \
+                  center[2] - yt.YTArray(box_size/2., 'kpc'): center[2] + yt.YTArray(box_size/2., 'kpc')]
 
         N = 100
         if not os.path.exists('/Users/rsimons/Dropbox/file_transfer/%s'%haloname):
@@ -76,7 +76,7 @@ def ram_slice(haloname):
 
 
 
-            slc = yt.OffAxisProjectionPlot(ds,  L, 'ram_pressure', center = center, width = (200, 'kpc'), weight_field = ('gas', 'cell_mass'), north_vector = north_vector, data_source = sp)
+            slc = yt.OffAxisProjectionPlot(ds,  L, 'ram_pressure', center = center, width = (box_size, 'kpc'), weight_field = ('gas', 'cell_mass'), north_vector = north_vector, data_source = sp)
             #slc = yt.OffAxisSlicePlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'))#, north_vector = north_vector)
             slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 1.e24)
             print ('Saving slice...')
