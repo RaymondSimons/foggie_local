@@ -97,9 +97,9 @@ def ram_slice(haloname):
             #slc = yt.OffAxisSlicePlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'))#, north_vector = north_vector)
             #slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 1.e28)
             print ('Saving slice...')
-            slc.set_zlim(('gas' 'density'), zmin = density_proj_min, zmax = density_proj_max)
+            slc.set_zlim(('gas','density'), zmin = density_proj_min, zmax = density_proj_max)
             slc.set_unit(('gas','density'),'Msun/pc**2')
-            slc.set_cmap(('gas' 'density'),cmap = density_color_map)
+            slc.set_cmap(('gas','density'),cmap = density_color_map)
             slc.save('/Users/rsimons/Dropbox/file_transfer/%s/%s/slice_density_%s_%s_%s.png'%(haloname, simname,haloname, simname, i))
 
 
