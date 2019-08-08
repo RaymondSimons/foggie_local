@@ -54,7 +54,9 @@ def ram_slice(haloname):
 
 
         ds = yt.load(flname)
-        sp = ds.sphere(center, (200, 'kpc'))
+        sp = ds.r[center[0] - (100, 'kpc'): center[0] - (100, 'kpc'), \
+                  center[1] - (100, 'kpc'): center[1] - (100, 'kpc'), \
+                  center[2] - (100, 'kpc'): center[2] - (100, 'kpc')]
 
         N = 1
         if not os.path.exists('/Users/rsimons/Dropbox/file_transfer/%s'%haloname):
@@ -65,7 +67,6 @@ def ram_slice(haloname):
         for i in arange(N):
             L = [max(1*cos(pi*(i)/100.), 1.e-5),0, max(1*sin(pi*(i)/100.), 1.e-5)] # vector normal to cutting plane
             north_vector = [-1,1,0]
-            W = yt.YTArray([100, 100, 100], 'kpc')
             num_pix = 512
             #image1 = yt.off_axis_projection(sp, center, L, W, N, ('gas', 'ram_pressure'), north_vector =  north_vector, weight = ('gas', 'cell_mass'))
             #image1 = image1.in_units('kg * km/s**2/kpc**2')
@@ -75,7 +76,7 @@ def ram_slice(haloname):
 
 
 
-            slc = yt.OffAxisProjectionPlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'), weight_field = ('gas', 'cell_mass'), north_vector = north_vector, data_source = sp)
+            slc = yt.OffAxisProjectionPlot(ds,  L, 'ram_pressure', center = center, width = (200, 'kpc'), weight_field = ('gas', 'cell_mass'), north_vector = north_vector, data_source = sp)
             #slc = yt.OffAxisSlicePlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'))#, north_vector = north_vector)
             slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 1.e22)
             print ('Saving slice...')
