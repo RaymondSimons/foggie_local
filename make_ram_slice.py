@@ -78,7 +78,7 @@ def ram_slice(haloname):
 
             slc = yt.OffAxisProjectionPlot(ds,  L, 'ram_pressure', center = center, width = (200, 'kpc'), weight_field = ('gas', 'cell_mass'), north_vector = north_vector, data_source = sp)
             #slc = yt.OffAxisSlicePlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'))#, north_vector = north_vector)
-            slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 1.e22)
+            slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 1.e24)
             print ('Saving slice...')
             slc.save('/Users/rsimons/Dropbox/file_transfer/%s/%s/slice_RP_%s_%s_%s.png'%(haloname, simname,haloname, simname, i))
 
