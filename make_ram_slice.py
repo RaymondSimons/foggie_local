@@ -24,7 +24,7 @@ def ram_slice(haloname):
         simnames = ['natural', 'nref11c_nref9f']
         DDname = 'DD0581'
 
-    for simname in simnames[0:1]:
+    for simname in simnames[1:2]:
         to_save_sim = {}
         print ('new', haloname, simname)
 
