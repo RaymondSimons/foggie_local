@@ -78,15 +78,26 @@ def ram_slice(haloname):
 
             slc = yt.OffAxisProjectionPlot(ds,  L, 'ram_pressure', center = center, width = (box_size, 'kpc'), weight_field = ('gas', 'cell_mass'), north_vector = north_vector, data_source = sp)
             #slc = yt.OffAxisSlicePlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'))#, north_vector = north_vector)
-            slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 1.e27)
+            pressure_color_map = "Spectral"
+            slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 5.e27)
+            slc.set_cmap(cmap = pressure_color_map)
             print ('Saving slice...')
             slc.save('/Users/rsimons/Dropbox/file_transfer/%s/%s/slice_RP_%s_%s_%s.png'%(haloname, simname,haloname, simname, i))
 
+
+            density_proj_min = 5e-2  # msun / pc^2
+            density_proj_max = 1e4
+
+            density_color_map = sns.blend_palette(
+                ("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
 
             slc = yt.OffAxisProjectionPlot(ds,  L, 'density', center = center, width = (box_size, 'kpc'), north_vector = north_vector, data_source = sp)
             #slc = yt.OffAxisSlicePlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'))#, north_vector = north_vector)
             #slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 1.e28)
             print ('Saving slice...')
+            slc.set_zlim(('gas' 'density'), zmin = density_proj_min, zmax = density_proj_max)
+            slc.set_unit(('gas','density'),'Msun/pc**2')
+            slc.set_cmap(cmap = density_color_map)
             slc.save('/Users/rsimons/Dropbox/file_transfer/%s/%s/slice_density_%s_%s_%s.png'%(haloname, simname,haloname, simname, i))
 
 
