@@ -58,14 +58,14 @@ def ram_slice(haloname):
                   center[1] - yt.YTArray(100, 'kpc'): center[1] + yt.YTArray(100, 'kpc'), \
                   center[2] - yt.YTArray(100, 'kpc'): center[2] + yt.YTArray(100, 'kpc')]
 
-        N = 200
+        N = 100
         if not os.path.exists('/Users/rsimons/Dropbox/file_transfer/%s'%haloname):
             os.system('mkdir /Users/rsimons/Dropbox/file_transfer/%s'%haloname)
         if not os.path.exists('/Users/rsimons/Dropbox/file_transfer/%s/%s'%(haloname, simname)):
             os.system('mkdir /Users/rsimons/Dropbox/file_transfer/%s/%s'%(haloname, simname))
 
         for i in arange(N):
-            L = [max(1*cos(pi*(i)/200.), 1.e-5),0, max(1*sin(pi*(i)/200.), 1.e-5)] # vector normal to cutting plane
+            L = [1*cos(pi*(i)/100.),0, 1*sin(pi*(i)/100.)] # vector normal to cutting plane
             north_vector = [0,1,0]
             num_pix = 512
             #image1 = yt.off_axis_projection(sp, center, L, W, N, ('gas', 'ram_pressure'), north_vector =  north_vector, weight = ('gas', 'cell_mass'))
