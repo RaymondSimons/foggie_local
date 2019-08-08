@@ -60,7 +60,7 @@ def ram_slice(haloname):
                   center[1] - yt.YTArray(box_size/2., 'kpc'): center[1] + yt.YTArray(box_size/2., 'kpc'), \
                   center[2] - yt.YTArray(box_size/2., 'kpc'): center[2] + yt.YTArray(box_size/2., 'kpc')]
 
-        N = 1
+        N = 100.
         if not os.path.exists('/Users/rsimons/Dropbox/file_transfer/%s'%haloname):
             os.system('mkdir /Users/rsimons/Dropbox/file_transfer/%s'%haloname)
         if not os.path.exists('/Users/rsimons/Dropbox/file_transfer/%s/%s'%(haloname, simname)):
