@@ -54,9 +54,9 @@ def ram_slice(haloname):
 
 
         ds = yt.load(flname)
-        sp = ds.r[center[0] - (100, 'kpc'): center[0] - (100, 'kpc'), \
-                  center[1] - (100, 'kpc'): center[1] - (100, 'kpc'), \
-                  center[2] - (100, 'kpc'): center[2] - (100, 'kpc')]
+        sp = ds.r[center[0] - yt.YTArray(100, 'kpc'): center[0] - yt.YTArray(100, 'kpc'), \
+                  center[1] - yt.YTArray(100, 'kpc'): center[1] - yt.YTArray(100, 'kpc'), \
+                  center[2] - yt.YTArray(100, 'kpc'): center[2] - yt.YTArray(100, 'kpc')]
 
         N = 1
         if not os.path.exists('/Users/rsimons/Dropbox/file_transfer/%s'%haloname):
