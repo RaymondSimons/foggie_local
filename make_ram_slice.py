@@ -2,6 +2,8 @@ import yt
 from yt.units import kpc, Mpc
 import joblib
 from joblib import Parallel, delayed
+import seaborn as sns
+
 import os
 from astropy.io import ascii
 import matplotlib.pyplot as plt
@@ -24,7 +26,7 @@ def ram_slice(haloname):
         simnames = ['natural', 'nref11c_nref9f']
         DDname = 'DD0581'
 
-    for simname in simnames[1:2]:
+    for simname in simnames[0:1]:
         to_save_sim = {}
         print ('new', haloname, simname)
 
