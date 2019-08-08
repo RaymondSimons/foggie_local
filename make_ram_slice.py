@@ -66,7 +66,7 @@ def ram_slice(haloname):
 
         for i in arange(N):
             L = [max(1*cos(pi*(i)/200.), 1.e-5),0, max(1*sin(pi*(i)/200.), 1.e-5)] # vector normal to cutting plane
-            north_vector = [-1,1,0]
+            north_vector = [0,1,0]
             num_pix = 512
             #image1 = yt.off_axis_projection(sp, center, L, W, N, ('gas', 'ram_pressure'), north_vector =  north_vector, weight = ('gas', 'cell_mass'))
             #image1 = image1.in_units('kg * km/s**2/kpc**2')
