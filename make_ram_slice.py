@@ -80,7 +80,7 @@ def ram_slice(haloname):
 
             slc = yt.OffAxisProjectionPlot(ds,  L, 'ram_pressure', center = center, width = (box_size, 'kpc'), weight_field = ('gas', 'cell_mass'), north_vector = north_vector, data_source = sp)
             #slc = yt.OffAxisSlicePlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'))#, north_vector = north_vector)
-            pressure_color_map = "Blues"#"Spectral"
+            pressure_color_map = "cividis"#"Spectral"
             slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 5.e27)
             slc.set_cmap(('gas','ram_pressure'), cmap = pressure_color_map)
             print ('Saving slice...')
