@@ -76,11 +76,13 @@ def ram_slice(haloname):
             #im1 = axes.imshow(np.log10(image1), vmin = 18, vmax = 29)
             #fig.savefig('/Users/rsimons/Dropbox/file_transfer/%s/%s/projection_RP_%s_%s_%s.png'%(haloname, simname,haloname, simname, i))
 
+            density_color_map = sns.blend_palette(
+                ("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
 
 
             slc = yt.OffAxisProjectionPlot(ds,  L, 'ram_pressure', center = center, width = (box_size, 'kpc'), weight_field = ('gas', 'cell_mass'), north_vector = north_vector, data_source = sp)
             #slc = yt.OffAxisSlicePlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'))#, north_vector = north_vector)
-            pressure_color_map = "viridis"#"Spectral"
+            pressure_color_map = density_color_map#"viridis"#"Spectral"
             slc.set_zlim(('gas','ram_pressure'), zmin = 1.e19, zmax = 5.e27)
             slc.set_cmap(('gas','ram_pressure'), cmap = pressure_color_map)
             print ('Saving slice...')
@@ -90,8 +92,6 @@ def ram_slice(haloname):
             density_proj_min = 5e-2  # msun / pc^2
             density_proj_max = 1e4
 
-            density_color_map = sns.blend_palette(
-                ("black", "#4575b4", "#4daf4a", "#ffe34d", "darkorange"), as_cmap=True)
 
             slc = yt.OffAxisProjectionPlot(ds,  L, 'density', center = center, width = (box_size, 'kpc'), north_vector = north_vector, data_source = sp)
             #slc = yt.OffAxisSlicePlot(ds,  L, 'ram_pressure', center = center, width = (100, 'kpc'))#, north_vector = north_vector)
