@@ -260,7 +260,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                                 axes_pad = 0.0, label_mode = "1",
                                 share_all = False, cbar_mode=None,
                                 aspect = False)        
-
+                print ('doing gas density')
                 p = yt.ProjectionPlot(ds, axis, ("gas","density"), center = cen_g, data_source=box, width=W)
                 p.set_unit(('gas','density'), 'Msun/pc**2')
                 p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
@@ -274,6 +274,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                 plot.axes = grid[0].axes
                 p._setup_plots()
 
+                print ('doing star particle projection')
 
                 p = yt.ParticleProjectionPlot(ds, axis, ('stars', 'particle_mass'), center = cen_g, data_source=box, width = W)   
                 cmp = plt.cm.Greys_r
@@ -290,8 +291,9 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
 
                 #fig.set_size_inches(12, 6)
                 fig.set_size_inches(40, 20)
-
+                print ('saving %s/%s/%s/%s'%(figdir,axis, 'zoomin', figname_zoomin))
                 fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomin', figname_zoomin), dpi = 200)
+                print ('saved')
                 plt.close(fig)
 
                 '''
