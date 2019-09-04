@@ -288,8 +288,10 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                 plot.axes = grid[1].axes
                 p._setup_plots()
 
-                fig.set_size_inches(12, 6)
-                fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomin', figname_zoomin))
+                #fig.set_size_inches(12, 6)
+                fig.set_size_inches(40, 20)
+
+                fig.savefig('%s/%s/%s/%s'%(figdir,axis, 'zoomin', figname_zoomin), dpi = 200)
                 plt.close(fig)
 
                 '''
