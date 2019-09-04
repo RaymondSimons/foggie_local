@@ -71,6 +71,9 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
         ds.add_particle_filter('stars')
         cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150_new.npy'%cen_name, allow_pickle=True)[()]
 
+
+        print (DDname, simname)
+
         '''
         #encoding='latin1' is needed for loading python 2 pickles in python 3
         if 'natural' in cen_name:
