@@ -110,7 +110,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
         W3 = yt.YTArray([wd3, wd3, wd3], 'kpc')
 
 
-        for axis in ['x']:#@, 'y', 'z']:
+        for axis in ['x', 'y', 'z']:
             if axis == 'x':                
                 box2 = ds.r[cen_central[0] - 0.5 * yt.YTArray(wdd2, 'kpc'):   cen_central[0] + 0.5 * yt.YTArray(wdd2, 'kpc'), \
                             cen_central[1] - 0.5 * yt.YTArray(3*wd2,  'kpc'): cen_central[1] + 0.5 * yt.YTArray(3*wd2,  'kpc'), \
