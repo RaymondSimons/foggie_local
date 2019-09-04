@@ -270,8 +270,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                 p.set_cmap(('gas', 'density'), density_color_map)
                 #p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
                 p.hide_axes()
-                p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
-                p.annotate_scale(size_bar_args={'color':'white'})
+                #p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+                #p.annotate_scale(size_bar_args={'color':'white'})
                 plot = p.plots[("gas","density")]
                 plot.figure = fig
                 plot.axes = grid[0].axes
