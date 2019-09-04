@@ -268,7 +268,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                 p.set_unit(('gas','density'), 'Msun/pc**2')
                 p.set_zlim(('gas', 'density'), zmin = density_proj_min, zmax =  density_proj_max)
                 p.set_cmap(('gas', 'density'), density_color_map)
-                p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
+                #p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
                 p.hide_axes()
                 p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
                 p.annotate_scale(size_bar_args={'color':'white'})
@@ -284,7 +284,7 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
                 cmp.set_bad('k')
                 p.set_cmap(field = ('stars','particle_mass'), cmap = cmp)
                 p.hide_axes()
-                p.annotate_scale(size_bar_args={'color':'white'})
+                #p.annotate_scale(size_bar_args={'color':'white'})
 
                 p.set_zlim(field = ('stars','particle_mass'), zmin = 2.e35 * 0.3, zmax = 1.e42*0.9)
                 plot = p.plots[('stars','particle_mass')]
