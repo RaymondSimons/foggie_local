@@ -195,7 +195,7 @@ def load_sim(args):
     snap_name = foggie_dir + run_loc + args.output + '/' + args.output
     ds, refine_box, refine_box_center, refine_width = load(snap = snap_name, 
                                                            trackfile = trackname, 
-                                                           use_halo_c_v=args.use_halo_c_v, 
+                                                           use_halo_c_v=False, 
                                                            halo_c_v_name=track_dir + 'halo_c_v')
     return ds, refine_box, refine_width
 
