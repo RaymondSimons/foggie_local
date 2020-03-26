@@ -93,7 +93,7 @@ def do_plot(ds, field, normal_vector, north_vector, annotate_positions, \
 def make_off_axis_projection_plots(ds, center, box_proj, fig_dir, haloname, normal_vector,north_vector,\
                          fig_end = 'projection',  do = ['stars', 'gas', 'dm'],\
                          axes = ['x', 'y', 'z'], annotate_positions = [],annotate_center = False, \
-                          add_velocity = False,  add_arrow = False, start_arrow = [], end_arrow = [], proj_width = 0, hide_colorbar = True, add_timesamp = False):
+                          add_velocity = False,  add_arrow = False, start_arrow = [], end_arrow = [], proj_width = 0, hide_colorbar = False, add_timesamp = False):
     print (center,proj_width)
     for axs in axes:
         for d in do:
@@ -223,25 +223,28 @@ if __name__ == '__main__':
     grid_fields = [('deposit', 'stars_density'), ('gas', 'density'),\
                    ('deposit', 'dm_density'), ('gas', 'temperature'),\
                    ('gas', 'metallicity')]
+
+    grid_fields = [('gas', 'density')]
+
     for (n1, n2) in grid_fields:
         print ('\t loading (%s, %s)'%(n1, n2))
         temp_variable = box_proj[n1, n2]
 
     start_arrows = []
     end_arrows = []
+    dos = ['stars', 'gas',  'dm', 'temp', 'metal']
+    dos = ['gas']
 
     if not os.path.exists(fig_dir + '/' + args.halo + '/' + args.output):
         os.system('mkdir ' + fig_dir + '/' + args.halo + '/' + args.output)
 
     for nrot in np.arange(min_nrot, max_nrot):
-        fname = fig_dir + '/combined/%s_%s_%.3i.png'%(haloname, sat['id'], nrot)
-
         normal_vector = [0, np.cos(2*pi * (1.*nrot)/max_nrot), np.sin(2*pi * (1.*nrot)/max_nrot)]
 
         prj = make_off_axis_projection_plots(ds = ds, center = sat_center, box_proj = box_proj, fig_dir = fig_dir + '/' + args.halo + '/' + args.output,
                                             haloname = args.halo, normal_vector = normal_vector, north_vector = [1,0,0], \
                                             fig_end = 'central_%.3i'%(nrot), \
-                                            do = ['stars', 'gas',  'dm', 'temp', 'metal'], axes = ['off_axis'], annotate_center = not args.do_central,
+                                            do = dos, axes = ['off_axis'], annotate_center = not args.do_central,
                                             add_velocity = False, add_arrow = not args.do_central, start_arrow = start_arrows, end_arrow = end_arrows, proj_width = box_width)  
 
 
