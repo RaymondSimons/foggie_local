@@ -215,7 +215,7 @@ if __name__ == '__main__':
     sat_center = ds.halo_center_kpc
     box_proj = refine_box
     box_width = ds.arr(100, 'code_length').to('kpc')
-
+    print (sat_center)
     min_nrot = 0
     max_nrot = 200
 
