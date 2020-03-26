@@ -46,7 +46,7 @@ for (halo, output) in inputs:
         qf.write('source /u/rcsimons/.bashrc\n')
         for rot_n in arange(dmn, dmn+splitn):
             snapname_temp = '%s_%.4i'%(halo, rot_n)
-            qf.write('python /nobackupp2/rcsimons/git/foggie/foggie/satellites/off_axis_projection_plots.py \
+            qf.write('python /nobackupp2/rcsimons/git/foggie/foggie/satellites/sweep_movie_central.py \
                      --halo %s --rot_n %i --output %s --system pleiades_raymond --do_central > ./outfiles/%s_off_axis.err > \
                      ./outfiles/%s_off_axis.out\n'%(halo, rot_n, output, snapname_temp, snapname_temp))
 
