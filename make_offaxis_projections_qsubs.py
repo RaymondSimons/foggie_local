@@ -25,7 +25,7 @@ for (halo, output) in inputs:
     
 
     sf = open('/nobackupp2/rcsimons/foggie/submit_scripts/off_axis_projections/submit_%s_tracksats.sh'%(halo), 'w+')
-    splitn = 2
+    splitn = 1
     for dmn in arange(0, 200+splitn, splitn):
         snapname = '%s_%.4i_%.4i'%(halo, dmn, dmn+splitn)
         qsub_fname = 'track_%s_%.4i_%.4i.qsub'%(halo, dmn, dmn+splitn)        
