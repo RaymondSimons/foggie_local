@@ -240,7 +240,7 @@ if __name__ == '__main__':
     else:
         min_nrot = args.rot_n
         max_nrot = args.rot_n + 1
-
+    '''
     print ('pre-loading grid data')
     grid_fields = [('deposit', 'stars_density'), ('gas', 'density'),\
                    ('deposit', 'dm_density'), ('gas', 'temperature'),\
@@ -251,7 +251,7 @@ if __name__ == '__main__':
     for (n1, n2) in grid_fields:
         print ('\t loading (%s, %s)'%(n1, n2))
         temp_variable = box_proj[n1, n2]
-
+    '''
     start_arrows = []
     end_arrows = []
     dos = ['stars', 'gas',  'dm', 'temp', 'metal']
