@@ -10,6 +10,7 @@ import argparse
 import numpy as np
 from astropy.table import Table
 import matplotlib.pyplot as plt
+from foggie.utils.foggie_utils import filter_particles
 from foggie.utils.consistency import *
 from foggie.utils import yt_fields
 from scipy.signal import find_peaks  
@@ -225,6 +226,8 @@ if __name__ == '__main__':
     fig_dir = '/nobackupp2/rcsimons/foggie/figures/off_axis_satellite_projections'
 
     ds, refine_box, refine_width = load_sim(args)
+
+    filter_particles(refine_box, filter_particle_types = ['young_stars', 'old_stars', 'stars', 'dm'])
 
     sat_center = ds.arr([70482.02075547, 67798.01073692, 73316.14871677], 'kpc')#ds.halo_center_kpc #
     box_proj = refine_box
