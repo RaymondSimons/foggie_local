@@ -231,15 +231,19 @@ if __name__ == '__main__':
     from yt.units import kpc
     box_width = refine_width#0.05#ds.arr(100, 'kpc')
     print (sat_center)
-    min_nrot = 0
-    max_nrot = 200
+    if np.isnan(args.rot_n):
+        min_nrot = 0
+        max_nrot = 200
+    else:
+        min_nrot = args.rot_n
+        max_nrot = args.rot_n + 1
 
     print ('pre-loading grid data')
     grid_fields = [('deposit', 'stars_density'), ('gas', 'density'),\
                    ('deposit', 'dm_density'), ('gas', 'temperature'),\
                    ('gas', 'metallicity')]
 
-    grid_fields = [('gas', 'density')]
+    #grid_fields = [('gas', 'density')]
 
     for (n1, n2) in grid_fields:
         print ('\t loading (%s, %s)'%(n1, n2))
@@ -248,7 +252,7 @@ if __name__ == '__main__':
     start_arrows = []
     end_arrows = []
     dos = ['stars', 'gas',  'dm', 'temp', 'metal']
-    dos = ['gas']
+    #dos = ['gas']
 
     if not os.path.exists(fig_dir + '/' + args.halo + '/' + args.output):
         os.system('mkdir ' + fig_dir + '/' + args.halo + '/' + args.output)
