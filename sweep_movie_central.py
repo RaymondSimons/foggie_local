@@ -193,6 +193,7 @@ def make_off_axis_projection_plots(ds, center, box_proj, fig_dir, haloname, norm
 
 
 def load_sim(args):
+    '''
     foggie_dir, output_dir, run_loc, trackname, haloname, spectra_dir, infofile = get_run_loc_etc(args)
     track_dir =  trackname.split('halo_tracks')[0]   + 'halo_infos/00' + args.halo + '/' + args.run + '/'
     snap_name = foggie_dir + run_loc + args.output + '/' + args.output
@@ -200,6 +201,19 @@ def load_sim(args):
                                                            trackfile = trackname, 
                                                            use_halo_c_v=False, 
                                                            halo_c_v_name=track_dir + 'halo_c_v')
+    '''
+    foggie_dir, output_dir, run_loc, trackname, haloname, spectra_dir, infofile = get_run_loc_etc(args)
+    run_dir = foggie_dir + run_loc
+
+    ds_loc = run_dir + args.output + "/" + args.output
+    ds = yt.load(ds_loc)
+    track = Table.read(trackname, format='ascii')
+    track.sort('col1')
+    zsnap = ds.get_parameter('CosmologyCurrentRedshift')
+
+    refine_box, refine_box_center, x_width = get_refine_box(ds, zsnap, track)
+
+
     return ds, refine_box, refine_width
 
 
@@ -212,7 +226,7 @@ if __name__ == '__main__':
 
     ds, refine_box, refine_width = load_sim(args)
 
-    sat_center = ds.halo_center_kpc #ds.array([], 'kpc')
+    sat_center = ds.arr([70482.02075547, 67798.01073692, 73316.14871677], 'kpc')#ds.halo_center_kpc #
     box_proj = refine_box
     box_width = ds.arr(100.,'kpc')
     print (sat_center)
