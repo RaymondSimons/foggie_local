@@ -214,7 +214,7 @@ def load_sim(args):
     refine_box, refine_box_center, x_width = get_refine_box(ds, zsnap, track)
 
 
-    return ds, refine_box, refine_width
+    return ds, refine_box, x_width
 
 
 if __name__ == '__main__':
