@@ -162,31 +162,11 @@ def make_off_axis_projection_plots(ds, center, box_proj, fig_dir, haloname, norm
                             prj.annotate_arrow(pos = e_arrow, starting_pos = s_arrow, coord_system = 'data')
                         else:
                             prj.annotate_arrow(pos = e_arrow, starting_pos = s_arrow, coord_system = 'data', plot_args={'color':'blue'})                            
-            if add_timesamp: prj.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)            
-            if annotate_center: prj.annotate_marker((0.5, 0.5), coord_system='axis')
-
-            if hide_colorbar: prj.hide_colorbar()
+            prj.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)            
 
             prj.hide_axes()
-            #prj.annotate_scale()
-
-            if (d == 'stars') | (d == 'dm'):
-                plt.close('all')
-                from astropy.convolution import convolve_fft, Gaussian2DKernel
-                fig, ax = plt.subplots(1,1, figsize = (8,8))
-                frb = prj.frb
-                frb.apply_gauss_beam(nbeam=200, sigma=50)
-                im = frb[('deposit', '%s_density'%d)].d
-                kern = Gaussian2DKernel(3)
-                im = convolve_fft(im, kern)
-                ax.imshow(im, cmap = cmap, norm = matplotlib.colors.LogNorm(vmin = zmin, vmax = zmax), origin = 'lower')
-                ax.axis('off')
-                fig.subplots_adjust(left = 0.0, right = 1.0, bottom = 0.0, top = 1.0)
-                fig.savefig(fig_dir + '/%s_%s_%s_%s.png'%(haloname, axs, d, fig_end), dpi = 400)
-
-            else:
-
-                prj.save(fig_dir + '/%s_%s_%s_%s.png'%(haloname, axs, d, fig_end))
+            prj.annotate_scale(size_bar_args={'color':'white'})
+            prj.save(fig_dir + '/%s_%s_%s_%s.png'%(haloname, axs, d, fig_end))
 
 
 
