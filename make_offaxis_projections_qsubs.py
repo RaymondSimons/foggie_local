@@ -32,9 +32,9 @@ for (halo, output) in inputs:
         qf = open('/nobackupp2/rcsimons/foggie/submit_scripts/off_axis_projections/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
-        qf.write('#PBS -l select=1:ncpus=20:model=ivy\n')
+        qf.write('#PBS -l select=1:ncpus=16:model=has:aoe=sles12\n')
         qf.write('#PBS -l walltime=1:00:00\n')
-        qf.write('#PBS -q normal\n')
+        qf.write('#PBS -q s1938_mpe1\n')
         qf.write('#PBS -N %s\n'%snapname)
         qf.write('#PBS -M rsimons@jhu.edu\n')
         qf.write('#PBS -m abe\n')
