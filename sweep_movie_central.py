@@ -7,8 +7,6 @@ from foggie.utils.get_halo_center import get_halo_center
 from foggie.utils.get_proper_box_size import get_proper_box_size
 import os
 import argparse
-from foggie.utils.foggie_load import *
-
 import numpy as np
 from astropy.table import Table
 import matplotlib.pyplot as plt
@@ -28,6 +26,9 @@ from yt.units import kpc
 import matplotlib
 import multiprocessing as mp
 import os
+from foggie.utils.foggie_load import *
+from foggie.utils.get_run_loc_etc import get_run_loc_etc
+
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 plt.ioff()
 def parse_args():
