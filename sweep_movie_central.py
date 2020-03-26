@@ -229,11 +229,11 @@ if __name__ == '__main__':
     sat_center = ds.arr([70482.02075547, 67798.01073692, 73316.14871677], 'kpc')#ds.halo_center_kpc #
     box_proj = refine_box
     from yt.units import kpc
-    box_width = refine_width * 0.8#0.05#ds.arr(100, 'kpc')
+    box_width = refine_width#0.05#ds.arr(100, 'kpc')
     print (sat_center)
     min_nrot = 0
     max_nrot = 200
-    '''
+
     print ('pre-loading grid data')
     grid_fields = [('deposit', 'stars_density'), ('gas', 'density'),\
                    ('deposit', 'dm_density'), ('gas', 'temperature'),\
@@ -244,7 +244,7 @@ if __name__ == '__main__':
     for (n1, n2) in grid_fields:
         print ('\t loading (%s, %s)'%(n1, n2))
         temp_variable = box_proj[n1, n2]
-    '''
+
     start_arrows = []
     end_arrows = []
     dos = ['stars', 'gas',  'dm', 'temp', 'metal']
