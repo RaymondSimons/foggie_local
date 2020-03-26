@@ -14,19 +14,21 @@ simnames = ['natural',
             'nref11n_nref10f',
             'nref11c_nref9f']
 
-for sim_name in simnames:
-    DDmin = 49
-    DDmax = 1000
-    N_split = 25
+simnames = ['nref11n_nref10f']
 
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
+for sim_name in simnames:
+    DDmin = 1000
+    DDmax = 2000
+    N_split = 10
+
+    sf = open('/nobackupp2/rcsimons/foggie/submit_scripts/mass/submit_%s_%i_%i_satmass_qsub.sh'%(sim_name, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
         snap_name = 'DD%.4i_DD%.4i'%(DD, min(DD + N_split, DDmax))
         sim_snap_name = snap_name + '_' + sim_name+'_satmass'
 
         qsub_fname = '%s.qsub'%(sim_snap_name)
 
-        qf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/mass/%s'%qsub_fname, 'w+')
+        qf = open('/nobackupp2/rcsimons/foggie/submit_scripts/mass/%s'%qsub_fname, 'w+')
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=san\n')
@@ -41,7 +43,7 @@ for sim_name in simnames:
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
         for DDi in arange(DD, min(DD + N_split, DDmax)):
-            qf.write('/u/rcsimons/scripts/foggie_local/measure_mass_satellite.py --DD %i --simname  %s > ./outfiles/%s.err > ./outfiles/%s.out\n'%(DDi, sim_name, sim_snap_name, sim_snap_name))
+            qf.write('/nobackupp2/rcsimons/git/foggie_local/measure_mass_satellite.py --DD %i --simname  %s > ./outfiles/%s.err > ./outfiles/%s.out\n'%(DDi, sim_name, sim_snap_name, sim_snap_name))
 
 
         qf.close()
