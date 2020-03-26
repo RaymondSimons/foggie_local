@@ -212,9 +212,9 @@ if __name__ == '__main__':
 
     ds, refine_box, refine_width = load_sim(args)
 
-    sat_center = ds.halo_center_kpc
+    sat_center = ds.halo_center_kpc #ds.array([], 'kpc')
     box_proj = refine_box
-    box_width = ds.arr(100, 'code_length').to('kpc')
+    box_width = ds.arr(100, 'kpc')
     print (sat_center)
     min_nrot = 0
     max_nrot = 200
