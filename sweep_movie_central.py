@@ -229,7 +229,7 @@ if __name__ == '__main__':
     sat_center = ds.arr([70482.02075547, 67798.01073692, 73316.14871677], 'kpc')#ds.halo_center_kpc #
     box_proj = refine_box
     from yt.units import kpc
-    box_width = 100. * kpc
+    box_width =float( ds.arr(refine_width, 'code_length').to('kpc').value)*kpc  
     print (sat_center)
     min_nrot = 0
     max_nrot = 200
