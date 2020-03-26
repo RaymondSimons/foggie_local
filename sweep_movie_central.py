@@ -212,13 +212,13 @@ if __name__ == '__main__':
 
     ds, refine_box, refine_width = load_sim(args)
 
-    sat_center = ds.halo_center_kpc #ds.array([], 'kpc')
+    sat_center = ds.array([70482.02075547, 67798.01073692, 73316.14871677], 'kpc')#ds.halo_center_kpc #ds.array([], 'kpc')
     box_proj = refine_box
-    box_width = ds.arr(100, 'kpc')
+    box_width = 100. * kpc
     print (sat_center)
     min_nrot = 0
     max_nrot = 200
-
+    '''
     print ('pre-loading grid data')
     grid_fields = [('deposit', 'stars_density'), ('gas', 'density'),\
                    ('deposit', 'dm_density'), ('gas', 'temperature'),\
@@ -229,7 +229,7 @@ if __name__ == '__main__':
     for (n1, n2) in grid_fields:
         print ('\t loading (%s, %s)'%(n1, n2))
         temp_variable = box_proj[n1, n2]
-
+    '''
     start_arrows = []
     end_arrows = []
     dos = ['stars', 'gas',  'dm', 'temp', 'metal']
