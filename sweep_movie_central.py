@@ -162,7 +162,7 @@ def make_off_axis_projection_plots(ds, center, box_proj, fig_dir, haloname, norm
                             prj.annotate_arrow(pos = e_arrow, starting_pos = s_arrow, coord_system = 'data')
                         else:
                             prj.annotate_arrow(pos = e_arrow, starting_pos = s_arrow, coord_system = 'data', plot_args={'color':'blue'})                            
-            prj.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)            
+            #prj.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)            
 
             prj.hide_axes()
             prj.annotate_scale(size_bar_args={'color':'white'})
