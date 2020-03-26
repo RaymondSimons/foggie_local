@@ -241,7 +241,7 @@ if __name__ == '__main__':
         os.system('mkdir ' + fig_dir + '/' + args.halo + '/' + args.output)
 
     for nrot in np.arange(min_nrot, max_nrot):
-        normal_vector = [0, np.cos(2*pi * (1.*nrot)/max_nrot), np.sin(2*pi * (1.*nrot)/max_nrot)]
+        normal_vector = [0, np.cos(2*pi * (1.*nrot)/200), np.sin(2*pi * (1.*nrot)/200)]
 
         prj = make_off_axis_projection_plots(ds = ds, center = sat_center, box_proj = box_proj, fig_dir = fig_dir + '/' + args.halo + '/' + args.output,
                                             haloname = args.halo, normal_vector = normal_vector, north_vector = [1,0,0], \
