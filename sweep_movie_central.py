@@ -212,7 +212,7 @@ if __name__ == '__main__':
 
     ds, refine_box, refine_width = load_sim(args)
 
-    sat_center = ds.array([70482.02075547, 67798.01073692, 73316.14871677], 'kpc')#ds.halo_center_kpc #ds.array([], 'kpc')
+    sat_center = ds.halo_center_kpc #ds.array([], 'kpc')
     box_proj = refine_box
     box_width = 100. * kpc
     print (sat_center)
