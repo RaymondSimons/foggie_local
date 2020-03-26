@@ -7,6 +7,8 @@ from foggie.utils.get_halo_center import get_halo_center
 from foggie.utils.get_proper_box_size import get_proper_box_size
 import os
 import argparse
+from foggie.utils.foggie_load import *
+
 import numpy as np
 from astropy.table import Table
 import matplotlib.pyplot as plt
