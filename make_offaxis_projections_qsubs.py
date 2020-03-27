@@ -25,7 +25,7 @@ for (halo, output) in inputs:
     
 
     sf = open('/nobackupp2/rcsimons/foggie/submit_scripts/off_axis_projections/submit_%s_tracksats.sh'%(halo), 'w+')
-    splitn = 3
+    splitn = 25
     for dmn in arange(0, 200+splitn, splitn):
         snapname = '%s_%.4i_%.4i'%(halo, dmn, dmn+splitn)
         qsub_fname = 'track_%s_%.4i_%.4i.qsub'%(halo, dmn, dmn+splitn)        
@@ -33,7 +33,7 @@ for (halo, output) in inputs:
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=has:aoe=sles12\n')
-        qf.write('#PBS -l walltime=1:00:00\n')
+        qf.write('#PBS -l walltime=8:00:00\n')
         qf.write('#PBS -q s1938_mpe1\n')
         qf.write('#PBS -N %s\n'%snapname)
         qf.write('#PBS -M rsimons@jhu.edu\n')
@@ -46,7 +46,7 @@ for (halo, output) in inputs:
         qf.write('source /u/rcsimons/.bashrc\n')
         for rot_n in arange(dmn, dmn+splitn):
             snapname_temp = '%s_%.4i'%(halo, rot_n)
-            qf.write('python /nobackupp2/rcsimons/git/foggie_local/sweep_movie_central.py \
+            qf.write('python /nobackupp2/rcsimons/git/foggie_local/sweep_movie_central_small.py \
                      --halo %s --rot_n %i --output %s --system pleiades_raymond --do_central > ./outfiles/%s_off_axis.err > \
                      ./outfiles/%s_off_axis.out\n'%(halo, rot_n, output, snapname_temp, snapname_temp))
 
