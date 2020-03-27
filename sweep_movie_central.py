@@ -107,7 +107,7 @@ def make_off_axis_projection_plots(ds, center, box_proj, fig_dir, haloname, norm
                 zmax = density_proj_max
                 unit = 'Msun/pc**2'
             if 'stars' in d:
-                field = ('deposit', 'stars_density')
+                field = ('deposit', '%s_density'%d)
                 cmap =  plt.cm.Greys_r
                 cmap.set_bad('k')
                 weight_field = None
