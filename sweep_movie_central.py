@@ -207,36 +207,24 @@ if __name__ == '__main__':
 
     ds, refine_box, refine_width = load_sim(args)
 
-    filter_particles(refine_box, filter_particle_types = ['young_stars', 'old_stars', 'stars', 'dm'])
+    filter_particles(refine_box, filter_particle_types = ['young_stars', 'old_stars', 'stars', 'dm', 'young_stars7', 'young_stars8'])
 
-    sat_center = ds.arr([70482.02075547, 67798.01073692, 73316.14871677], 'kpc')#ds.halo_center_kpc #
+    sat_center = ds.arr([70482.02075547, 67798.01073692, 73316.14871677], 'kpc')#ds.halo_center_kpc 
     box_proj = refine_box
-    from yt.units import kpc
-    box_width = refine_width#0.05#ds.arr(100, 'kpc')
+    box_width = refine_width
     print (sat_center)
     if np.isnan(args.rot_n):
+        #no ro
         min_nrot = 0
         max_nrot = 200
     else:
         min_nrot = args.rot_n
         max_nrot = args.rot_n + 1
-    '''
-    print ('pre-loading grid data')
-    grid_fields = [('deposit', 'stars_density'), ('gas', 'density'),\
-                   ('deposit', 'dm_density'), ('gas', 'temperature'),\
-                   ('gas', 'metallicity')]
-
-    #grid_fields = [('gas', 'density')]
-
-    for (n1, n2) in grid_fields:
-        print ('\t loading (%s, %s)'%(n1, n2))
-        temp_variable = box_proj[n1, n2]
-    '''
     start_arrows = []
     end_arrows = []
     #dos = ['stars', 'gas',  'dm', 'temp', 'metal']
     dos = ['young_stars7', 'young_stars', 'young_stars8', 'old_stars']
-    #dos = ['gas']
+    
 
     if not os.path.exists(fig_dir + '/' + args.halo + '/' + args.output):
         os.system('mkdir ' + fig_dir + '/' + args.halo + '/' + args.output)
