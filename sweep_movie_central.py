@@ -106,7 +106,7 @@ def make_off_axis_projection_plots(ds, center, box_proj, fig_dir, haloname, norm
                 zmin = density_proj_min
                 zmax = density_proj_max
                 unit = 'Msun/pc**2'
-            if d == 'stars':
+            if 'stars' in d:
                 field = ('deposit', 'stars_density')
                 cmap =  plt.cm.Greys_r
                 cmap.set_bad('k')
@@ -214,7 +214,6 @@ if __name__ == '__main__':
     box_width = refine_width
     print (sat_center)
     if np.isnan(args.rot_n):
-        #no ro
         min_nrot = 0
         max_nrot = 200
     else:
