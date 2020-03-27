@@ -234,7 +234,8 @@ if __name__ == '__main__':
     '''
     start_arrows = []
     end_arrows = []
-    dos = ['stars', 'gas',  'dm', 'temp', 'metal']
+    #dos = ['stars', 'gas',  'dm', 'temp', 'metal']
+    dos = ['young_stars7', 'young_stars', 'young_stars8', 'old_stars']
     #dos = ['gas']
 
     if not os.path.exists(fig_dir + '/' + args.halo + '/' + args.output):
