@@ -79,7 +79,7 @@ def write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr
             prihdu = fits.PrimaryHDU(header=prihdr)    
             master_hdulist.append(prihdu)
             sat_hdus = []
-            for sat_n in np.arange(7):
+            for sat_n in np.arange(6,7):
                 if sat_n <  6: hd_name = 'SAT_%.2i'%sat_n
                 if sat_n == 6: hd_name = 'CENTRAL'
 
@@ -192,7 +192,9 @@ if __name__ == '__main__':
     if simname == 'nref11n_nref10f': cen_name = 'nref11n_nref10f'    
     if simname == 'nref11c_nref9f': cen_name = 'nref11c_nref9f'    
 
-    cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150.npy'%cen_name, allow_pickle=True)[()]
+
+    cen_fits = np.load('/nobackupp2/rcsimons/foggie_momentum/catalogs/sat_interpolations/%s_interpolations_DD0150_new.npy'%cen_name, allow_pickle=True)[()]
+
     r_arr = np.array([0.25, 1, 10])
     write_mass_fits(ds, cen_name, simname, DD, species_dict, species_keys, r_arr, cen_fits)
 
