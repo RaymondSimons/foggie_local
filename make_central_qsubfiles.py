@@ -1,9 +1,9 @@
 import numpy
 from numpy import *
-for halo in ['8508']:
+for halo in ['8508', '5016', '2392', '5036']:
     DDmin = 200
-    DDmax = 1000
-    N_split = 5.
+    DDmax = 1200
+    N_split = 20.
 
     sf = open('/nobackupp2/rcsimons/foggie/submit_scripts/Z_mom/submit_%s_%i_%i_cenmass_qsub.sh'%(halo, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
@@ -16,7 +16,7 @@ for halo in ['8508']:
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=san\n')
-        qf.write('#PBS -l walltime=3:00:00\n')
+        qf.write('#PBS -l walltime=6:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%sim_snap_name)
         qf.write('#PBS -M rsimons@stsci.edu\n')
