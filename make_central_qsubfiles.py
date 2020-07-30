@@ -5,7 +5,7 @@ for halo in ['8508']:
     DDmax = 1000
     N_split = 5.
 
-    sf = open('/nobackupp2/rcsimons/foggie_momentum/submit_scripts/Z_mom/submit_%s_%i_%i_cenmass_qsub.sh'%(halo, DDmin, DDmax), 'w+')
+    sf = open('/nobackupp2/rcsimons/foggie/submit_scripts/Z_mom/submit_%s_%i_%i_cenmass_qsub.sh'%(halo, DDmin, DDmax), 'w+')
     for DD in arange(DDmin, DDmax, N_split):
         snap_name = 'DD%.4i_DD%.4i'%(DD, DD + N_split)
         sim_snap_name = snap_name + '_' + halo+'_cenmass'
