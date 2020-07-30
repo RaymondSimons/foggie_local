@@ -10,7 +10,7 @@ keys = ['stars_Z', 'stars_M', 'stars_L_x', 'stars_L_y', 'stars_L_z', 'young_star
         'hot_gas_Z', 'hot_gas_M', 'hot_gas_L_x', 'hot_gas_L_y', 'hot_gas_L_z']
 
 
-for halo in ['8508', '5016', '2392', '5036']:
+for halo in ['5036']:#'8508', '5016', '2392', '5036']:
   halo_c_v = ascii.read('/nobackupp2/rcsimons/git/foggie/foggie/halo_infos/00%s/nref11c_nref9f/halo_c_v'%(halo))
   t_dic = {}
   t_dic['halo']       = []
@@ -22,9 +22,10 @@ for halo in ['8508', '5016', '2392', '5036']:
   fls = np.sort(fls)
 
   for fl in fls:
-    t_dic['halo'].append(halo)
     DD = fl.split('_')[-2]
-    redshift = float(halo_c_v['col2'][halo_c_v['col3'] == DD])
+    try: redshift = float(halo_c_v['col2'][halo_c_v['col3'] == DD])
+    except: continue
+    t_dic['halo'].append(halo)
     t_dic['redshift'].append(redshift)
     t_dic['sim_output'].append(DD)
     #print (halo, redshift, DD)
