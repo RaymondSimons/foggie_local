@@ -132,6 +132,7 @@ if __name__ == '__main__':
 
     args = parse_args()
     ds, refine_box = load_sim(args)
+    gc_sphere =  ds.sphere(ds.halo_center_koc, ds.arr(20.,'kpc'))
     '''
     print ('adding trident fields...')
     trident.add_ion_fields(ds, ions=['O VI', 'O VII', 'Mg II', 'Si II', 'C II', 'C III', 'C IV',  'Si III', 'Si IV', 'Ne VIII'])
