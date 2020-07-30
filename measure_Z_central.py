@@ -129,7 +129,6 @@ def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False
 
 
 if __name__ == '__main__':
-
     args = parse_args()
     ds, refine_box = load_sim(args)
     gc_sphere =  ds.sphere(ds.halo_center_kpc, ds.arr(20.,'kpc'))
@@ -141,7 +140,7 @@ if __name__ == '__main__':
         results['%s_M'%star_type] = M_stars.to('Msun')
         for i in ['x', 'y', 'z']:
             L_stars     = gc_sphere.quantities.total_quantity((star_type, 'particle_angular_momentum_%s'%i))
-            results['%s_L'%star_type] = L_stars.to('cm**2*g/s')
+            results['%s_L_%s'%(gas_type, i)] = L_stars.to('cm**2*g/s')
 
 
     for gas_type in ['all_gas', 'cold_gas', 'hot_gas']:
@@ -157,7 +156,7 @@ if __name__ == '__main__':
         results['%s_M'%gas_type] = M_gas.to('Msun')
         for i in ['x', 'y', 'z']:
             L_gas     = temp_cut.quantities.total_quantity(('gas', 'angular_momentum_%s'%i))
-            results['%s_L'%gas_type] = L_gas.to('cm**2*g/s')
+            results['%s_L_%s'%(gas_type, i)] = L_gas.to('cm**2*g/s')
 
 
     fits_name = '/nobackupp2/rcsimons/foggie_momentum/mass_metallicity_momentum/%s_%s_%s_mass.npy'%(args.run, args.halo, args.output)
