@@ -133,7 +133,7 @@ if __name__ == '__main__':
     ds, refine_box = load_sim(args)
     gc_sphere =  ds.sphere(ds.halo_center_kpc, ds.arr(20.,'kpc'))
     results = {}
-    for star_type in ['stars', 'old_stars', 'young_stars']:
+    for star_type in ['stars', 'young_stars']:
         Z_stars = gc_sphere.quantities.weighted_average_quantity((star_type, 'metallicity_fraction'), weight = (star_type, 'particle_mass')) 
         M_stars = gc_sphere.quantities.total_quantity((star_type, 'particle_mass'))
         results['%s_Z'%star_type] = Z_stars.to('Zsun')
