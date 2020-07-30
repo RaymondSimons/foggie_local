@@ -140,7 +140,7 @@ if __name__ == '__main__':
         results['%s_M'%star_type] = M_stars.to('Msun')
         for i in ['x', 'y', 'z']:
             L_stars     = gc_sphere.quantities.total_quantity((star_type, 'particle_angular_momentum_%s'%i))
-            results['%s_L_%s'%(gas_type, i)] = L_stars.to('cm**2*g/s')
+            results['%s_L_%s'%(star_type, i)] = L_stars.to('cm**2*g/s')
 
 
     for gas_type in ['all_gas', 'cold_gas', 'hot_gas']:
