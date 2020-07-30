@@ -27,7 +27,7 @@ for halo in ['8508']:
         qf.write('#PBS -W group_list=s1938\n\n\n\n')  
 
         for DDi in arange(DD, DD + N_split):
-            qf.write('python /nobackupp2/rcsimons/git/foggie_local/measure_Z_central.py --output DD%.4i --halo  %s  > ./outfiles/%s.err > ./outfiles/%s.out\n'%(DDi, halo, sim_snap_name, sim_snap_name))
+            qf.write('python /nobackupp2/rcsimons/git/foggie_local/measure_Z_central.py --output DD%.4i --halo  %s  > /nobackupp2/rcsimons/foggie_momentum/submit_scripts/Z_mom/outfiles/%s.err > /nobackupp2/rcsimons/foggie_momentum/submit_scripts/Z_mom/outfiles/%s.out\n'%(DDi, halo, sim_snap_name, sim_snap_name))
         qf.close()
 
         sf.write('qsub %s\n'%qsub_fname)
