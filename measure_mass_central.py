@@ -131,9 +131,6 @@ def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False
 if __name__ == '__main__':
 
     args = parse_args()
-
-
-    anchors[args.halo] = {}
     ds, refine_box = load_sim(args)
     '''
     print ('adding trident fields...')
