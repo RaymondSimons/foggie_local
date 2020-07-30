@@ -133,20 +133,6 @@ if __name__ == '__main__':
     args = parse_args()
     ds, refine_box = load_sim(args)
     gc_sphere =  ds.sphere(ds.halo_center_kpc, ds.arr(20.,'kpc'))
-
-
-    master_hdulist = []
-    prihdr = fits.Header()
-    prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
-    prihdr['simname'] = simname
-    prihdr['DDname'] = DD
-    prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
-
-    prihdu = fits.PrimaryHDU(header=prihdr)    
-    master_hdulist.append(prihdu)
-
-    colhdr = fits.Header()
-
     results = {}
     for star_type in ['stars', 'old_stars', 'young_stars']:
         Z_stars = gc_sphere.quantities.weighted_average_quantity((star_type, 'metallicity_fraction'), weight = (star_type, 'particle_mass')) 
