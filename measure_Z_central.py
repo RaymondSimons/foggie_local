@@ -146,8 +146,8 @@ if __name__ == '__main__':
 
     for gas_type in ['all_gas', 'cold_gas', 'hot_gas']:
         if gas_type == 'all_gas': low_temp, high_temp = 0, 1.e6
-        if gas_type == 'cold': low_temp, high_temp = 0., 1.5e4
-        if gas_type == 'hot': low_temp, high_temp = 1.5e4, 1.e6
+        if gas_type == 'cold_gas': low_temp, high_temp = 0., 1.5e4
+        if gas_type == 'hot_gas': low_temp, high_temp = 1.5e4, 1.e6
 
         temp_cut = gc_sphere.cut_region(["(obj['temperature'] > {}) & (obj['temperature'] < {})".format(low_temp, high_temp)])
 
