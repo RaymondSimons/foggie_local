@@ -35,9 +35,9 @@ def parse_args():
     parser.add_argument('-system', '--system', metavar='system', type=str, action='store', \
                         help='Which system are you on? Default is Jase')
     parser.set_defaults(system="pleiades_raymond")
-    parser.add_argument('-DD', '--DD', default=None, help='DD to use')
 
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
+
     parser.add_argument('-simdir', '--simdir', default='/nobackupp2/mpeeples', help='simulation output directory')
 
     parser.add_argument('-haloname', '--haloname', default='halo_008508', help='halo_name')
@@ -51,27 +51,6 @@ def parse_args():
     parser.set_defaults(halo="8508")
 
     parser.add_argument('--pwd', dest='pwd', action='store_true',
-                        help='just use the pwd?, default is no')
-    parser.set_defaults(pwd=False)
-
-    parser.add_argument('--run_all', dest='run_all', action='store_true',
-                        help='just use the pwd?, default is no')
-    parser.set_defaults(pwd=False)
-
-    parser.add_argument('--do_sat_proj_plots', dest='do_sat_proj_plots', action='store_true',
-                        help='just use the pwd?, default is no')
-    parser.set_defaults(pwd=False)
-
-    parser.add_argument('--do_proj_plots', dest='do_proj_plots', action='store_true',
-                        help='just use the pwd?, default is no')
-    parser.set_defaults(pwd=False)
-
-    parser.add_argument('--do_identify_satellites', dest='do_identify_satellites', action='store_true',
-                        help='just use the pwd?, default is no')
-    parser.set_defaults(pwd=False)
-
-
-    parser.add_argument('--do_record_anchor_particles', dest='do_record_anchor_particles', action='store_true',
                         help='just use the pwd?, default is no')
     parser.set_defaults(pwd=False)
 
@@ -90,42 +69,6 @@ def parse_args():
 
     args = parser.parse_args()
     return args
-
-
-
-
-
-
-def weighted_quantile(values, quantiles, sample_weight=None, values_sorted=False, old_style=False):
-    """ Very close to numpy.percentile, but supports weights.
-    NOTE: quantiles should be in [0, 1]!
-    :param values: numpy.array with data
-    :param quantiles: array-like with many quantiles needed
-    :param sample_weight: array-like of the same length as `array`
-    :param values_sorted: bool, if True, then will avoid sorting of initial array
-    :param old_style: if True, will correct output to be consistent with numpy.percentile.
-    :return: numpy.array with computed quantiles.
-    """
-    values = numpy.array(values)
-    quantiles = numpy.array(quantiles)
-    if sample_weight is None:
-        sample_weight = numpy.ones(len(values))
-    sample_weight = numpy.array(sample_weight)
-    assert numpy.all(quantiles >= 0) and numpy.all(quantiles <= 1), 'quantiles should be in [0, 1]'
-
-    if not values_sorted:
-        sorter = numpy.argsort(values)
-        values = values[sorter]
-        sample_weight = sample_weight[sorter]
-
-    weighted_quantiles = numpy.cumsum(sample_weight) - 0.5 * sample_weight
-    if old_style:
-        # To be convenient with numpy.percentile
-        weighted_quantiles -= weighted_quantiles[0]
-        weighted_quantiles /= weighted_quantiles[-1]
-    else:
-        weighted_quantiles /= numpy.sum(sample_weight)
-    return numpy.interp(quantiles, weighted_quantiles, values)
 
 
 if __name__ == '__main__':
