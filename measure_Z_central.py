@@ -133,6 +133,51 @@ if __name__ == '__main__':
     args = parse_args()
     ds, refine_box = load_sim(args)
     gc_sphere =  ds.sphere(ds.halo_center_kpc, ds.arr(20.,'kpc'))
+
+
+    master_hdulist = []
+    prihdr = fits.Header()
+    prihdr['COMMENT'] = "Storing the mass profiles in this FITS file."
+    prihdr['simname'] = simname
+    prihdr['DDname'] = DD
+    prihdr['snapfile'] = '/nobackupp2/mpeeples/%s/%s/%s/%s'%(haloname, simname, DDname, DDname)
+
+    prihdu = fits.PrimaryHDU(header=prihdr)    
+    master_hdulist.append(prihdu)
+
+    colhdr = fits.Header()
+
+    results = {}
+    for star_type in ['stars', 'old_stars', 'young_stars']:
+        Z_stars = gc_sphere.quantities.weighted_average_quantity((star_type, 'metallicity_fraction'), weight = (star_type, 'particle_mass')) 
+        M_stars = gc_sphere.quantities.total_quantity((star_type, 'particle_mass'))
+        results['%s_Z'%star_type] = Z_stars.to('Zsun')
+        results['%s_M'%star_type] = M_stars.to('Msun')
+        for i in ['x', 'y', 'z']:
+            L_stars     = gc_sphere.quantities.total_quantity((star_type, 'particle_angular_momentum_%s'%i))
+            results['%s_L'%star_type] = L_stars.to('cm**2*g/s')
+
+
+    for gas_type in ['all_gas', 'cold_gas', 'hot_gas']:
+        if gas_type == 'all': low_temp, high_temp = 0, 1.e6
+        if gas_type == 'cold': low_temp, high_temp = 0., 1.5e4
+        if gas_type == 'hot': low_temp, high_temp = 1.5e4, 1.e6
+
+        temp_cut = gc_sphere.cut_region(["(obj['temperature'] > {}) & (obj['temperature'] < {})".format(low_temp, high_temp)])
+
+        Z_gas = temp_cut.quantities.weighted_average_quantity(('gas', 'metallicity'), weight = ('gas', 'cell_mass')) 
+        M_gas = temp_cut.quantities.total_quantity(('gas', 'cell_mass'))
+        results['%s_Z'%gas_type] = Z_gas.to('Zsun')
+        results['%s_M'%gas_type] = M_gas.to('Msun')
+        for i in ['x', 'y', 'z']:
+            L_gas     = temp_cut.quantities.total_quantity(('gas', 'angular_momentum_%s'%i))
+            results['%s_L'%gas_type] = L_gas.to('cm**2*g/s')
+
+
+    fits_name = '/nobackupp2/rcsimons/foggie_momentum/mass_metallicity_momentum/%s_%s_%s_mass.npy'%(args.run, args.halo, args.output)
+    np.save(fits_name, results)
+
+
     '''
     print ('adding trident fields...')
     trident.add_ion_fields(ds, ions=['O VI', 'O VII', 'Mg II', 'Si II', 'C II', 'C III', 'C IV',  'Si III', 'Si IV', 'Ne VIII'])
