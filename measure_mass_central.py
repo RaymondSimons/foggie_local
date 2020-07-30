@@ -34,7 +34,7 @@ def parse_args():
                                      description='''identify satellites in FOGGIE simulations''')
     parser.add_argument('-system', '--system', metavar='system', type=str, action='store', \
                         help='Which system are you on? Default is Jase')
-    parser.set_defaults(system="jase")
+    parser.set_defaults(system="pleiades_raymond")
     parser.add_argument('-DD', '--DD', default=None, help='DD to use')
 
     parser.add_argument('-simname', '--simname', default=None, help='Simulation to be analyzed.')
