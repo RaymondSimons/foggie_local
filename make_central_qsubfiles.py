@@ -16,7 +16,7 @@ for halo in ['8508']:
         
         qf.write('#PBS -S /bin/bash\n')
         qf.write('#PBS -l select=1:ncpus=16:model=san\n')
-        qf.write('#PBS -l walltime=6:00:00\n')
+        qf.write('#PBS -l walltime=2:00:00\n')
         qf.write('#PBS -q normal\n')
         qf.write('#PBS -N %s\n'%sim_snap_name)
         qf.write('#PBS -M rsimons@stsci.edu\n')
