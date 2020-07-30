@@ -93,6 +93,8 @@ def make_figure(figdir, DD, cen_name, simdir, haloname, simname,  wd = 100., wdd
         p.save('%s/%.4i_density.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
         p.annotate_timestamp(corner='upper_left', redshift=True, draw_inset_box=True)
         p.annotate_scale(size_bar_args={'color':'white'})
+
+
         p.save('%s/%.4i_density_withannotation.png'%(figdir, DD), mpl_kwargs = {'dpi': 500})
 
         metal_color_map = sns.blend_palette(
